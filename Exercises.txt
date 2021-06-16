@@ -1,0 +1,1138 @@
+Exercices tirés de Wikibooks (https://fr.wikibooks.org/wiki/Exercices_en_langage_C%2B%2B)
+
+-------------------------
+NOTIONS DE BASE
+-------------------------
+//Exercice 2
+/* Écrire un programme qui demande à l'utilisateur de taper la largeur
+et la longueur d'un champ et qui en affiche le périmètre et la surface.*/
+
+#include <iostream>
+
+int main() {
+	double L, l; //L = Longueur, l = largeur
+
+	std::cout << "Entrez la longueur de votre champ d'avoine (en m) :" << std::endl;
+	std::cin >> L;
+	std::cout << "Entrez la largeur de votre champ d'avoine (en m) :" << std::endl;
+	std::cin >> l;
+
+	double surface = (L * l);
+	double perimetre = (L + l) * 2;
+
+	std::cout << "Surface de votre champ : " << surface << "m" << std::endl;
+	std::cout << "Perimetre de votre champ : " << perimetre << "m" << std::endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 3
+/* Écrire un programme qui demande à l'utilisateur de taper 5 entiers
+et qui affiche leur moyenne. Le programme ne devra utiliser que 2 variables.*/
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	double total = 0, input = 0;
+
+	cout << "Vous allez entrer 5 entiers pour en calculer la moyenne." << endl;
+	for (int i = 1; i < 6; i++) {
+		cout << i << ". Entrez un nombre :" << endl;
+		cin >> input;
+		total += input;
+	}
+
+	//Calcul moyenne
+	total = (total / 5);
+	cout << "Moyenne des 5 entiers : " << total << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 4
+/* Écrire un programme qui demande à l’utilisateur de saisir 2 entiers
+A et B, qui échange le contenu des variables A et B puis qui affiche A et B.*/
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int a, b, temp;
+
+	cout << "Tapez la valeur de a : "; cin >> a;
+	cout << "Tapez la valeur de b : "; cin >> b;
+
+	temp = a;
+	a = b;
+	b = temp;
+
+	cout << "La valeur de a est " << a << endl;
+	cout << "La valeur de b est " << b << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 5
+/* Écrire un programme qui demande à l'utilisateur de taper le prix HT d'un kilo de tomates,
+le nombre de kilos de tomates achetés, le taux de TVA (Exemple 10%,20%,...).
+Le programme affiche alors le prix TTC des marchandises.*/
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	double htKiloTomates, nbKilos, TVA;
+
+	cout << "Quel est le prix hors taxes d'un KG de tomates ?" << endl;
+	do {
+		cin >> htKiloTomates;
+	} while (htKiloTomates <= 0 && htKiloTomates >= 50);
+	cout << "Quel taux de TVA s'applique dans votre pays ?" << endl;
+	do {
+		cin >> TVA;
+	} while (TVA < 0 && TVA > 100);
+	cout << "Combien de KG de tomates avez-vous achetés ?" << endl;
+	do {
+		cin >> nbKilos;
+	} while (nbKilos < 0);
+
+	cout << "Votre prix TTC est donc de : " << nbKilos + (nbKilos * (TVA/100)) << "euros." << endl;
+	
+	return 0;
+}
+
+-------------------------
+STRUCTURES DE CONTRÔLE
+-------------------------
+//Exercice 5
+/* Ecrire un programme qui demande à l’utilisateur de taper
+10 entiers et qui affiche le plus petit de ces entiers.*/
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int min, entier;
+
+	cout << "Vous allez rentrer 10 entiers." << endl;
+	for (int i = 0; i < 10; i++) {
+		cout << "Entrez un entier : " << endl;
+		cin >> entier;
+
+		if (i == 0) {
+			min = entier;
+		}
+		else if (entier < min) {
+			min = entier;
+		}
+	}
+
+	cout << "Le plus petit entier rentré est : " << min << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 6
+/* Ecrire un programme qui demande à l'utilisateur de taper 
+un entier N et qui calcule la somme des cubes de 5^3 à N^3.*/
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int n, somme = 0;
+
+	cout << "Entrez un entier n > 5 : \n"; cin >> n;
+	for (int i = 5; i <= n; i++) {
+		if (i == 5) {
+			somme += (i * i * i);
+			cout << i << "^3 = " << (i*i*i) << endl;
+		}
+		else {
+			somme += (n * n * n);
+			cout << n << "^3 = " << (n*n*n) << endl;
+		}
+	}
+
+	cout << "Somme = " << somme << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 7
+/*Ecrire un programme qui demande à l'utilisateur de taper un
+entier N et qui calcule u(N) défini par : u(0)=3 | u(n+1)=3*u(n)+4 */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	int i, n, u = 3; //u initialisé à 3 car u(0) = 3
+	cout << "Entrez un entier n >= 1 : "; cin >> n;
+
+	cout << "U(0) = 3" << endl;
+	for (i = 1; i < n; i++) {
+		u = u * 3 + 4;
+		cout << "U(" << i << ") = " << u << endl;
+	}
+		
+	cout << "----------------------------\n";
+	cout << "U(" << n-1 << ")=" << u << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 8
+/* Ecrire un programme qui demande à l'utilisateur de taper un entier N et qui calcule u(N) défini par :
+u(0)=1
+u(1)=1
+u(n+1)=u(n)+u(n-1)
+ */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	int u = 1, v = 1, res, N;
+	cout << "Tapez N : "; cin >> N;
+	res = 1; //On initialise la var contenant le résultat final 
+	        //le plus grand terme connu au départ.
+
+	cout << "U(0) = " << res << endl; // Affichage des deux
+	cout << "U(1) = " << res << endl; // termes déjà connus.
+	for (int i = 2; i <= N; i++) {	
+		res = u + v; //u(n+1) = u(n) + u(n-1). `Ex: u(3)=u(2)+u(1)`
+		u = v; // On décale les termes, sinon on avance pas dans la suite.
+		v = res; /////////////////////////////////////////////////////:/
+		cout << "U(" << i << ") = " << res << endl;
+	}
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 9
+/* Ecrire un programme qui demande à l’utilisateur de taper un
+entier N entre 0 et 20 bornes incluses et qui affiche N+17.
+Si on tape une valeur erronée, il faut afficher "erreur" et
+demander de saisir à nouveau l'entier. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	int n = 0;
+
+	cout << "Entrez un entier entre 0 et 20 tous deux inclus : " << endl;
+
+	do {
+		cin >> n;
+
+		if (n < 0 || n > 20) {
+			cout << "erreur." << endl;
+			cout << "Rentrez une nouvelle valeur : " << endl;
+		}
+	} while (n < 0 || n > 20);
+
+	cout << n << " + 17 = " << n + 17 << endl;
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 10
+/* Ecrire un programme qui permet de faire des opérations sur
+un entier (valeur initiale à 0). Le programme affiche la valeur 
+de l'entier puis affiche le menu suivant :
+1. Ajouter 1
+2. Multiplier par 2
+3. Soustraire 4
+4. Quitter
+Le programme demande alors de taper un entier entre 1 et 4. Si
+l'utilisateur tape une valeur entre 1 et 3, on effectue l'opération,
+on affiche la nouvelle valeur de l'entier puis on réaffiche le menu
+et ainsi de suite jusqu'à ce qu'on tape 4. Lorsqu'on tape 4, le programme
+se termine. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int a = 0, input;
+
+	cout << "----Operations sur variable.----\n\n" << endl;
+
+	do {
+		cout << "\nValeur actuelle de l'entier : " << a << endl;
+		cout << "------------------------------\n" << endl;
+		cout << "1. Ajouter 1\n"
+			"2. Multiplier par 2\n"
+			"3. Soustraire 4\n"
+			"4. Quitter\n" << endl;
+
+		do {
+			cout << "Choisissez votre opération (1, 2, 3, 4) :" << endl;
+			cin >> input;
+		} while (input < 1 && input > 4);
+
+		if (input == 4)
+			break;
+
+		switch (input) {
+		case 1:
+			a += 1;
+			break;
+		case 2:
+			a *= 2;
+			break;
+		case 3:
+			a -= 4;
+			break;
+		}
+
+	} while (input != 4);
+
+	// On arrive ici si on a tapé 4.
+	cout << "Fin du programme." << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 11
+/* Ecrire un programme qui demande à l'utilisateur de taper 
+des entiers strictement positifs et qui affiche leur moyenne.
+Lorsqu'on tape une valeur négative, le programme affiche ERREUR
+et demande de retaper une valeur. Lorsqu'on tape 0, cela signifie
+que le dernier entier a été tapé. On affiche alors la moyenne. 
+Si le nombre d'entiers tapés est égal à 0, on affiche PAS DE MOYENNE. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int input, compteur = 0;
+	double moyenne = 0;
+
+	cout << "-----Calcul de moyennes d'entiers strictement positifs-----\n" << endl;
+
+	do {
+		cout << "Entrez un entier strictement positif : " << endl;
+		cin >> input;
+
+		if (input > 0) {
+			moyenne += input;
+			compteur++;
+		}
+		else if (input < 0) {
+			cout << "ERREUR" << endl;
+		}
+
+	} while (input != 0);
+
+	if (compteur == 0) {
+		cout << "Aucun entier tapé, donc PAS DE MOYENNE." << endl;
+	}
+	else {
+		moyenne /= compteur;
+		cout << "Moyenne = " << moyenne << endl;
+	}
+	
+	cout << "Fin du programme." << endl; 
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 13
+/* Ecrire un programme qui demande de saisir 10 notes
+et qui affiche le nombre d'occurrences de la note la plus haute. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+	
+	int note, PH, ctr = 0;
+
+	for (int i = 1; i < 11; i++) {
+		do {
+			cout << i << ". Entrez une note valide de 0 a 20 : " << endl;
+			cin >> note;
+		} while (note < 0 || note > 20); 
+
+		cout << "\n";
+		if (i == 1) {
+			PH = note; //si première itération -> initialise PH à note rentrée
+		}
+		if (note > PH) { //si note rentrée>celle déjà enregistrée
+			PH = note;
+		}
+		if (note == PH) //incrémente nb d'occurences si note rentrée==la plus haute déjà enregistrée (PH)
+			ctr++;
+	}
+
+	cout << "Note la plus haute = " << PH << "." << endl;
+	cout << "Nombre d'occurences : " << ctr << "." << endl;
+	cout << "Fin du programme." << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 14
+/* Ecrire un programme qui demande de
+saisir un entier N et qui affiche N!. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+
+	int n, result = 1, rep;
+	cout << "---Calcul factorielle de N---" << endl;
+
+	do {
+		//On réinitialise les vars
+		rep = 0; //pour continuer la boucle
+		result = 1; //pour ne pas fausser les résultats
+		cout << "Entrez N:" << endl;
+		cin >> n;
+
+		if (n == 0)
+			cout << "0! = 1" << endl;
+
+		for (int i = 1; i <= n; i++) {
+			result *= i;
+		}
+
+		cout << n << "! = " << result << endl;
+		cout << "Again ? 1=Yes, 0=No\n"; cin >> rep;
+
+
+	} while (rep == 1);
+	
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 15
+/* Ecrire un programme qui demande de saisir
+un entier et qui indique si cet entier est premier ou non. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+
+	int n, div = 2;
+	bool premier = false;
+	bool loop = true;
+
+	do {
+		cout << "Entrez un entier N :" << endl;
+		cin >> n;
+
+		//1 et 0 ne sont pas premier (pourrait être traité dans la boucle).
+		if (n<=1) {
+			premier = false;
+			cout << n << " n'est pas premier." << endl;
+			return 0;
+		}
+
+		//on initialise i à 2 car les divisions par 1 et 0 ne prouvent rien
+		for (int i = 2; i <= n; i++) {
+			if (n % i == 0 && i != n && i < n) {
+				premier = false;
+				break;
+			}
+			else
+				premier = true;
+		}
+
+		if (premier)
+			cout << n << " est premier." << endl;
+		else
+			cout << n << " n'est pas premier." << endl;
+	} while (loop); //pour en faire plein plein plein hihihihi
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 16
+/* Ecrire un programme qui demande à l'utilisateur de saisir 
+un entier N et qui affiche le nombre de nombres premiers inférieurs 
+ou égaux à N. */
+
+#include <iostream> 
+using namespace std;
+
+bool estPremier(int n) {
+
+	bool premier = false;
+
+	for (int i = 2; i <= n; i++) {
+		if (n % i == 0 && i != n && i < n) {
+			premier = false;
+			break;
+		}
+		else
+			premier = true;
+	}
+
+	return premier;
+}
+
+int main() {
+
+	int n, ctr = 0;
+
+	cout << "Calcul du nombre de nombres premiers inferieurs ou egaux e N :" << endl;
+	cout << "Entrez un entier N :" << endl;
+	cin >> n;
+
+	//1 et 0 ne sont pas premier (pourrait être traité dans la boucle).
+	if (n == 1 || n == 0) {
+		//cout << "Nombre de nombres premiers inferieurs ou egaux a N :" << endl;
+		cout << ctr << endl;
+		return 0;
+	}
+
+	for (int i = 2; i <= n; i++) {
+		if (estPremier(i)) {
+			ctr++;
+		}
+		else {}
+	}
+
+	cout << "Nombre de nombres premiers inferieurs ou egaux a N :" << endl;
+	cout << ctr << endl;
+	
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 17
+/* Ecrire un programme qui demande à l'utilisateur
+de saisir un entier N et qui affiche le N-ième nombre premier. */
+
+#include <iostream> 
+using namespace std;
+
+bool estPremier(int n) {
+
+	bool premier = false;
+
+	for (int i = 2; i <= n; i++) {
+		if (n % i == 0 && i != n && i < n) {
+			premier = false;
+			break;
+		}
+		else
+			premier = true;
+	}
+
+	return premier;
+}
+
+int main() {
+
+	int n, p = 2, ctr = 0;
+
+	cout << "Entrez un entier N:" << endl;
+	cin >> n;
+	
+	while (true) {
+		if (estPremier(p)) {
+			ctr++; //compteur. quand ctr=n entré par utilisateur, on y est.
+			if (ctr == n) {
+				break;
+			}
+		}
+
+		p++; //nombre premier qui augmente
+	}
+
+	cout << "Le " << n << "eme nombre premier est : " << p << "." << endl;
+
+	return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 18
+/* Ecrire un programme qui demande à l'utilisateur de saisir
+un entier N et qui affiche la figure suivante. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    int N, etoL; //etoL = étoiles par ligne
+    cout << "Saisissez une valeur pour N: "; cin >> N;
+
+    for (int l = 1; l <= N; l++) { //boucle des affichages (n + étoiles)
+        cout << "N=" << l << endl;
+        etoL = l+1;
+        for (int i = 0; i < l; i++) { //boucle les sauts de ligne
+            etoL--;
+            for (int j = 0; j < etoL; j++) {
+                cout << "*";
+            }
+            cout << endl;
+        }
+    }
+    cout << "Appuyez sur une touche pour continuer ..." << endl;
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+LES TABLEAUX
+----------------------------------------------------------------------------
+
+//Exercice 1
+/* Écrire un programme qui demande à l'utilisateur de 
+saisir 10 entiers stockés dans un tableau. Le programme
+doit afficher le nombre d'entiers supérieurs ou égaux à 10. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    int tab[10], int ctr = 0;
+    for (int i = 0; i < 10; i++) {
+        cout << "Rentrez un entier :" << endl;  cin >> tab[i];
+        if (tab[i] >= 10)
+            ctr++;
+    }
+    cout << "Il y a " << ctr << " entiers >= a 10." << endl;
+    return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 2
+/* Écrire un programme qui demande à l'utilisateur de saisir
+10 entiers stockés dans un tableau ainsi qu'un entier V. 
+Le programme doit rechercher si V se trouve dans le tableau 
+et afficher "V se trouve dans le tableau" ou "V ne se trouve pas 
+dans le tableau". */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    int tab[10], V;
+    bool vFound = false;
+    
+    cout << "Rentrez un entier V: " << endl; cin >> V;
+    for (int i = 0; i < 10; i++) {
+        cout << "Rentrez un entier dans le tableau :" << endl; cin >> tab[i];
+        if (tab[i] == V) vFound = true;
+    }
+
+    if (vFound) cout << "V se trouve dans le tableau." << endl;
+    else cout << "V ne se trouve pas dans le tableau." << endl;
+
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 3
+/* Écrire un programme qui demande à l'utilisateur de saisir
+10 entiers stockés dans un tableau. Le programme doit ensuite
+afficher l'indice du plus grand élément. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    int tab[5], max = 0, ind = 0;
+    for (int i = 0; i < 5; i++) {
+        cout << "Rentrez un entier : " << endl; cin >> tab[i];
+        if (i == 0) 
+            max = tab[i];
+        else if (tab[i] > max) {
+            max = tab[i];
+            ind = i;
+        }
+    }
+
+    cout << "\nLe plus grand element du tableau est : " << max << endl;
+    cout << "Son indice est : " << ind << endl;
+    
+    return 0;
+}
+
+----------------------------------------------------------------------------
+
+//Exercice 4
+/* Écrire un programme qui demande à l'utilisateur de saisir
+10 entiers stockés dans un tableau ainsi qu'un entier V. 
+Le programme doit rechercher si V se trouve dans le tableau
+et doit supprimer la première occurrence de V en décalant d'une
+case vers la gauche les éléments suivants et en rajoutant un 0 à 
+la fin du tableau. Le programme doit ensuite afficher la table finalement. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    const int size = 5;
+    int tab[size], V, rang = 0;
+
+    //Remplissage du tableau
+    for (int i = 0; i < size; i++) {
+        cout << "Rentrez un entier : " << endl; cin >> tab[i];
+    }
+    cout << "Rentrez l'entier que vous souhaitez supprimer: " << endl; cin >> V;
+    //On check si V se trouve dans la tableau et on save le rang
+    for (int i = 0; i < size; i++) {
+        if (tab[i] == V) rang = i; //assignation du rang où se trouve V
+    }
+    //Décalage des éléments
+    for (int i = rang; i < size; i++) {
+        if (i == 4) tab[i] = 0;
+        else tab[i] = tab[i + 1];
+    }
+    cout << "Affichage final : " << endl;
+    for (int i = 0; i < size; i++)
+        cout << "- Nombre " << i + 1 << " = " << tab[i] << endl;
+
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 5
+/* Écrire un programme qui demande à l'utilisateur de saisir 5 entiers
+stockés dans un tableau ainsi qu'un entier V et un entier i compris entre 
+0 et 4. Le programme doit décaler d'une case vers la droite tous les 
+éléments à partir de l'indice i (en supprimant le dernier élément du tableau)
+et doit mettre la valeur V dans le tableau à l'indice i. 
+Le programme doit ensuite afficher le tableau final. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    const int size = 5;
+    int tab[size], V, ind;
+
+    //Remplissage du tableau
+    cout << "--Remplissage du tableau--" << endl;
+    for (int i = 0; i < size; i++) {
+        cout << "Rentrez un entier : " << endl; cin >> tab[i];
+    }
+
+    //Choix V et i
+    cout << "\nRentrez l'entier -V- que vous souhaitez ajouter au tableau : " << endl; cin >> V;
+    cout << "Rentrez l'indice -i- a partir duquel ajouter V et proceder au decalage :" << endl; cin >> ind;
+
+    for (int i = size-1; i > ind; i--) {
+        tab[i] = tab[i - 1];
+    }
+    tab[ind] = V;
+
+    cout << "\n--Tableau final--" << endl;
+    for (int i = 0; i < size; i++) {
+        cout << "N'" << i << "=" << tab[i] << "." << endl;
+    }
+    
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 6
+/* Écrire un programme qui demande à l'utilisateur de taper
+10 entiers qui seront stockés dans un tableau. Le programme
+doit ensuite afficher soit « le tableau est croissant », soit
+« le tableau est décroissant », soit « le tableau est constant »,
+soit « le tableau est quelconque ». */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    const int t_size = 5;
+    int tab[t_size];
+
+    bool croi = true, decr = true;
+
+    for (int i = 0; i < t_size; i++) {
+        cout << "Entrez un entier dans le tableau : " << endl; cin >> tab[i]; } 
+    for (int i = 0; i < t_size-1; i++) {
+        if (tab[i] > tab[i + 1]) croi = false;
+        if (tab[i] < tab[i + 1]) decr = false;
+    }
+
+    if (croi && !decr) cout << "Le tableau est croissant" << endl;
+    if (decr && !croi) cout << "Le tableau est decroissant" << endl;
+    if (!croi && !decr) cout << "Le tableau est quelconque" << endl;
+    if (croi && decr) cout << "Le tableau est constant" << endl;
+
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 7
+/* Écrire un programme qui demande à l'utilisateur de taper
+5 entiers qui seront stockés dans un tableau. Le programme 
+doit trier le tableau par ordre croissant et doit afficher le tableau. */
+
+#include <iostream> 
+using namespace std;
+
+int main() {
+    const int t_size = 10;
+    int tab[t_size], min = 0, indMin = 0, temp = 0;
+
+    for (int i = 0; i < t_size; i++) {
+        cout << "Rentrez un entier dans le tableau : " << endl;
+        cin >> tab[i]; 
+    }
+
+    for (int i = 0; i < t_size; i++) { //Boucle d'interversion
+        for (int j = i; j < t_size; j++) { //Boucle qui cherche le plus petit
+            if (j == i) {
+                min = tab[j];
+                indMin = j;
+            }
+            else if (tab[j] < min) {
+                min = tab[j];
+                indMin = j;
+            }
+        }  
+
+        //interversion des nombres (tri)
+        temp = tab[i];
+        tab[i] = tab[indMin];
+        tab[indMin] = temp;
+        
+    }
+
+    cout << "Tableau tried." << endl;
+    for (int i = 0; i < t_size; i++) {
+        cout << tab[i] << ", ";
+    }
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 8
+/* Tri croissant d'un tableau (tri à bulle) */
+
+#include <iostream> 
+#include <string>
+#include "GlobalFunctions.h"
+using namespace std;
+
+int main() {
+    const int tsize = 8;
+    int tab[tsize], tmp, swaps;
+    //tmp for swaps, exch for counting swaps
+
+    for (int i = 0; i < tsize; i++) {
+        cout << "Enter an integer: " << endl;
+        cin >> tab[i];
+    }
+
+    do {
+        swaps = 0; //stays at 0 if no swaps
+        for (int i = 0; i < tsize - 1; i++) {
+            if (tab[i] > tab[i + 1]) {
+                tmp = tab[i]; tab[i] = tab[i + 1]; tab[i + 1] = tmp;
+                swaps++;
+            }
+        }
+    } while (swaps != 0);
+
+    cout << "\nFinal sorted array:\n";
+    displayTab(tab, tsize); //display tab
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 9
+/* Écrire un programme qui saisit deux tableaux de 5 entiers a et b.
+c est un tableau de 10 entiers. Le programme doit mettre dans 
+c la fusion des tableaux a et b. On copiera dans les 5 premières
+cases de c le tableau a, dans les 5 dernières le tableau b. 
+Le programme affiche ensuite le tableau c*/
+
+#include <iostream> 
+#include <string>
+
+#include "Character.h"
+#include "Weap.h"
+#include "GlobalFunctions.h"
+
+using namespace std;
+
+int main() {
+
+    const int ABsize = 3, Csize = 6;
+    int a[ABsize], b[ABsize], c[Csize];
+
+    for (int i = 0; i < ABsize; i++) { //A array filling
+        cout << "Enter an integer for array a :" << endl; cin >> a[i];
+    } for (int i = 0; i < ABsize; i++) { //B array filling
+        cout << "Enter an integer for array b :" << endl; cin >> b[i];
+    }
+
+    for (int i = 0; i < Csize / 2; i++) {
+        c[i] = a[i];
+    } 
+
+    for (int i = Csize / 2; i < Csize; i++) {
+        c[i] = b[i - ABsize];
+    }
+
+    cout << "\n";
+    displayTab(c, Csize);
+
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 10
+/* Entrer x éléments choisis par l'utilisateur dans deux tableaux A et B.
+Vérifier qu'ils sont triés puis mettre les éléments de A et B dans C à la suite.
+Trier ensuite C.
+ */
+
+#include <iostream> 
+#include <string>
+
+#include "GlobalFunctions.h"
+
+using namespace std;
+
+int main() {
+    //vars
+    const int Abs = 3, Cs = Abs * 2;
+    int tabA[Abs], tabB[Abs], tabC[Cs], tmp, swap, indA = 0, indB = 0;
+
+    //fills tabA, tabB with user's inputs
+    for (int i = 0; i < Abs; i++) {
+        cout << "Fill tab A with ints :" << endl; cin >> tabA[i];
+    } for (int i = 0; i < Abs; i++) {
+        cout << "Fill tab B with ints :" << endl; cin >> tabB[i];
+    }
+    
+    do { //sorting tabA and tabB before putting them in tabC
+        swap = 0; //bubble sort btw
+        for (int i = 0; i < Abs - 1; i++) {
+            if (tabA[i] > tabA[i + 1]) {
+                tmp = tabA[i]; tabA[i] = tabA[i + 1]; tabA[i + 1] = tmp;
+                swap++;
+            } if (tabB[i] > tabB[i + 1]) {
+                tmp = tabB[i]; tabB[i] = tabB[i + 1]; tabB[i + 1] = tmp;
+                swap++;
+            }
+        }
+    } while (swap != 0); //if no swaps were made (swap==0), array is sorted
+    //once out of the loop : arrays are sorted 100%
+    
+    /* ... could do tabC fusion + bubble sorting here too ... */
+
+    for (int i = 0; i < Cs; i++) {
+        if (indA == Abs) { //if we fusioned all tabA elements (max index is 2)
+            tabC[i] = tabB[indB];
+            indB++;
+        } else if (indB == Abs) { //if we fusioned all tabB elements (max index is 2)
+            tabC[i] = tabA[indA];
+            indA++;
+        } else if (tabA[indA] < tabB[indB]) { //self-explanatory check
+            tabC[i] = tabA[indA];
+            indA++;
+        } else { //last other case (if tabB[indB] < tabA[indA])
+            tabC[i] = tabB[indB];
+            indB++;
+        }
+    }
+
+    displayTab(tabC, Cs, "TabC");
+    //exec out
+}
+
+
+----------------------------------------------------------------------------
+
+//Exercice 11
+/* Écrire un programme qui gère une liste d'entiers grâce au menu suivant :
+1. Ajouter un entier ; 2. Afficher la liste des entiers ;
+3. Supprimer dernier entier de la liste ; 4. Afficher la dernière note tapée ;
+5. Quitter. 
+Il y aura au maximum 6 entiers.
+Lorsqu'on rajoute un entier, il sera rajouté à la fin de la liste.*/
+
+#include <iostream> 
+#include <string>
+
+#include "GlobalFunctions.h"
+
+using namespace std;
+
+int main() {
+    //vars
+    const int tsize = 6;
+    int arr[tsize] = { 0,0,0,0,0,0 }, intInput = -1;
+    bool exit = false;
+    char input;
+
+    while (!exit) { //till we press option 5
+        cout << "\n--- Choose an option --- " << endl;
+        cout << "1. Add an integer to the list" << endl;
+        cout << "2. Display the list" << endl;
+        cout << "3. Delete the last integer from the list" << endl;
+        cout << "4. Display the last integer added" << endl;
+        cout << "5. Quit" << endl;
+
+        cin >> input;
+
+        do {
+            switch (input) {
+            case '1':
+                cout << "Enter an integer to add: " << endl;
+                cin >> intInput; //user integer input;
+                for (int i = 0; i < tsize - 1; i++) {
+                    arr[i] = arr[i + 1]; //we roam all the nbs descendingly
+                }
+                arr[tsize - 1] = intInput; //we add the input to the end of list
+                break;
+            case '2':
+                cout << "\nArray list:" << endl;
+                for (int i = 0; i < tsize; i++) {
+                    if (i == tsize-1) cout << arr[i] << ".";
+                    else cout << arr[i] << ",";
+                }      
+                cout << "\n";
+                break;
+            case '3':
+                arr[tsize - 1] = 0; 
+                break;
+            case '4':
+                if (intInput > -1)
+                    cout << "\nLast integer entered is: " << intInput << endl;
+                else
+                    cout << "\nNo integer entered yet." << endl;
+                break;
+            case '5':
+                exit = true;
+                break;
+            }
+
+        } while (input != '1' && input != '2' && input != '3'
+            && input != '4' && input != '5');
+    }
+
+    cout << "\nSee you later." << endl;
+}
+
+
+----------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
