@@ -7,6 +7,8 @@ ligne 3 : 1 3 3 1
 ligne 4 : 1 4 6 4 1
 et ainsi de suite…*/
 
+//Manual github repos initialization test
+
 #include <iostream> 
 #include <string>
 
