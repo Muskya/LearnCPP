@@ -1,8 +1,11 @@
-//Exercice 14
-/* Écrire un programme qui demande à l'utilisateur de taper 6 entiers 
-compris entre 0 et 10 qui seront stockés dans un tableau et qui affiche
-le nombre de fois qu'on a tapé un 0, le nombre de 1, le nombre de 2… , 
-le nombre de 10. */
+//Exercice 15
+/* Écrire un programme qui demande à l'utilisateur de taper le contenu
+d'un tableau de réels de trois lignes et trois colonnes et qui affiche
+ce tableau, mais en affichant la moyenne des éléments de chaque ligne,
+de chaque colonne et la moyenne globale. */
+
+//EXERCICE REUSSI MAIS L'AFFICHAGE POURRAIT ÊTRE OPTIMISE, ATM AVEC
+//DES FLOATS/DOUBLE C'EST LA SAUCE
 
 #include <iostream> 
 #include <string>
@@ -12,34 +15,61 @@ le nombre de 10. */
 
 using namespace std;
 
-int main() {
-	int inp[6], ctr = 0, max = 10, in = 0;
-	cout << "-- Remplissage du tableau --" << endl;
-	for (int i = 0; i < 6; i++) {
-		do {
-			cout << "Entrez un entier entre 0 et 10 inclus: " << endl;
-			cin >> inp[i];
-		} while (inp[i] < 0 || inp[i] > 10);
-	}
+const int m = 3;
 
-	for (int i = 0; i <= max; i++) { //checks one number
-		ctr = 0; //the actual counter for this one number
-		for (int j = 0; j < 6; j++) { //loops on the array to see if theres this one number
-			if (inp[j] == i && j < 5) {
-				ctr++;
-			}
-			if (j == 5) {
-				if (inp[j] == i) {
-					ctr++;
-					cout << "Vous avez tape " << ctr << " fois le chiffre "
-						<< i << "." << endl;
-				}
-				else { 
-					cout << "Vous avez tape " << ctr << " fois le chiffre "
-						<< i << "." << endl;
-				}
-			}
+int main() {
+	float arr[m][m];
+	float avgL[m], avgC[m], avgT = 0; 
+	//L = Line, C = Column, T = Total
+
+	cout << "--Calcul de moyenne et completion d'un"
+		"tableau bi-dimensionnel--" << endl;
+
+	//remplissage tableau bi-dimensionnel
+	for (int i = 0; i < 3; i++) { 
+		for (int j = 0; j < 3; j++) { 
+			cout << "Entrez un element pour la ligne " << i + 1
+				<< " colonne " << j + 1 << endl;
+			cin >> arr[i][j];
 		}
 	}
 
+	cout << "\n" << endl; //helps with readability
+
+	//Moyenne lignes - avg lines
+	for (int i = 0; i < 3; i++) {
+		avgL[i] = (arr[i][0]
+				 + arr[i][1]
+				 + arr[i][2]) / 3;
+		avgT += avgL[i]; 
+	} //Moyenne colonnes - avg columns
+	for (int i = 0; i < 3; i++) {
+		avgC[i] = (arr[0][i]
+				 + arr[1][i]
+			     + arr[2][i]) / 3;
+		avgT += avgC[i];
+	}
+
+	avgT = avgT / (m * 2); //Calcul moyenne totale
+
+	//Affichage - display
+	for (int i = 0; i < 3; i++) { //lignes
+		for (int j = 0; j < 3; j++) { //colonnes
+			cout << arr[i][j]; //elements tableau bi-dimensionnel
+			if (j < 2) cout << ","; else cout << "";
+		}
+		cout << " - Avg: " << avgL[i]; //ajout des moyennes à la fin de chaque ligne
+		 //si on affiche la dernière ligne d'éléments (pour l'ajout des moyennes en bas de chaque colonne)
+		if (i == 2) {
+			// pas d'affichage "avg" pour les moyennes verticales (colonnes)
+			cout << "\n\n";
+			for (int j = 0; j < 3; j++) {
+				cout << avgC[j];
+				if (j < 2) cout << " "; else cout << "";
+			}
+		}
+		cout << "\n";
+	}
+
+	cout << "Moyenne totale: " << avgT; cout << "\n";
 }
