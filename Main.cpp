@@ -1,11 +1,8 @@
-//Exercice 13
-/* Écrire un programme qui demande à l'utilisateur de taper un
-entier N<=20 et qui affiche la énième ligne du triangle de Pascal.
-ligne 1 : 1 1
-ligne 2 : 1 2 1
-ligne 3 : 1 3 3 1
-ligne 4 : 1 4 6 4 1
-et ainsi de suite…*/
+//Exercice 14
+/* Écrire un programme qui demande à l'utilisateur de taper 10 entiers 
+compris entre 0 et 20 qui seront stockés dans un tableau et qui affiche
+le nombre de fois qu'on a tapé un 0, le nombre de 1, le nombre de 2… , 
+le nombre de 20. */
 
 #include <iostream> 
 #include <string>
@@ -16,21 +13,29 @@ et ainsi de suite…*/
 using namespace std;
 
 int main() {
-	int a[21]; int inp;
-	cout << "Entrez un entier <= 20: " << endl; cin >> inp;
-
-	for (int i = 1; i <= inp; i++) { //une ligne du triangle
-		if (i == 1) a[0] = 1; //a[0] ne bougera jamais, ce sera tjrs 1
-		a[i] = 1; //dernier chiffre toujours 1 aussi. là [i] représente l'indice du dernier élément
-		for (int j = i - 1; j >= 1; j--) { //remplissage entre les deux 1
-			a[j] = a[j] + a[j - 1];
-		} 
+	int inp[6], ctr = 0, max = 10, in = 0;
+	for (int i = 0; i < 6; i++) {
+		
 	}
 
-	//affichage
-	for (int i = 0; i <= inp; i++) {
-		cout << a[i] << " ";
+	for (int i = 0; i <= max; i++) { //checks one number
+		ctr = 0; //the actual counter for this one number
+		for (int j = 0; j < 6; j++) { //loops on the array to see if theres this one number
+			if (inp[j] == i) {
+				ctr++;
+			}
+			if (j == 5) {
+				if (inp[j] == i) {
+					ctr++;
+					cout << "Vous avez tape " << ctr << " fois le chiffre "
+						<< i << "." << endl;
+				}
+				else { 
+					cout << "Vous avez tape " << ctr << " fois le chiffre "
+						<< i << "." << endl;
+				}
+			}
+		}
 	}
-	cout << endl;
 
 }
