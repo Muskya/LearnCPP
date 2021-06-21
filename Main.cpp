@@ -11,8 +11,13 @@
 using namespace std;
 
 int main() {
-	Character oui("Bjr", "Thunder", 20);
-	oui.showThisPtr();
-	Character* un = new Character(oui);
-	un->showThisPtr();
+	int a = 5;
+	int* pA = 0;
+	pA = &a;
+
+	cout << "val a: " << a << endl;
+	cout << "val &a: " << &a << endl;
+	cout << "val pointeur: " << pA << endl;
+	cout << "val *pointeur: " << *pA << endl;
+	cout << "val &pointeur: " << &pA << endl;
 }

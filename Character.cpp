@@ -4,11 +4,13 @@
 using namespace std;
 
 Character::Character() : m_vie(100), m_mana(50), m_weap(0) {}
-//copy constructor redefinition
+//copy constructor overload
 Character::Character(Character const& charCpy) : m_vie(charCpy.m_vie),
 m_mana(charCpy.m_mana), m_charName(charCpy.m_charName)
 {
 	this->m_weap = new Weap(*(charCpy.m_weap));
+	//this->m_weap = charCpy.m_weap wouldn't work. it would only 
+	//copy the address of charCpy.m_weap.
 }
 Character::Character(string charName, string weapName, int weapDmg) :
 	m_charName(charName), m_vie(100), m_mana(50), m_weap(0) 
@@ -30,7 +32,8 @@ void Character::receiveDmg(int nbDegats) {
 void Character::attack(Character& cible) {
 	cout << this->m_charName << " attacks " << cible.m_charName << "\n";
 	cible.receiveDmg(this->m_weap->getDmg()); //weap's dmg getter
-	//this->m_weap.duraDmg(this->m_weap.getDmg() / 10); //dura decr when attacking
+	this->m_weap->duraDmg(this->m_weap->getDmg() / 10); 
+	//dura decr when attacking
 }
 void Character::magicAttack(Character& cible, Spell& spell) {
 	cout << this->m_charName << " throws a spell at " << cible.m_charName << "\n";
@@ -49,7 +52,7 @@ void Character::heal(int potionStrength) {
 //consts
 void Character::showThisPtr() const {
 	cout << "Adresse instance de Character: " << this << endl;
-}
+} //simply returns current object's adress
 bool Character::isAlive() const {
 	return m_vie > 0;
 }
@@ -66,7 +69,7 @@ void Character::status() const {
 		
 }
 
-//operators
+//operators overloads
 Character& Character::operator=(Character const& character) {
 	if (this != &character) {
 		this->m_vie = character.m_vie;
@@ -76,6 +79,5 @@ Character& Character::operator=(Character const& character) {
 		delete this->m_weap;
 		this->m_weap = new Weap(*(character.m_weap));
 	}
-
 	return *this;
 }
