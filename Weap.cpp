@@ -13,15 +13,14 @@ void Weap::swap(string name, int dmg, int dura) {
 	m_name = name; m_dmg = dmg; m_dura = dura;
 }
 void Weap::show() const {
-	cout << "Weapon: " << m_name << ", Damage: " << m_dmg 
+	cout << "Weapon: " << m_name << ", Damage: " << m_dmg
 		<< ", Durability: " << m_dura << endl;
 }
-
 void Weap::duraDmg(float duraDmg) {
 	this->m_dura -= duraDmg;
 }
 
-//Accesseur m_dmg
+//getters setters
 int Weap::getDmg() const {
 	return m_dmg;
 }

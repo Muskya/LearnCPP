@@ -6,20 +6,20 @@
 class Character {
 
 private:
-    //Attributs
+    //Attributs "simples"
     int m_vie;
     int m_mana;
     std::string m_charName;
 
-    Weap m_weap;
-    //Spell m_spells[x]; might add later
-
+    //Attributs pointeurs
+    Weap *m_weap;
 public:
     //Constructeurs
     Character(); 
-    Character(std::string charName);
+    //copy constructor
+    Character(Character const& charCpy);
     Character(std::string charName, std::string weapName,
-        int weapDmg, int weapDura);
+        int weapDmg);
 
     //Destructeur(s)
     ~Character(); 
@@ -29,11 +29,17 @@ public:
     void attack(Character& cible);
     void magicAttack(Character& cible, Spell& spell);
     void heal(int quantitePotion);
+    
+    
 
     void changeWeap(std::string name, int dmg, int dura);
 
     //consts
     bool isAlive() const;
     void status() const;
+    void showThisPtr() const; //returns this instance's 
+    //adress with "this" ptr
 
+    //Character& operator=(Character const& character);
 };
+
