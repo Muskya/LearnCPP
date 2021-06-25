@@ -47,7 +47,6 @@ public:
     }
 };
 
-
 void sePresenter(Vehicule *v) { //can be Vehicule, Voiture, Moto....
     v->affiche();
 }

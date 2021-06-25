@@ -135,10 +135,6 @@ bool operator>=(Timespan const& ts1, Timespan const& ts2) {
 	//if ts1 is NOT lower than ts2 (>=) 
 }
 
-//we need operator+ and operator+= functions cuz they both work differently
-//we cannot store the result of a "+" operation in a variable if we only
-//implemented a operator+=() function, cuz a += b affects a, and because of
-//encapsulation concepts we most of the time dont want to modify an object.
 Timespan operator+(Timespan const& ts1, Timespan const& ts2) {
 	//copy of ts1
 	Timespan cpyTS1(ts1);

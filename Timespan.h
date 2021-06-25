@@ -17,6 +17,7 @@ class Timespan
 {
 private:
 	int m_seconds, m_minutes, m_hours;
+	void showCout(std::ostream& stream) const;
 
 public:
 	~Timespan();
@@ -24,7 +25,6 @@ public:
 
 	void showRev() const;
 	void showStdr() const;
-	void showCout(std::ostream& stream) const;
 
 	//methods used for operator functions
 	bool isEqual(Timespan const& ts) const;
@@ -37,7 +37,6 @@ public:
 	Timespan& operator*=(Timespan const& ts);
 	//Timespan& operator/=(Timespan const& ts);
 	
-
 	//getters setters
 	int getSeconds() const;
 	int getMinutes() const;
@@ -45,10 +44,16 @@ public:
 	void setSeconds(int sec); 
 	void setMinutes(int min);
 	void setHours(int hrs);
+
+	//stream comparison operators functions <<, >> ...
+	friend std::ostream& operator<<(std::ostream& stream, Timespan const& ts);
+	//std::ostream &operator>>(std::ostream& stream(?), Timespan const& ts);
+	//would be used so the user can input values directly into a Timespan
+	//members but I guess it makes no sense ?
 };
 
 //Allows comparison operators between two Timespan objects
-bool operator==(Timespan const& ts1, Timespan const& ts2);
+
 bool operator!=(Timespan const& ts1, Timespan const& ts2);
 bool operator<(Timespan const& ts1, Timespan const& ts2); 
 bool operator>(Timespan const& ts1, Timespan const& ts2);
@@ -63,8 +68,3 @@ Timespan operator*(Timespan const& ts1, Timespan const& ts2);
 //(just like we used isEqual() and isLowerThan() functions to
 //implement ==, !=, <, >, <=, >= operator functions.
 
-//stream comparison operators functions <<, >> ...
-std::ostream& operator<<(std::ostream& stream, Timespan const& ts);
-//std::ostream &operator>>(std::ostream& stream(?), Timespan const& ts);
-//would be used so the user can input values directly into a Timespan
-//members but I guess it makes no sense ?
