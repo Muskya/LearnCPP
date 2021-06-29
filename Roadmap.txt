@@ -1,0 +1,22 @@
+Short-term objectives :
+- Practice iterators + STL predicats/algorithms
+- Learn about file streams and practice them
+- Write class/functions using template/typename
+- Algorithmic exercises
+
+Medium-term objectives :
+- Be a complete ease / master inheritance
+
+Long-term objectives :
+- Apply almost all C++/OOP concepts to the AppliedConcepts Console RPG Project
+- Complete projects using frameworks/libraries (Qt/SFML/SDL...)
+- Become better at maths / physics (might take online courses)
+
+Long-long-term objectives : 
+- Get a job as a engineer (AI, Security, VideoGames) (if the other one fails)
+- Complete projects using Vulkan/D3D/OpenGL
+
+Constant-term objectives :
+- HAVE FUN AND DO YOUR BEST WHILE GRINDING, CODE MORE TO HAVE A BASE FOR
+IMPROVEMENT
+- Exercise for real (algorithms, library writing, etc)

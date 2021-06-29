@@ -56,7 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Exercises.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Roadmap.txt">
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>
