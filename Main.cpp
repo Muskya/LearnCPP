@@ -1,66 +1,83 @@
-//Exercice 1 (Tableaux Char)
-/* Écrire une fonction qui a en paramètres une chaîne de caractères (paramètre en entrée)
-et un entier e (paramètre en sortie). Cette fonction renvoie un booléen. La fonction renvoie
-true si la chaîne de caractères est un entier écrit sous la forme d'une suite de chiffres
-qui ne commence pas par 0, elle renvoie false sinon. Si la chaîne est correcte, la fonction
-renvoie dans e la valeur de cet entier. */
+//Exercice 2 (Tableaux char) 
+/*  */
 
-//SL/STL headers
+/*SL headers*/
 #include <iostream> 
 #include <string>
-#include <vector>
-#include <array>
+	//...
+
+/*STL headers*/
 #include <algorithm>
+	//containers
+	#include <vector>
+	#include <deque>
+	#include <array>
+	#include <stack>
+	#include <queue> //contains priority-queue as well
+	//...
 
 using namespace std;
 
-bool isStringInteger(char litteral[], int& e) {
-	int i = 0;
-	bool done = false;
-
-	if (litteral[0] == '0')
-		return done;
-
-	while (litteral[i] != '\0') {
-		if ((litteral[i] >= '1' && litteral[i] <= '9')
-			|| (litteral[i] == '0' && i > 0)) //0 seulement si ce n'est pas le premier element
-		{
-			done = true;
-			e = 10 * e + (litteral[i] - '0'); //'0' = 48 is ascii table. refer to it for further
-											  //explanations.
-		} 
-		else {
-			done = false;
-		}
-		i++;
-	}
-
-	return done;
-}
-
 int main() {
-	//TEST RECONNAISSANCE NULL-CHARACTER//
-	char litteral[] = "Hello";
-	cout << litteral[4] << endl;
-	if (litteral[5] == '\0') {
-		cout << "dernier element == \\0" << endl;
-	}
-	cout << "\n\n";
+	//vector practice
+	cout << "-- VECTOR PRACTICE --" << endl;
+	std::vector<int> vec;
+	vec.assign(30, 100); vec.push_back(200);
+	cout << vec.back() << endl;
+	cout << vec.front() << endl;
+	vec.pop_back();
+	cout << vec.back() << endl;
+	cout << "\n";
 
-	//-- TEST FONCTION EXERCICE --//
-	char inp[30];		//30 chars is enough for testing
-	int e = 0;			//entier passé en référence qui prendra la valeur 
-						//de l'entier écrit dans la chaîne
-	do {
-		cout << "Entrez une phrase (max 30carac.): " << endl;
-		cin >> inp;
-		if (isStringInteger(inp, e)) {
-			cout << "Votre phrase comprend bien une sequence d'entiers." << endl;
-			cout << "Voici la chaine tapee convertie en entier: " << e << endl;
-		}
-		else
-			cout << "Pas de sequence d'entiers detectee." << endl;
-	} while (!isStringInteger(inp, e));
+	//deque practice (can use push_front and push_back
+	//to add elements at the beginning or at the end here)
+	cout << "--DEQUE PRACTICE--" << endl;
+	std::deque<int> deq;
+	deq.assign(10, 50);//fills the deque with n=50 10 times
+	for (int i = 0; i < deq.size(); i++) {
+		cout << "Indice " << i << ": " << deq[i] << endl;
+	} 
+	deq.push_front(20); deq.push_back(80);
+	cout << "\npush_front(20) et push_back(80)" << endl;
+	for (int i = 0; i < deq.size(); i++) {
+		cout << "Indice " << i << ": " << deq[i] << endl;
+	}
+	cout << "\n";
+
+	//stack practice LIFO (last in first out) principle
+	//can only access last element
+	cout << "--STACK PRACTICE--" << endl;
+	std::stack<int> sta;
+	cout << "Ajout dans l'ordre des valeurs: 1, 10, 100" << endl;
+	sta.push(1); //adds "1" to the top of the pile (above null/0)
+	sta.push(10); //adds "10" to the top of the pile (above 1)
+	sta.push(100); //adds "100" to the top of the pile (above 10)
+	cout << "Dernier element de la pile ajoute: " << sta.top() << endl;
+	cout << "Suppresion du dernier element" << endl; sta.pop();
+	cout << "Dernier element de la pile: " << sta.top() << endl;
+	cout << "\n";
+
+	//queue practice FIFO (first in first out) principle
+	//acts as the opposite of the stack (kind of)
+	cout << "--QUEUE PRACTICE--" << endl;
+	std::queue<int> que;
+	cout << "Ajout dans l'ordre des valeurs: 1, 10, 100" << endl;
+	que.push(1); que.push(10); que.push(100);
+	cout << "que.front(): " << que.front() << endl;
+	//front() = premier element ajouté mais qui se retrouve à la fin car FIFO
+	cout << "que.back(): " << que.back() << endl;
+	cout << "\n";
+
+	//priority-queue practice FIFO (same as queue but with desc. sorting)
+	cout << "--PRIORITY-QUEUE PRACTICE--" << endl;
+	std::priority_queue<int> pQue;
+	cout << "Ajout dans l'ordre des valeurs: 1, 10, 100" << endl;
+	pQue.push(283); pQue.push(7000); pQue.push(10);
+	cout << "pQue.top(): " << pQue.top() << endl; //only top(). no front() or back()
+	cout << "the push() calls were sorted descendly, the top value being the highest one." << endl;
+	// the operator<() needs to be redefined in order to work with other value types
+	// or of the user wants the sorting with numbers to be ascedent instead of descendant
+
 }
 
 
