@@ -10,12 +10,13 @@ Medium-term objectives :
 
 Long-term objectives :
 - Apply almost all C++/OOP concepts to the AppliedConcepts Console RPG Project
-- Complete projects using frameworks/libraries (Qt/SFML/SDL...)
+- 
 - Become better at maths / physics (might take online courses)
 
 Long-long-term objectives : 
 - Get a job as a engineer (AI, Security, VideoGames) (if the other one fails)
-- Complete projects using Vulkan/D3D/OpenGL
+- Complete projects using Vulkan/D3D/OpenGL (graphics pipeline programming)
+- Complete projects using frameworks/libraries (Qt/SFML/SDL...)
 
 Constant-term objectives :
 - HAVE FUN AND DO YOUR BEST WHILE GRINDING, CODE MORE TO HAVE A BASE FOR
