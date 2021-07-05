@@ -1,6 +1,6 @@
 Short-term objectives :
 - Practice/work with STL containers
-- Practice iterators + STL predicats/algorithms
+- Practice iterators + STL predicats/algorithms/fonctors
 - Learn about file streams and practice them
 - Write class/functions using template/typename
 - Algorithmic exercises
