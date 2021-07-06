@@ -1,83 +1,87 @@
-//Exercice 2 (Tableaux char) 
-/*  */
-
 /*SL headers*/
 #include <iostream> 
 #include <string>
 #include <utility>
 	//...
-
 /*STL headers*/
 #include <algorithm>
 	//containers
 		//sequencials
-		#include <vector>
+		#include <vector> 
 		#include <deque>
 		#include <array>
 		#include <stack>
 		#include <queue> //contains priority-queue as well
 		#include <list>
 		//associatives
-		#include <map> //includes multimap.h ?
-		#include <set> //includes multiset.h ?
-	//...
+		#include <map> //includes multimap.h
+		#include <set> //includes multiset.h
+	//pre-defined STL functors
+	//https://www.cplusplus.com/reference/functional/
+	#include <functional>
 
 using namespace std;
 
-int main() {
-	/* --- ITERATORS/ASSOCIATIVE CONTAINERS PRACTICE --- */
-
-	deque<int> deq;
-	deq.push_front(10); deq.push_back(20); //some filling
-	deq.push_front(1);
-	deque<int>::iterator deqIte;		   //= deq.begin();
-
-	for (deqIte = deq.begin(); deqIte != deq.end(); deqIte++) {
-		cout << "Affichage elements dans for avec iterateur: " << *deqIte << endl;
-	} cout << "\n"; //deqIte < deq.end() is bad practice and can lead to issues. use != instead.
-
-	deqIte = deq.begin() + 1;			   //repositions iterator at the middle (element 10);
-	deq.erase(deqIte);
-	for (deqIte = deq.begin(); deqIte != deq.end(); deqIte++) {
-		cout << "Affichage elements dans for avec iterateur: " << *deqIte << endl;
-		//only elements 1 and 20 remain.
-	} cout << "\n";
-
-	//list practice
-	list<std::string> l;
-	l.push_back("esports"); l.push_back("gaming"); l.push_back("knowledge");
-	for (list<std::string>::iterator it = l.begin(); it != l.end(); it++) {
-		cout << *it << ", ";
-	} cout << "\n";
-	//for list/set/map : "list<string>::iterator it = l.begin() + 3" is now allowed.
-	//because iterators are bidirectional. (++, --)
-
-	list<std::string>::iterator it = l.begin()++; 
-	l.erase(it);
-	for (list<std::string>::iterator it = l.begin(); it != l.end(); it++) {
-		cout << *it << ", "; //second element was erased. ("gaming")
-	} cout << "\n";
-
-	//map practice
-	pair<int, string> p(64, "Wood Logs"); 
-	cout << p.first << endl;
-	cout << p.second << endl; cout << "\n";
-	//maps are made of pairs. order is always 1) KEY, 2) VALUE
-	//the key is the index, usable in brackets [].
-	map<string, int> m; //minecraft items used as an example (name/ID)
-	m["dirt"] = 1; m["stone"] = 2; m["wood"] = 3;
-	for (map<string, int>::iterator it = m.begin(); it != m.end(); it++) {
-		cout << "Blocks of " << it->first << " have the ID= " << it->second << endl;
+class Addition { /* Functor or Function-object class. Object with 
+				    "object()" call allowed.*/
+public:
+	inline int operator()(int a, int b) {
+		return a + b;
 	}
+};
 
-	map<string, int>::iterator itMap = m.find("stone"); 
-	if (itMap == m.end()) //.find() function returns the container's end() if nothing is found
-		cout << "There is no value associated to the stone block" << endl;
-	else
-		cout << "The value associated to the stone block is " << itMap->second << endl;
+class Add5ToPairs {
+public:
+	inline int operator()(int& a) {
+		if (a % 2 == 0) {
+			cout << a << " est pair. Ajoutons 5." << endl;
+			return a += 5;
+		}
+		else {
+			cout << a << " n'est pas pair." << endl;
+			return a;
+		}
+	}
+};
 
-	//find() function finds a value according to the passed parameter key
-	//returning an iterator (which is a pair that permits access to ->first ->second attributes
+class CompareLength {
+public:
+	inline bool operator()(std::string a, std::string b) const {
+		return a.length() < b.length();
+	}
+};
+
+int main() {
+	/* ---PRACTICE FUNCTORS--- */
+	Addition ope1;
+	cout << "--Affichage foncteur simple d'addition--" << endl;
+	cout << "10 + 30 = " << ope1(10, 30) << endl; cout << "\n";
+
+	Add5ToPairs add5;
+	vector<int> nbVec;
+	nbVec.push_back(3); nbVec.push_back(2); nbVec.push_back(10);
+	nbVec.push_back(102); nbVec.push_back(783);
+	cout << "--Affichage foncteur adding 5 to pairs--" << endl;
+	for (vector<int>::iterator it = nbVec.begin(); it != nbVec.end(); it++) {
+		add5(*it); //add 5 if the vector's current element is pair.
+		cout << "Nouvelle valeur: " << *it << endl;
+	} cout << "\n";
+
+	map<string, int, CompareLength> m;
+	/*map constructor can take a new predicat functor instead
+	of the "<" default one. instead of sorting the given elements
+	alphabetically, it will compare the size of the string keys 
+	to sort the map. */
+	m["SoulSand Block"] = 3;
+	m["Wood Logs"] = 1;
+	m["Enchanted Diamond Sword"] = 10;
+	m["Stone Bricks"] = 2;
+	
+	cout << "--Affichage elements Map--" << endl;
+	for (map<string, int>::iterator it = m.begin(); it != m.end(); it++) {
+		cout << it->first << " elements have the ID " << it->second << endl;
+		//string keys are sorted by size, starting with "Wood Logs".
+	}
 
 }
 
