@@ -1237,8 +1237,83 @@ int main() {
 
 
 ----------------------------------------------------------------------------
+EXERCICES TABLEAUX DE CHARS
+----------------------------------------------------------------------------
+//Exercice 1 (Tableaux Char)
+/* Écrire une fonction qui a en paramètres une chaîne de caractères (paramètre en entrée)
+et un entier e (paramètre en sortie). Cette fonction renvoie un booléen. La fonction renvoie
+true si la chaîne de caractères est un entier écrit sous la forme d'une suite de chiffres
+qui ne commence pas par 0, elle renvoie false sinon. Si la chaîne est correcte, la fonction
+renvoie dans e la valeur de cet entier. */
+
+bool isStringInteger(char litteral[], int& e) {
+	int i = 0;
+	bool done = false;
+
+	if (litteral[0] == '0')
+		return done;
+
+	while (litteral[i] != '\0') {
+		if ((litteral[i] >= '1' && litteral[i] <= '9')
+			|| (litteral[i] == '0' && i > 0)) //0 seulement si ce n'est pas le premier element
+		{
+			done = true;
+			e = 10 * e + (litteral[i] - '0'); //'0' = 48 is ascii table. refer to it for further
+											  //explanations.
+		} 
+		else {
+			done = false;
+		}
+		i++;
+	}
+
+	return done;
+}
+
+int main() {
+	//-- TEST FONCTION EXERCICE --//
+	char inp[30];		//30 chars is enough for testing
+	int e = 0;			//entier passé en référence qui prendra la valeur 
+						//de l'entier écrit dans la chaîne
+	do {
+		cout << "Entrez une phrase (max 30carac.): " << endl;
+		cin >> inp;
+		if (isStringInteger(inp, e)) {
+			cout << "Votre phrase comprend bien une sequence d'entiers." << endl;
+			cout << "Voici la chaine tapee convertie en entier: " << e << endl;
+		}
+		else
+			cout << "Pas de sequence d'entiers detectee." << endl;
+	} while (!isStringInteger(inp, e));
+}
+
 
 ----------------------------------------------------------------------------
+/* Exercice 2 (Tableaux Char Developpez
+Écrire une fonction qui a en paramètre une chaîne de caractères
+(paramètre en entrée et en sortie) et qui transforme toutes les
+minuscules de la chaîne en majuscules.*/
+
+//fonction de l'exercice
+void toUpper(char inp[]) {
+	int i = 0;
+
+	while (inp[i] != '\0') {
+		if (inp[i] >= 'a' && inp[i] <= 'z') {
+			inp[i] = inp[i] - 32; /* lowercase letter - 32 returns its uppercase 
+									 version and vice-versa. refer to ASCII table. */
+		}
+		i++;
+	}
+}
+
+int main() {
+	//utilisation de la fonction
+	char a[50];
+	cout << "Entrez une chaine: "; cin >> a;
+	toUpper(a);
+	cout << "La chaine finale est: " << a << endl;
+}
 
 ----------------------------------------------------------------------------
 
