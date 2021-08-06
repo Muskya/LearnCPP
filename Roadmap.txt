@@ -1,22 +1,25 @@
+Backlog but not "needed" for now : 
+- Unicode, UTF Encoding, String/Char Literals Types
+
 Short-term objectives :
-- Threading
-- Literal / Raw / Wide string/chars ??
 - Write class/functions using template/typename
-- DSA Exercising (Data Structures / Algorithms)
 
 Medium-term objectives :
 - Master OOP-related concepts (classes, inheritance, polymorphism...)
+- DSA Exercising (Data Structures / Algorithms)
+- Read some programming issues / news everyday
 
 Long-term objectives :
 - Complete ThisWeirdConsoleGame's project with as many features from C++ as possible
 - Get better at maths / physics (might take online courses)
+- Don't precipitate when reading content
 
 Long-long-term objectives : 
-- Become an engineer (AI, Security, VideoGames) (if the other one fails)
+- Become an engineer (AI, Security, VideoGames)
 - Complete projects using Vulkan/D3D/OpenGL
 - Complete projects using frameworks/libraries (Qt/SFML/SDL,Ogre3D...)
 - Take a shot with game engines (Unreal, Unity, Godot...)
 
 Constant-term objectives :
 - HAVE FUN AND DO YOUR BEST WHILE GRINDING. DON'T TRY TO CODE PERFECTLY, JUST DO MORE.
-- Exercise DSA / new features frequently, read other's code, contribute to projects...
+- Exercise DSA / new features frequently, read other's code, contribute to projects, StackOverflow...
