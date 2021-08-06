@@ -1,4 +1,5 @@
 Short-term objectives :
+- Threading
 - Literal / Raw / Wide string/chars ??
 - Write class/functions using template/typename
 - DSA Exercising (Data Structures / Algorithms)

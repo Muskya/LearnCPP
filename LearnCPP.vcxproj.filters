@@ -55,7 +55,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Exercises.txt">
+    <Text Include="DSA_Exercices.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Roadmap.txt">

@@ -1,39 +1,34 @@
 #include <iostream>
+#include <thread>
 
-// These are "object-like" macros. They can have substitution values or not.
-#define HELLO_FR "Bonjour"
-#define PI_VALUE 3.14
-#define MY_AGE 22
-#define YES true
+// Some threading-test functions
+void to20() {
+	for (int i = 0; i < 20; i++) {
+		std::cout << "Boucle une: " << i << std::endl;
+	}
+}
+void to10() {
+	for (int i = 0; i < 10; i++) {
+		std::cout << "Boucle deux: " << i << std::endl;
+	}
+}
+void saySmth(std::string str) {
+	std::cout << str << std::endl;
+}
 
 int main() {
-	// Macros testing
-	std::cout << HELLO_FR << std::endl; // Will print "Bonjour" to the console
-	std::cout << "Pi value is equal to " << PI_VALUE << std::endl;
-	std::cout << "I was worn on the 22th of July 1999. My age is " << MY_AGE << std::endl;
+	/* C++ THREADS PRACTICE */
 
-	bool is_cpp_nice = YES;
-	is_cpp_nice == YES ? std::cout << "Cpp is nice." : std::cout << "Cpp is not nice.";
+	// Create some thread objects
+	std::thread t1(to20);
+	std::thread t2(to10);
 
-	/* Conditional operator testing
-	Only use the conditional operator for simple conditionals 
-	where you use the result and where it enhances readability. */
-	bool higherThan = false;
-	short a = 0, b = 0;
-	std::cout << "Input a and then b :" << std::endl;
-	std::cin >> a; std::cin >> b;
-	a > b ? higherThan = true : higherThan = false;
-	if (higherThan)
-		std::cout << "a is higher than b" << std::endl;
-	else
-		std::cout << "a is equal or lower than b" << std::endl;
+	/* You can specify the attached function's arguments 
+    in the constructor of the thread. */
+	std::thread t3(saySmth, "Bonjour tout le monde !");
 
-	/* Const values are known/resolved at compile-time, so we should be
-	* declaring them as "constexpr" for more specificity. (C++11)
-	Const values that are resolved at runtime only should be declared
-	as const only. */
-	constexpr float gravity = 9.8;
-	constexpr short sum = 10 + 5; 
+	// Make sure threads have ended before ending the program
+	t1.join(); t2.join(); t3.join();
 }
 
 

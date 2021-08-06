@@ -156,7 +156,7 @@
     <ClInclude Include="Weap.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Exercises.txt" />
+    <Text Include="DSA_Exercices.txt" />
     <Text Include="Roadmap.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
