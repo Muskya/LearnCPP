@@ -142,18 +142,12 @@
   <ItemGroup>
     <ClCompile Include="AlgoParti.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Timespan.cpp" />
-    <ClCompile Include="Weap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlgoPartition.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="GlobalFunctions.h" />
-    <ClInclude Include="Spell.h" />
     <ClInclude Include="Timespan.h" />
-    <ClInclude Include="Weap.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="DSA_Exercices.txt" />
