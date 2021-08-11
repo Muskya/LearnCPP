@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Templates">
+      <UniqueIdentifier>{49061ca4-442d-4483-8fa1-5573533489fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -35,8 +38,11 @@
     <ClInclude Include="Timespan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IntArray.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Array.hpp">
+      <Filter>Header Files\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="SomeTemplateTests.hpp">
+      <Filter>Header Files\Templates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
