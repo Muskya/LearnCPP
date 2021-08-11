@@ -1,4 +1,8 @@
+// C/C++ Standard Library Headers
 #include <iostream>
+
+// User-Defined Headers
+#include "IntArray.h"
 
 // This is a FUNCTION template.
 template<typename T>
@@ -7,13 +11,9 @@ T Max(T a, T b) {
 }
 
 // This is a CLASS template.
-template<class T>
-class Panneau {
-	
-};
+// ...
 
 int main() {
-
 	/* TEMPLATE PRACTICE */
 	int a{ 20 }, b{ 30 };
 	std::string c{ "Oui" }, d{ "Bien" };
@@ -21,6 +21,9 @@ int main() {
 	std::cout << Max(a, b) << std::endl;
 	std::cout << Max(c, d) << std::endl;
 
+	std::cout << "\n\n";
+
+	
 }
 
 

@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="AlgoPartition.h" />
     <ClInclude Include="GlobalFunctions.h" />
+    <ClInclude Include="IntArray.h" />
     <ClInclude Include="Timespan.h" />
   </ItemGroup>
   <ItemGroup>
