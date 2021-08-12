@@ -3,27 +3,33 @@
 
 // User-Defined Headers
 #include "Array.hpp"
-#include "SomeTemplateTests.hpp"
 
-// This is a FUNCTION template.
-template<typename T>
-T Max(T a, T b) {
-	return a < b ? a : b;
+// This is a CLASS template
+// class T = array data type
+// int size = array size
+// Example of a template class with a template type parameter (T)
+// and a template non-type parameter (int size). Works with functions too.
+template <class T, int size>
+class StaticArray {
+private:
+	T arr[size];
+public:
+	T* getArray() const;
+	inline T& operator[](int index) {
+		return arr[index];
+	}
+};
+
+template <class T, int size>
+T* StaticArray<T, size>::getArray() const {
+	return arr;
 }
 
 int main() {
-	/* TEMPLATE PRACTICE */
-	int a{ 20 }, b{ 30 };
-	std::string c{ "Oui" }, d{ "Bien" };
+	StaticArray<double, 10> sa;
+	sa[0] = 3.5; sa[1] = 4;
 
-	std::cout << Max(a, b) << std::endl;
-	std::cout << Max(c, d) << std::endl;
-
-	std::cout << "\n\n";	
-
-	SomeTemplateTests::swap<int>(23, 49);
-	std::cout << "\n";
-	SomeTemplateTests::multiples<int, double>(28, 5.3, 5);
+	std::cout << sa[0] << std::endl;
 }
 
 

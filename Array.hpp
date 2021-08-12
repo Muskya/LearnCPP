@@ -3,8 +3,8 @@
 // in just one class.
 
 // This is named ".hpp". Sort of a personal convention because
-// templates definition are commonly placed into their 
-// standard .h declaration file.
+// template functions definitions are usually placed into their 
+// .h header file.
 
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
