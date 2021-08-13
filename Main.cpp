@@ -1,39 +1,29 @@
-// C/C++ Standard Library Headers
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-// User-Defined Headers
-#include "Array.hpp"
+/* Code Wars Kata: https://www.codewars.com/kata/558fc85d8fd1938afb000014/train/cpp
+Create a function that returns the sum of the two lowest positive numbers given an 
+array of minimum 4 positive integers. No floats or non-positive integers will be passed .*/
 
-// This is a CLASS template
-// class T = array data type
-// int size = array size
-// Example of a template class with a template type parameter (T)
-// and a template non-type parameter (int size). Works with functions too.
-template <class T, int size>
-class StaticArray {
-private:
-	T arr[size];
-public:
-	T* getArray() const;
-	inline T& operator[](int index) {
-		return arr[index];
-	}
-};
-
-template <class T, int size>
-T* StaticArray<T, size>::getArray() const {
-	return arr;
+long sumTwoSmallestNumbers(std::vector<int> numbers)
+{
+    // { 5, 8, 12, 19, 22 } 
+    int min = *min_element(numbers.begin(), numbers.end());
+    numbers.erase(min_element(numbers.begin(), numbers.end()));
+    min += *min_element(numbers.begin(), numbers.end());
+    std::cout << min << std::endl;
+    return min;
 }
+
+// Optimum solution would be : 
+//long sumTwoSmallestNumbers(std::vector<int> numbers)
+//{
+//    std::sort(numbers.begin(), numbers.end());
+//
+//    return (long)numbers[0] + (long)numbers[1];
+//}
 
 int main() {
-	StaticArray<double, 10> sa;
-	sa[0] = 3.5; sa[1] = 4;
-
-	std::cout << sa[0] << std::endl;
+    sumTwoSmallestNumbers({ 5, 8, 12, 19, 22 });
 }
-
-
-
-
-
-
