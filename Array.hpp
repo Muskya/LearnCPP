@@ -11,6 +11,7 @@
 
 #include <cassert> // For Assert()
 
+// T: type of stored data
 template <class T>
 class Array
 {

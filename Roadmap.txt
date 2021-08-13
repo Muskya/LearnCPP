@@ -1,28 +1,34 @@
-Other Stuff Backlog :
+// Everything is listed in descending priority order
+(from the most to the less important/relevant)
+
+Other Backlog :
 - Unicode, UTF Encoding, String/Char Literals Types
 
+Concepts and Features :
+- Templates
+- In-depth Enums
+- Type_traits, allocators ?
+
 Short-term objectives :
-- Read LearnCPP.com and apply it here, then go back to ThisWeirdConsoleGame project when you feel
-like it to implement new stuff you learnt and relax.
+- Experiment stuff read on the internet in LearnCPP
+- Make a use of this stuff in ThisWeirdConsoleGame 
 
 Medium-term objectives :
-- Master OOP-related concepts (classes, inheritance, polymorphism...)
-- Master templates
+- Templates mastery
 
 Long-term objectives :
 - Complete ThisWeirdConsoleGame's project with as many features from C++ as possible
 - Get better at maths / physics (might take online courses)
 
 Long-long-term objectives : 
-- Become an engineer (AI, Security, VideoGames)
+- Low-level SWE (AI, Security, VideoGames)
 - Complete projects using Vulkan/D3D/OpenGL
 - Complete projects using media frameworks/libraries (Qt/SFML/SDL,Ogre3D...)
 - Take a shot with game engines (Unreal, Unity, Godot...)
 
 Constant-term objectives :
-- HAVE FUN AND DO YOUR BEST WHILE GRINDING. DON'T TRY TO CODE PERFECTLY, JUST DO MORE.
-- Exercise DSA / new features frequently, read other's code, contribute to projects, stackoverflow.com...
+- Have fun while programming.
+- Exercise DSA / new features frequently, read others' code, contribute to projects
 - Don't precipitate when reading content
-- You have the capability to write code at any given time. Don't always strive to know every little detail 
-and master everything perfectly, it is a form of procrastination. Be humble and take your time to learn.
-- Take the time required to learn/code, be ready to do it (meditation ?)
+- Just write more code. Don't always strive to know every little detail 
+and master everything perfectly, it is a form of procrastination. 
