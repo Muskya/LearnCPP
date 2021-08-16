@@ -9,10 +9,14 @@ int main() {
 	MultiContainer<int>* mc1 = new MultiContainer<int>(ARR, 10);
 	MultiContainer<int>* mc2 = new MultiContainer<int>(VEC);
 
-	for (int i = 0; i < 10; i++) {
-		(*mc2)[i] = i + i;
-	}
+	mc2->add_back(25);
+	mc2->add_back(45);
+	mc2->add_back(65);
 
-	std::cout << (*mc2)[2] << std::endl;
+	for (int i = 0; i < mc2->size(); i++) {
+		std::cout << (*mc2)[i] << std::endl;
+	}
+	
+
 	//std::cout << mc2->size() << std::endl;
 }
