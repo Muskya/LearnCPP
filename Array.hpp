@@ -12,8 +12,9 @@
 /*  constexpr:      value/return value is constant and evaluated at compile-time.
 *                   can be used whenever const value is needed, in templates 
 *                   or array declarations for example.
-*   noexcept:       compile-time check operator that returns true if an expression
-*                   has a "noexcept" specifier in its declaration.
+*   noexcept:       compile-time check operator that returns true if an member func
+*                   has a "noexcept" specifier in its declaration. For the member,
+*                   noexcept means it will throw no exception.
 */
 
 #ifndef ARRAY_HPP
@@ -40,14 +41,18 @@ public:
     // underlying c-array. use data() to access it instead
     _Ty m_data[_Size];
 
-    ~Array() = default;
     Array() = default;
+    inline Array(std::initializer_list<_Ty> list) noexcept {
+        for (int i = 0; i < _Size; i++) {
+            m_data[i] = *(list.begin() + i);
+        }
+    }
     Array(const Array&) = delete; // To change
     Array& operator=(const Array&) = delete; // To change
 
     // ELEMENT ACCESS
     constexpr _Ty* data();
-    constexpr _Ty operator[](size_type index);
+    constexpr _Ty& operator[](size_type index);
     constexpr void fill();
     constexpr void swap();
     //front, back
@@ -76,7 +81,7 @@ constexpr _Ty* ARRAY::data() {
 
 // []
 TEMPLATE
-constexpr _Ty ARRAY::operator[](_STD size_t index) {
+constexpr _Ty& ARRAY::operator[](_STD size_t index) {
     assert(index >= 0 && index < _Size && "index out of bounds");
     return m_data[index];
 }
