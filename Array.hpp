@@ -1,61 +1,116 @@
-// This is the templated version of the IntArray we made before.
-// We will now be able to handle all the fundamental data types
-// in just one class.
+// std::array Implementation by Théo R.
+// 18th August 2021
+// Array.hpp
+/* references : 
+*
+* https://devdocs.io/cpp/container/array
+* https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a00752_source.html
+* https://en.cppreference.com/w/cpp/container/array
+*/
 
-// This is named ".hpp". Sort of a personal convention because
-// template functions definitions are usually placed into their 
-// .h header file.
+// Details learnt about some of the concepts introduced in this .hpp :
+/*  constexpr:      value/return value is constant and evaluated at compile-time.
+*                   can be used whenever const value is needed, in templates 
+*                   or array declarations for example.
+*   noexcept:       compile-time check operator that returns true if an expression
+*                   has a "noexcept" specifier in its declaration.
+*/
 
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-#include <cassert> // For Assert()
+// no clue what it does but it was in array.h source files
+// so i decided to use it ¯\_(-_-)_/¯
+#if _STL_COMPILER_PREPROCESSOR 
+#include <cassert>
 
-// T: type of stored data
-template <class T>
+_STD_BEGIN // namespace std { 
+template <class _Ty, _STD size_t _Size>
 class Array
 {
 private:
-    int m_length{};
-    T* m_data{};
+    _STD size_t m_size; // _STD = ::std::
+    _Ty* m_data;
 public:
-    Array(int length)
-    {
-        assert(length > 0);
-        m_data = new T[length]{};
-        m_length = length;
-    }
+    using value_type        = _Ty;
+    using pointer           = _Ty*;
+    using reference         = _Ty&;
+    using size_type         = _STD size_t;
+    using iterator          = value_type*;
+    using const_iterator    = const value_type*;
 
-    Array(const Array&) = delete;
-    Array& operator=(const Array&) = delete;
-
-    ~Array()
-    {
+    ~Array() {
         delete[] m_data;
     }
-
-    void erase()
-    {
-        delete[] m_data;
-        m_data = nullptr;
-        m_length = 0;
+    Array() {
+        assert(_Size > 0 && "array has no size");
+        m_data = new _Ty[_Size];
+        m_size = _Size;
     }
 
-    T& operator[](int index)
-    {
-        assert(index >= 0 && index < m_length && "Index out of bounds");
-        return m_data[index];
-    }
+    Array(const Array&) = delete; // To change
+    Array& operator=(const Array&) = delete; // To change
 
-    // templated getLength() function defined below
-    int getLength() const;
+    // ELEMENT ACCESS
+    void erase() noexcept;
+    constexpr _Ty* data();
+    constexpr _Ty& operator[](int index);
+    constexpr void fill();
+    constexpr void swap();
+    //front, back
+
+    // CAPACITY
+    constexpr std::size_t size() const noexcept;
+    constexpr std::size_t max_size() const noexcept;
+    constexpr bool empty() const noexcept;
+
+    // ITERATORS
+    constexpr iterator begin() noexcept;
+    constexpr iterator end() noexcept;
+    // cbegin, cend, rbegin, rend, crbegin, crend..........
 };
 
-// Function definitions //
+// some writing shortcuts
+#define TEMPLATE template <class _Ty, _STD size_t _Size>
+#define ARRAY Array<_Ty, _Size> 
 
-template<typename T>
-int Array<T>::getLength() const {
-    return m_length;
+// erases array whole content
+TEMPLATE
+void ARRAY::erase() noexcept {
+    delete[] m_data;
+    m_data = nullptr;
+    m_size = 0;
 }
 
-#endif
+// returns underlying C-Array
+TEMPLATE
+constexpr _Ty* ARRAY::data() {
+    return m_data;
+}
+
+// []
+TEMPLATE
+constexpr _Ty& ARRAY::operator[](int index) {
+    assert(index >= 0 && index < m_size && "index out of bounds");
+    return m_data[index];
+}
+
+// returns array's length
+TEMPLATE
+constexpr _STD size_t ARRAY::size() const noexcept
+{ return m_size; }
+
+// returns array's maximum length
+TEMPLATE
+constexpr _STD size_t ARRAY::max_size() const noexcept
+{ return std::size_t(); }
+
+// returns true if array is empty
+TEMPLATE
+constexpr bool ARRAY::empty() const noexcept
+{ return (this->size() == 0); }
+
+_STD_END // ^^^ (namespace std) }
+
+#endif // _STL_COMPILER_PREPROCESSOR
+#endif // ARRAY_HPP

@@ -9,9 +9,10 @@
 #include <stack>
 //#include <tree?>
 #include <map>
-#include <hash_map>
 #include <set>
 #include <algorithm>
+
+#include "Array.hpp"
 
 int main() {
 	

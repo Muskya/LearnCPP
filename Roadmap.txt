@@ -1,16 +1,14 @@
-// Everything is listed in descending priority order
-(from the most to the less important/relevant)
-
 Other Backlog :
 - Unicode, UTF Encoding, String/Char Literals Types
 
 Concepts and Features :
 - In-depth Enums
 - Type_traits, allocators ?
+- ctor/dtor lvalue/rvalue (feels like they are connected)
 
 Short-term objectives :
-- Practice with STL Containers and Iterators for good so I can try to make my own
-implementations of them (array, vector, list, tree, stack, queue, map, hash)
+- (Working on it) Practice with STL Containers and Iterators for good so 
+I can try to make my own implementations of them.
 - Experiment stuff read on the internet in LearnCPP
 - Make a use of this stuff in ThisWeirdConsoleGame 
 
@@ -19,7 +17,7 @@ Medium-term objectives :
 
 Long-term objectives :
 - Refactor ThisWeirdConsoleGame with as many features from C++ as possible
-and optimizations
+and optimizations (and maybe console-specific lib/header helpers ?)
 - Get better at maths / physics (might take online courses)
 
 Long-long-term objectives : 
