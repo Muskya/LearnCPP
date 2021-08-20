@@ -24,37 +24,30 @@
 #if _STL_COMPILER_PREPROCESSOR 
 #include <cassert>
 
-_STD_BEGIN // namespace std { 
 template <class _Ty, _STD size_t _Size>
-class Array
+class Array 
 {
-private:
-    _STD size_t m_size; // _STD = ::std::
-    _Ty* m_data;
 public:
     using value_type        = _Ty;
     using pointer           = _Ty*;
     using reference         = _Ty&;
     using size_type         = _STD size_t;
-    using iterator          = value_type*;
-    using const_iterator    = const value_type*;
+    using iterator          = pointer;
+    using const_iterator    = const pointer;
 
-    ~Array() {
-        delete[] m_data;
-    }
-    Array() {
-        assert(_Size > 0 && "array has no size");
-        m_data = new _Ty[_Size];
-        m_size = _Size;
-    }
+    // size of the array. use size() or max_size() instead
+    _STD size_t m_size = _Size; // _STD = ::std::
+    // underlying c-array. use data() to access it instead
+    _Ty m_data[_Size];
 
+    ~Array() = default;
+    Array() = default;
     Array(const Array&) = delete; // To change
     Array& operator=(const Array&) = delete; // To change
 
     // ELEMENT ACCESS
-    void erase() noexcept;
     constexpr _Ty* data();
-    constexpr _Ty& operator[](int index);
+    constexpr _Ty operator[](size_type index);
     constexpr void fill();
     constexpr void swap();
     //front, back
@@ -74,14 +67,7 @@ public:
 #define TEMPLATE template <class _Ty, _STD size_t _Size>
 #define ARRAY Array<_Ty, _Size> 
 
-// erases array whole content
-TEMPLATE
-void ARRAY::erase() noexcept {
-    delete[] m_data;
-    m_data = nullptr;
-    m_size = 0;
-}
-
+/*----ELEMENT ACCESS----*/
 // returns underlying C-Array
 TEMPLATE
 constexpr _Ty* ARRAY::data() {
@@ -90,27 +76,38 @@ constexpr _Ty* ARRAY::data() {
 
 // []
 TEMPLATE
-constexpr _Ty& ARRAY::operator[](int index) {
-    assert(index >= 0 && index < m_size && "index out of bounds");
+constexpr _Ty ARRAY::operator[](_STD size_t index) {
+    assert(index >= 0 && index < _Size && "index out of bounds");
     return m_data[index];
 }
 
+/*----CAPACITY----*/
 // returns array's length
 TEMPLATE
 constexpr _STD size_t ARRAY::size() const noexcept
-{ return m_size; }
+{ return _Size; }
 
 // returns array's maximum length
 TEMPLATE
 constexpr _STD size_t ARRAY::max_size() const noexcept
-{ return std::size_t(); }
+{ return _Size; }
 
 // returns true if array is empty
 TEMPLATE
 constexpr bool ARRAY::empty() const noexcept
 { return (this->size() == 0); }
 
-_STD_END // ^^^ (namespace std) }
+/*----ITERATORS----*/
+// iterator at the beginning of the array
+TEMPLATE
+constexpr _Ty* ARRAY::begin() noexcept {
+    return &m_data[0];
+}
+
+TEMPLATE
+constexpr _Ty* ARRAY::end() noexcept {
+    return &m_data[_Size - 1];
+}
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP
