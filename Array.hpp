@@ -13,7 +13,8 @@
 // Details learnt while writing this implementation :
 /*  constexpr:      value/return value is constant and evaluated at compile-time.
 *                   can be used whenever const value is needed, in templates 
-*                   or array declarations for example.
+*                   or array declarations for example. ("const" after function declaration
+*                   means that fields are not affected)
 *   noexcept:       compile-time check operator that returns true if an member func
 *                   has a "noexcept" specifier in its declaration. For the member,
 *                   noexcept means it will throw no exception.
@@ -42,10 +43,13 @@ public:
     using size_type         = _STD size_t;
     using iterator          = pointer;
     using const_iterator    = const pointer;
+    using reverse_iterator  = _STD reverse_iterator<iterator>;
 
-    // size of the array. use size() or max_size() instead
-    _STD size_t m_size = _Size; // _STD = ::std::
-    // underlying c-array. use data() to access it instead
+    // size of the array. use size() or max_size() instead. same reason
+    // as with m_data[]
+    _STD size_t m_size = _Size; // ::std::
+    // underlying c-array. use data() to access it instead. has to be
+    // public to make Array an aggregate-type
     _Ty m_data[_Size];
 
     Array() = default;
@@ -58,7 +62,7 @@ public:
     Array& operator=(const Array&) = delete; // To change
 
     // ELEMENT ACCESS/MANIPULATION
-    _Ty* data() noexcept;
+    constexpr _Ty* data() noexcept;
     const _Ty* data() const noexcept;
     void fill(_Ty value, int beg = 0, int end = _Size-1);
     constexpr void swap(Array<_Ty, _Size>& other) noexcept;
@@ -75,7 +79,8 @@ public:
     // ITERATORS
     constexpr iterator begin() noexcept;
     constexpr iterator end() noexcept;
-    // cbegin, cend, rbegin, rend, crbegin, crend..........
+    constexpr std::reverse_iterator<_Ty*> rbegin() noexcept;
+    constexpr std::reverse_iterator<_Ty*> rend() noexcept;
 
     // MISC
     void show() {
@@ -89,33 +94,29 @@ public:
     }
 };
 
-// some writing shortcuts
-#define TEMPLATE template <class _Ty, _STD size_t _Size>
-#define ARRAY Array<_Ty, _Size> 
-
 /*----ELEMENT ACCESS----*/
 // returns underlying c-array
-TEMPLATE
-_Ty* ARRAY::data() noexcept {
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty* Array<_Ty, _Size>::data() noexcept {
     return m_data;
 }
 
 // returns underlying const c-array
-TEMPLATE
-const _Ty* ARRAY::data() const noexcept {
+template <class _Ty, _STD size_t _Size>
+const _Ty* Array<_Ty, _Size>::data() const noexcept {
     return m_data;
 }
 // fills the array with the specified value. whole array
 // is filled if indexs are not specified.
-TEMPLATE
-void ARRAY::fill(_Ty value, int beg, int end) {
+template <class _Ty, _STD size_t _Size>
+void Array<_Ty, _Size>::fill(_Ty value, int beg, int end) {
     for (int i = beg; i <= end; i++) {
         m_data[i] = value;
     }
 }
 // swaps the arrays elements
-TEMPLATE
-constexpr void ARRAY::swap(Array<_Ty, _Size>& other) noexcept {
+template <class _Ty, _STD size_t _Size>
+constexpr void Array<_Ty, _Size>::swap(Array<_Ty, _Size>& other) noexcept {
     assert(size() == other.size() && "arrays are not the same size");
     Array<_Ty, _Size>* tmp = new Array<_Ty, _Size>();
     tmp->fill(0);
@@ -127,57 +128,74 @@ constexpr void ARRAY::swap(Array<_Ty, _Size>& other) noexcept {
     delete tmp;
 }
 // returns the first item of the array
-TEMPLATE
-constexpr _Ty ARRAY::front() const noexcept {
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty Array<_Ty, _Size>::front() const noexcept {
     return *begin();
 }
 // returns the last item of the array
-TEMPLATE
-constexpr _Ty ARRAY::back() const noexcept {
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty Array<_Ty, _Size>::back() const noexcept {
     return *end();
 }
 // returns the item at the specified index
 // features bounds checking.
-TEMPLATE
-constexpr _Ty ARRAY::at(_STD size_t index) const noexcept {
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty Array<_Ty, _Size>::at(_STD size_t index) const noexcept {
     assert(index >= 0 && index < _Size && "index ouf of bounds");
     return m_data[index];
 }
 
 // [] overload. for bounds checking, use at()
-TEMPLATE
-constexpr _Ty& ARRAY::operator[](_STD size_t index) {
+template<class _Ty, std::size_t _Size>
+constexpr _Ty& Array<_Ty, _Size>::operator[](size_type index)
+{
     return m_data[index];
 }
 
 /*----CAPACITY----*/
 // returns array's length
-TEMPLATE
-constexpr _STD size_t ARRAY::size() const noexcept
+template <class _Ty, _STD size_t _Size>
+constexpr _STD size_t Array<_Ty, _Size>::size() const noexcept
 { return _Size; }
 
 // returns array's maximum length
-TEMPLATE
-constexpr _STD size_t ARRAY::max_size() const noexcept
+template <class _Ty, _STD size_t _Size>
+constexpr _STD size_t Array<_Ty, _Size>::max_size() const noexcept
 { return _Size; }
 
 // returns true if array is empty
-TEMPLATE
-constexpr bool ARRAY::empty() const noexcept
+template <class _Ty, _STD size_t _Size>
+constexpr bool Array<_Ty, _Size>::empty() const noexcept
 { return (this->size() == 0); }
 
 /*----ITERATORS----*/
-// iterator pointing at the last array's element address
-TEMPLATE
-constexpr _Ty* ARRAY::begin() noexcept {
+// iterator pointing at the first array's element address
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty* Array<_Ty, _Size>::begin() noexcept {
     return &m_data[0];
 }
 
-// iterator pointing at the first array's element address
-TEMPLATE
-constexpr _Ty* ARRAY::end() noexcept {
-    return &m_data[_Size];
+// iterator pointing at the past-the-last element address
+template <class _Ty, _STD size_t _Size>
+constexpr _Ty* Array<_Ty, _Size>::end() noexcept {
+    return &m_data[_Size]; // Past-the-end element
+}
+
+// reverse_iterator pointing at the first element adress of the 
+// reversed sequence (end of normal sequence)
+template <class _Ty, _STD size_t _Size>
+constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rbegin() noexcept {
+    return _STD reverse_iterator<_Ty*>(end());
+}
+
+// reverse_iterator pointing at the past-the-last element adress of 
+// the reversed sequence
+template <class _Ty, _STD size_t _Size>
+constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rend() noexcept {
+    return _STD reverse_iterator<_Ty*>(begin());
 }
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP
+
+
