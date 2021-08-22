@@ -39,6 +39,7 @@
 #if _STL_COMPILER_PREPROCESSOR 
 #include <cassert>          // assert()
 #include <algorithm>        // lexicographical_compare() 
+#include <iostream>         // << (>>?) operator overloading (ostream/istream)
 
 template <class _Ty, _STD size_t _Size>
 class Array 
@@ -58,6 +59,8 @@ public:
     // underlying c-array. use data() to access it instead. has to be
     // public to make Array an aggregate-type
     _Ty m_data[_Size];
+    // a user-defined ID for the array. (extra)
+    _STD size_t m_id; 
 
     Array() = default;
     inline Array(std::initializer_list<_Ty> list) noexcept {
@@ -84,7 +87,7 @@ public:
     constexpr bool empty() const noexcept;
 
     // MISC
-    void show() {
+    void show() const {
         std::cout << "\n";
         for (int i = 0; i < _Size; i++) {
             if (i == _Size - 1)
@@ -126,7 +129,7 @@ public:
     inline constexpr _STD reverse_iterator<_Ty*> rend() noexcept {
         return _STD reverse_iterator<_Ty*>(begin());
     }
-};
+}; // --end of template class Array-- //
 
 /*----------------------*/
 /*----ELEMENT ACCESS----*/
@@ -241,8 +244,18 @@ template <class _Ty, _STD size_t _Size>
 bool operator <=(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
     return !(lhs > rhs);
 }
-
-
+template <class _Ty, _STD size_t _Size>
+// Displays the array's element. avoids using (show() or accessing c-array and cout elems)
+std::ostream& operator<<(const std::ostream& out, const Array<_Ty, _Size>& arr) {
+    out << arr.show();
+    return out;
+}
+// Used to specify an ID for the array. (extra)
+template <class _Ty, _STD size_t _Size>
+std::istream& operator>>(const std::istream& in, const Array<_Ty, _Size>& arr) {
+    in >> arr.m_id;
+    return in;
+}
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP
