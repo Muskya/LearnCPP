@@ -94,13 +94,15 @@ public:
     }
 };
 
+/*----------------------*/
 /*----ELEMENT ACCESS----*/
+/*----------------------*/
+
 // returns underlying c-array
 template <class _Ty, _STD size_t _Size>
 constexpr _Ty* Array<_Ty, _Size>::data() noexcept {
     return m_data;
 }
-
 // returns underlying const c-array
 template <class _Ty, _STD size_t _Size>
 const _Ty* Array<_Ty, _Size>::data() const noexcept {
@@ -126,6 +128,8 @@ constexpr void Array<_Ty, _Size>::swap(Array<_Ty, _Size>& other) noexcept {
         other[i] = (*tmp)[i];
     }
     delete tmp;
+    
+    // could also use std::swap_ranges
 }
 // returns the first item of the array
 template <class _Ty, _STD size_t _Size>
@@ -152,7 +156,10 @@ constexpr _Ty& Array<_Ty, _Size>::operator[](size_type index)
     return m_data[index];
 }
 
+/*----------------*/
 /*----CAPACITY----*/
+/*----------------*/
+
 // returns array's length
 template <class _Ty, _STD size_t _Size>
 constexpr _STD size_t Array<_Ty, _Size>::size() const noexcept
@@ -168,7 +175,10 @@ template <class _Ty, _STD size_t _Size>
 constexpr bool Array<_Ty, _Size>::empty() const noexcept
 { return (this->size() == 0); }
 
+/*-----------------*/
 /*----ITERATORS----*/
+/*-----------------*/
+
 // iterator pointing at the first array's element address
 template <class _Ty, _STD size_t _Size>
 constexpr _Ty* Array<_Ty, _Size>::begin() noexcept {

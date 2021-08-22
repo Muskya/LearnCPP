@@ -32,6 +32,4 @@ int main() {
 		std::cout << *r_it;
 		//output : 5 4 3 2 1
 	} std::cout << "\n";
-
-
 }
