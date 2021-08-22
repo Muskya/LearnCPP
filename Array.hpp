@@ -49,7 +49,7 @@ public:
     using reference         = _Ty&;
     using size_type         = _STD size_t;
     using iterator          = pointer;
-    using const_iterator    = const pointer;
+    using const_iterator    = const iterator;
     using reverse_iterator  = _STD reverse_iterator<iterator>;
 
     // size of the array. use size() or max_size() instead. same reason
@@ -83,14 +83,6 @@ public:
     constexpr std::size_t max_size() const noexcept;
     constexpr bool empty() const noexcept;
 
-    // ITERATORS
-    constexpr iterator begin() noexcept;
-    constexpr iterator end() noexcept;
-    /*constexpr const_iterator cbegin() const noexcept;
-    constexpr const_iterator cend() const noexcept;*/
-    constexpr std::reverse_iterator<_Ty*> rbegin() noexcept;
-    constexpr std::reverse_iterator<_Ty*> rend() noexcept;
-
     // MISC
     void show() {
         std::cout << "\n";
@@ -100,6 +92,39 @@ public:
             else
                 std::cout << m_data[i] << ", ";
         }
+    }
+
+    /*------------------------*/
+    /*----INLINE ITERATORS----*/
+    /*------------------------*/
+
+    // (they are inline because of the need of usings defined above)
+
+    // iterator pointing at the first array's element address
+    inline constexpr iterator begin() noexcept {
+        return &m_data[0];
+    }
+    // const version
+    inline const_iterator begin() const noexcept {
+        return const_iterator(&m_data[0]);
+    }
+    // iterator pointing at the past-the-last element address
+    inline constexpr iterator end() noexcept {
+        return &m_data[_Size]; // Past-the-end element
+    }
+    // const version
+    inline const_iterator end() const noexcept {
+        return const_iterator(&m_data[_Size]);
+    }
+    // reverse_iterator pointing at the first element adress of the 
+    // reversed sequence (end of normal sequence)
+    inline constexpr reverse_iterator rbegin() noexcept {
+        return reverse_iterator(end());
+    }
+    // reverse_iterator pointing at the past-the-last element adress of 
+    // the reversed sequence
+    inline constexpr _STD reverse_iterator<_Ty*> rend() noexcept {
+        return _STD reverse_iterator<_Ty*>(begin());
     }
 };
 
@@ -182,40 +207,11 @@ constexpr bool Array<_Ty, _Size>::empty() const noexcept
 { return (this->size() == 0); }
 
 /*-----------------*/
-/*----ITERATORS----*/
-/*-----------------*/
-
-// iterator pointing at the first array's element address
-template <class _Ty, _STD size_t _Size>
-constexpr _Ty* Array<_Ty, _Size>::begin() noexcept {
-    return &m_data[0];
-}
-// iterator pointing at the past-the-last element address
-template <class _Ty, _STD size_t _Size>
-constexpr _Ty* Array<_Ty, _Size>::end() noexcept {
-    return &m_data[_Size]; // Past-the-end element
-}
-// reverse_iterator pointing at the first element adress of the 
-// reversed sequence (end of normal sequence)
-template <class _Ty, _STD size_t _Size>
-constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rbegin() noexcept {
-    return _STD reverse_iterator<_Ty*>(end());
-}
-// reverse_iterator pointing at the past-the-last element adress of 
-// the reversed sequence
-template <class _Ty, _STD size_t _Size>
-constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rend() noexcept {
-    return _STD reverse_iterator<_Ty*>(begin());
-}
-
-/*-----------------*/
 /*----OPERATORS----*/
 /*-----------------*/
 
-// operator== (lhs = left hand side, rhs = right hand side)
 template <class _Ty, _STD size_t _Size>
-bool operator==(const Array<_Ty, _Size>& lhs, 
-    const Array<_Ty, _Size>& rhs) {
+bool operator==(const Array<_Ty, _Size>& lhs,  const Array<_Ty, _Size>& rhs) {
     for (int i = 0; i < _Size; i++) {
         if (lhs.m_data[i] != rhs.m_data[i])
             return false;
@@ -223,8 +219,7 @@ bool operator==(const Array<_Ty, _Size>& lhs,
     return true;
 }
 template <class _Ty, _STD size_t _Size>
-bool operator!=(const Array<_Ty, _Size>& lhs,
-    const Array<_Ty, _Size>& rhs) {
+bool operator!=(const Array<_Ty, _Size>& lhs,  const Array<_Ty, _Size>& rhs) {
     return !(lhs == rhs);
 }
 // operator<, returns true if lhs is lexicographically less than rhs
@@ -235,20 +230,18 @@ bool operator<(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
         rhs.begin(), rhs.end());
 }
 template <class _Ty, _STD size_t _Size>
-bool operator>(const Array<_Ty, _Size>& lhs,
-    const Array<_Ty, _Size>& rhs) {
+bool operator>(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
     return (rhs < lhs);
 }
 template <class _Ty, _STD size_t _Size>
-bool operator >=(const Array<_Ty, _Size>& lhs,
-    const Array<_Ty, _Size>& rhs) {
+bool operator >=(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
     return !(lhs < rhs);
 }
 template <class _Ty, _STD size_t _Size>
-bool operator <=(const Array<_Ty, _Size>& lhs,
-    const Array<_Ty, _Size>& rhs) {
+bool operator <=(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
     return !(lhs > rhs);
 }
+
 
 
 #endif // _STL_COMPILER_PREPROCESSOR
