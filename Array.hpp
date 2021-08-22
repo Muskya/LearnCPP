@@ -1,8 +1,8 @@
 // std::array Implementation by Théo R.
 // 18th August 2021
 // Array.hpp
-// This is just practice. I won't be implementing all the 
-// constant versions of member functions. (or later kek)
+// I won't be implementing all the 
+// constant versions of member functions.
 /* references : 
 *
 * https://devdocs.io/cpp/container/array
@@ -21,8 +21,14 @@
 *   POD:            "Plain Old Data". Class/Struct without any (virtual)functions,
 *                   constructor, or destructor. 
 *   Aggregate:      An aggregate is an array or a class with no user-declared 
-                    constructors, no private or protected non-static data members,
-                    no base classes, and no virtual functions.
+*                   constructors, no private or protected non-static data members,
+*                   no base classes, and no virtual functions.
+*   Lexicographical Alphabetical/Numerical ordering algorithm. The following sequence
+*   compare:        is "alphabetically"/lexicographically ordered : "1, 10, 2" because
+*                   '2' comes after '10', and is right after '19'. For numeric sequences,
+*                   ordering is obvious : "1, 2, 10". It also assumes that compared 
+*                   sequences are of equal length.
+*                   https://stackoverflow.com/questions/45950646/what-is-lexicographical-order
 */
 
 #ifndef ARRAY_HPP
@@ -31,7 +37,8 @@
 // no clue what it does but it was in array.h source files
 // so i decided to use it ¯\_(-_-)_/¯
 #if _STL_COMPILER_PREPROCESSOR 
-#include <cassert>
+#include <cassert>          // assert()
+#include <algorithm>        // lexicographical_compare() 
 
 template <class _Ty, _STD size_t _Size>
 class Array 
@@ -79,6 +86,8 @@ public:
     // ITERATORS
     constexpr iterator begin() noexcept;
     constexpr iterator end() noexcept;
+    /*constexpr const_iterator cbegin() const noexcept;
+    constexpr const_iterator cend() const noexcept;*/
     constexpr std::reverse_iterator<_Ty*> rbegin() noexcept;
     constexpr std::reverse_iterator<_Ty*> rend() noexcept;
 
@@ -148,7 +157,6 @@ constexpr _Ty Array<_Ty, _Size>::at(_STD size_t index) const noexcept {
     assert(index >= 0 && index < _Size && "index ouf of bounds");
     return m_data[index];
 }
-
 // [] overload. for bounds checking, use at()
 template<class _Ty, std::size_t _Size>
 constexpr _Ty& Array<_Ty, _Size>::operator[](size_type index)
@@ -164,12 +172,10 @@ constexpr _Ty& Array<_Ty, _Size>::operator[](size_type index)
 template <class _Ty, _STD size_t _Size>
 constexpr _STD size_t Array<_Ty, _Size>::size() const noexcept
 { return _Size; }
-
 // returns array's maximum length
 template <class _Ty, _STD size_t _Size>
 constexpr _STD size_t Array<_Ty, _Size>::max_size() const noexcept
 { return _Size; }
-
 // returns true if array is empty
 template <class _Ty, _STD size_t _Size>
 constexpr bool Array<_Ty, _Size>::empty() const noexcept
@@ -184,26 +190,66 @@ template <class _Ty, _STD size_t _Size>
 constexpr _Ty* Array<_Ty, _Size>::begin() noexcept {
     return &m_data[0];
 }
-
 // iterator pointing at the past-the-last element address
 template <class _Ty, _STD size_t _Size>
 constexpr _Ty* Array<_Ty, _Size>::end() noexcept {
     return &m_data[_Size]; // Past-the-end element
 }
-
 // reverse_iterator pointing at the first element adress of the 
 // reversed sequence (end of normal sequence)
 template <class _Ty, _STD size_t _Size>
 constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rbegin() noexcept {
     return _STD reverse_iterator<_Ty*>(end());
 }
-
 // reverse_iterator pointing at the past-the-last element adress of 
 // the reversed sequence
 template <class _Ty, _STD size_t _Size>
 constexpr _STD reverse_iterator<_Ty*> Array<_Ty, _Size>::rend() noexcept {
     return _STD reverse_iterator<_Ty*>(begin());
 }
+
+/*-----------------*/
+/*----OPERATORS----*/
+/*-----------------*/
+
+// operator== (lhs = left hand side, rhs = right hand side)
+template <class _Ty, _STD size_t _Size>
+bool operator==(const Array<_Ty, _Size>& lhs, 
+    const Array<_Ty, _Size>& rhs) {
+    for (int i = 0; i < _Size; i++) {
+        if (lhs.m_data[i] != rhs.m_data[i])
+            return false;
+    }
+    return true;
+}
+template <class _Ty, _STD size_t _Size>
+bool operator!=(const Array<_Ty, _Size>& lhs,
+    const Array<_Ty, _Size>& rhs) {
+    return !(lhs == rhs);
+}
+// operator<, returns true if lhs is lexicographically less than rhs
+// (refer to the lexicographical explanation i.e. beginning of file)
+template <class _Ty, _STD size_t _Size>
+bool operator<(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
+    return std::lexicographical_compare(lhs.begin(), lhs.end(),
+        rhs.begin(), rhs.end());
+}
+template <class _Ty, _STD size_t _Size>
+bool operator>(const Array<_Ty, _Size>& lhs,
+    const Array<_Ty, _Size>& rhs) {
+    return (rhs < lhs);
+}
+template <class _Ty, _STD size_t _Size>
+bool operator >=(const Array<_Ty, _Size>& lhs,
+    const Array<_Ty, _Size>& rhs) {
+    return !(lhs < rhs);
+}
+template <class _Ty, _STD size_t _Size>
+bool operator <=(const Array<_Ty, _Size>& lhs,
+    const Array<_Ty, _Size>& rhs) {
+    return !(lhs > rhs);
+}
+
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP

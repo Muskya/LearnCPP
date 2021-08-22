@@ -32,3 +32,4 @@ Constant-term objectives :
 - Don't precipitate when reading content
 - Just write more code. Don't always strive to know every little detail 
 and master everything perfectly, it is a form of procrastination. 
+- Don't explain the "what" in comments. Explain the "why".
