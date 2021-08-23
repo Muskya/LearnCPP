@@ -29,6 +29,8 @@
 *                   ordering is obvious : "1, 2, 10". It also assumes that compared 
 *                   sequences are of equal length.
 *                   https://stackoverflow.com/questions/45950646/what-is-lexicographical-order
+*  Operator OL      When overloading an operator, the first argument is always assumed to
+*                   be "*this".
 */
 
 #ifndef ARRAY_HPP
@@ -85,17 +87,6 @@ public:
     constexpr std::size_t size() const noexcept;
     constexpr std::size_t max_size() const noexcept;
     constexpr bool empty() const noexcept;
-
-    // MISC
-    void show() const {
-        std::cout << "\n";
-        for (int i = 0; i < _Size; i++) {
-            if (i == _Size - 1)
-                std::cout << m_data[i];
-            else
-                std::cout << m_data[i] << ", ";
-        }
-    }
 
     /*------------------------*/
     /*----INLINE ITERATORS----*/
@@ -245,9 +236,14 @@ bool operator <=(const Array<_Ty, _Size>& lhs, const Array<_Ty, _Size>& rhs) {
     return !(lhs > rhs);
 }
 template <class _Ty, _STD size_t _Size>
-// Displays the array's element. avoids using (show() or accessing c-array and cout elems)
-std::ostream& operator<<(const std::ostream& out, const Array<_Ty, _Size>& arr) {
-    out << arr.show();
+// Displays the array's element. avoids using show() (or accessing c-array and cout elems)
+std::ostream& operator<<(std::ostream& out, const Array<_Ty, _Size>& arr) {
+    for (int i = 0; i < _Size; i++) {
+        if (i == _Size - 1)
+            out << arr.data()[i];
+        else
+            out << arr.data()[i] << ", ";
+    }
     return out;
 }
 // Used to specify an ID for the array. (extra)
@@ -256,6 +252,10 @@ std::istream& operator>>(const std::istream& in, const Array<_Ty, _Size>& arr) {
     in >> arr.m_id;
     return in;
 }
+
+/*----------------------*/
+/*----HELPER CLASSES----*/
+/*----------------------*/
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP
