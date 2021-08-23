@@ -149,6 +149,7 @@
     <ClInclude Include="GlobalFunctions.h" />
     <ClInclude Include="Array.hpp" />
     <ClInclude Include="Timespan.h" />
+    <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="DSA_Exercices.txt" />
