@@ -10,6 +10,12 @@
 * https://en.cppreference.com/w/cpp/container/array
 */
 
+//  TO-DO one day :
+/*  Implement tuple helper classes
+*   New template for array but with _Size = 0 strictly 
+*   Copy-constructor, Move-Constructor
+*/
+
 // Details learnt while writing this implementation :
 /*  constexpr:      value/return value is constant and evaluated at compile-time.
 *                   can be used whenever const value is needed, in templates 
@@ -41,7 +47,7 @@
 #if _STL_COMPILER_PREPROCESSOR 
 #include <cassert>          // assert()
 #include <algorithm>        // lexicographical_compare() 
-#include <iostream>         // << (>>?) operator overloading (ostream/istream)
+#include <iostream>         // >>, << operators overloading (ostream/istream)
 
 template <class _Ty, _STD size_t _Size>
 class Array 
