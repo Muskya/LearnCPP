@@ -10,12 +10,6 @@
 * https://en.cppreference.com/w/cpp/container/array
 */
 
-//  TO-DO one day :
-/*  Implement tuple helper classes
-*   New template for array but with _Size = 0 strictly 
-*   Copy-constructor, Move-Constructor
-*/
-
 // Details learnt while writing this implementation :
 /*  constexpr:      value/return value is constant and evaluated at compile-time.
 *                   can be used whenever const value is needed, in templates 
@@ -98,8 +92,7 @@ public:
     /*----INLINE ITERATORS----*/
     /*------------------------*/
 
-    // (they are inline because of the need of usings defined above)
-
+    // (they are inline because of the need of using usings defined above)
     // iterator pointing at the first array's element address
     inline constexpr iterator begin() noexcept {
         return &m_data[0];
@@ -258,10 +251,6 @@ std::istream& operator>>(const std::istream& in, const Array<_Ty, _Size>& arr) {
     in >> arr.m_id;
     return in;
 }
-
-/*----------------------*/
-/*----HELPER CLASSES----*/
-/*----------------------*/
 
 #endif // _STL_COMPILER_PREPROCESSOR
 #endif // ARRAY_HPP

@@ -3,8 +3,8 @@ Other Backlog :
 
 Concepts and Features :
 - In-depth Enums
-- Type_traits, allocators ?
 - ctor/dtor lvalue/rvalue (feels like they are connected)
+- for each usage (seems different and deeper in c++?)
 
 Short-term objectives :
 - (Working on it) Practice with STL Containers and Iterators for good so 
