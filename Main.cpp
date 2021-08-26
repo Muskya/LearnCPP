@@ -11,19 +11,51 @@
 #include "Array.hpp"
 #include "Vector.hpp"
 
-int main() {
-	// SOURCE VECTOR
-	typedef std::vector<int> VEC;
-	VEC* vecP = new VEC{ 1,2,3 };
-	VEC vec1 = { 1, 2, 3, 5, 10, 23, 192 };
-
-	std::cout << vec1.size() << std::endl;
-	std::cout << vec1.capacity() << std::endl;
-	std::cout << vec1.get_allocator().max_size() << std::endl;
-
-	// MY VECTOR
-	Vector<int> vec2(5, 5);
-	for (int i = 0; i < 5; i++) {
-		std::cout << vec2[i];
+// vector debug purpose
+template <class T>
+void show(const std::vector<T>& vec1) {
+	std::cout << "--MSVC VECTOR--" << std::endl;
+	std::cout << "size:" << vec1.size() << std::endl;
+	std::cout << "capacity:" << vec1.capacity() << std::endl;
+	std::cout << "max_size:" << vec1.max_size() << std::endl;
+	std::cout << "allocator max size:" << vec1.get_allocator().max_size()
+		<< std::endl;
+	std::cout << "values:" << std::endl;
+	for (int i = 0; i < vec1.size(); i++) {
+		std::cout << vec1[i] << ",";
 	}
+	std::cout << "\n\n";
+}
+template <class T>
+void show(Vector<T>& vec1) {
+	std::cout << "--MY VECTOR--" << std::endl;
+	std::cout << "size:" << vec1.size() << std::endl;
+	std::cout << "capacity:" << vec1.capacity() << std::endl;
+	//std::cout << "max_size:" << vec1.max_size() << std::endl;
+	std::cout << "allocator max size:" << vec1.get_allocator().max_size()
+		<< std::endl;
+	std::cout << "values:" << std::endl;
+	for (int i = 0; i < vec1.size(); i++) {
+		std::cout << vec1[i] << ",";
+	}
+	std::cout << "\n\n";
+}
+
+int main() {
+	// MSVC VECTOR TESTS
+	typedef std::vector<int> VEC;
+	VEC vec1 = { 1, 2, 3, 5, 10, 23, 192 };
+	show(vec1);								// Size / Capacity = 7
+	vec1.insert(vec1.cend(), { 1,2,3 });	
+	show(vec1);								// Size / Capacity = 10
+	vec1.clear();							// Removes everything
+	show(vec1);								// Size = 0, Capacity = 10
+	vec1.reserve(15);
+	show(vec1);
+
+	// MY VECTOR TESTS
+	Vector<int> vec2(5, 5);					// Vector with five '5'
+	show(vec2);								// Size / Capacity = 5
+	vec2.reserve(10);						// Allocates 10 more objects
+	show(vec2);								// Size = 5, Capacity = 15
 }

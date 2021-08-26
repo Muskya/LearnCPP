@@ -49,17 +49,17 @@ public:
     using pointer                   = _Ty*;
     using reference                 = _Ty&;
     using alty                      = std::allocator<_Ty>;
-    using size                      = std::size_t;
+    using sz                        = std::size_t;
     using difference_type           = std::ptrdiff_t;   // Pointer arithmetic
     using iterator                  = pointer;
     using const_iterator            = const iterator;
     using reverse_iterator          = std::reverse_iterator<iterator>;
 
     // FIELDS
-    size m_size;                    //  Current size of the vector (nb of elements)
-    size m_capacity;                //  Maximum capacity of the vector (bytes)
+    sz m_size;                      //  Current size of the vector (nb of elements)
+    sz m_capacity;                  //  Maximum capacity of the vector (bytes)
     pointer m_data;                 //  Underlying C-Array
-    std::allocator<_Ty> m_alloc;    //  The vector's allocator
+    alty m_alloc;                   //  The vector's allocator
 
     /* static_assert(std::is_same_v<_Ty, decltype(Allocator)::value_type>,
         "Types are not equivalent");*/
@@ -73,13 +73,16 @@ public:
         m_data = m_alloc.allocate(m_capacity);
     }
     // constructs container with -count- elements of -value- value
-    Vector(size count, const _Ty& value) {
+    Vector(sz count, const _Ty& value) {
         m_size = count;
-        m_data = m_alloc.allocate(count); // allocate(m_capacity) ?
+        m_capacity = m_size;
+        m_data = m_alloc.allocate(m_capacity);      //  allocate() = "custom new"
         std::fill_n(m_data, count, value); 
     }
 
-    // Returns the container's allocator
+    // assign()
+
+    // returns the container's allocator
     constexpr alty get_allocator() const {
         return m_alloc;
     }
@@ -87,11 +90,15 @@ public:
     /*----------------------*/
     /*----ELEMENT ACCESS----*/
     /*----------------------*/
+    // at()
 
-    // []
-    constexpr _Ty& operator[](size index) const {
+    // []op
+    constexpr _Ty& operator[](sz index) const {
         return m_data[index];
     }
+
+    // front()
+    // back()
 
     /*-----------------*/
     /*----ITERATORS----*/
@@ -100,10 +107,39 @@ public:
     /*----------------*/
     /*----CAPACITY----*/
     /*----------------*/
+    // empty()
+    // returns number of elements 
+    sz size() {
+        return m_size;
+    }
+    // max_size()
+    void reserve(sz new_cap) {
+        if (new_cap <= m_capacity) {
+            // nothing (?)
+        }
+        else {
+            this->m_capacity += new_cap;
+            // do this calculus then allocates. becuz allocate() function 
+            // overwrites previous allocated storage
+            get_allocator().allocate(capacity());
+        }
+    }
+    // returns number of elements that the container has 
+    // currently allocated storage for
+    sz capacity() {
+        return m_capacity;
+    }
 
     /*-----------------*/
     /*----MODIFIERS----*/
     /*-----------------*/
+    // clear()
+    // insert()
+    // emplace()
+    // emplace_back()
+    // push_back()
+    // pop_back()
+    // resize()
 };
 
 
