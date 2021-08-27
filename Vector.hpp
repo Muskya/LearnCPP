@@ -12,7 +12,7 @@
   Community\VC\Tools\MSVC\14.28.29910\include\vector)
 */
 
-// Details learnt while writing this implementation :
+//  Concepts learnt while writing this :
 /*	Contiguous:		touching a common border; touching; next to each-other;
 *	<typeinfo>:		Type_info returned by typeid is just an rvalue about a type,
 *					while type returned by decltype can be used in the same way as other
@@ -61,9 +61,6 @@ public:
     pointer m_data;                 //  Underlying C-Array
     alty m_alloc;                   //  The vector's allocator
 
-    /* static_assert(std::is_same_v<_Ty, decltype(Allocator)::value_type>,
-        "Types are not equivalent");*/
-
     /*---------------------------------*/
     /*----Constructors, Destructors----*/
     /*---------------------------------*/
@@ -80,9 +77,17 @@ public:
         std::fill_n(m_data, count, value); 
     }
 
-    // assign()
-
-    // returns the container's allocator
+    //  replaces the content with count copies of value
+    //  ( 2 more overloads )
+    void assign(sz count, const _Ty& value) {
+        clear();
+        if (count > m_capacity) { // m_capacity = 10
+            m_capacity += count;
+            reserve(m_capacity);
+        }
+        std::fill_n(m_data, count, value);
+    }
+    //  returns the container's allocator
     constexpr alty get_allocator() const {
         return m_alloc;
     }
@@ -90,10 +95,18 @@ public:
     /*----------------------*/
     /*----ELEMENT ACCESS----*/
     /*----------------------*/
+
+    //  returns underlying c-array
+    _Ty* data() noexcept {
+        return m_data;
+    }
+
     // at()
 
-    // []op
+    //  []operator overload
     constexpr _Ty& operator[](sz index) const {
+        assert(size() > 0 && "vector's size is zero. resize it first.");
+        assert(index >= 0 && index < size() && "index out of bounds");
         return m_data[index];
     }
 
@@ -107,39 +120,62 @@ public:
     /*----------------*/
     /*----CAPACITY----*/
     /*----------------*/
-    // empty()
-    // returns number of elements 
-    sz size() {
+
+    //  returns true if container's size is 0 (no elements)
+    constexpr bool empty() const {
+        return size() == 0 ? true : false;
+    }
+    //  returns current number of elements 
+    constexpr sz size() const {
         return m_size;
     }
-    // max_size()
-    void reserve(sz new_cap) {
-        if (new_cap <= m_capacity) {
-            // nothing (?)
-        }
-        else {
-            this->m_capacity += new_cap;
-            // do this calculus then allocates. becuz allocate() function 
-            // overwrites previous allocated storage
-            get_allocator().allocate(capacity());
-        }
+    //  returns maximum number of elements allowed
+    //  (container's allocator's max size)
+    constexpr sz max_size() const {
+        return get_allocator().max_size();
     }
-    // returns number of elements that the container has 
-    // currently allocated storage for
-    sz capacity() {
+    //  reserves storage with associated allocator
+    void reserve(sz new_cap) {
+        //  static_assert only works with constexpr and const types. 
+        //  (compile-time resolving)
+        //  should probably use if-else statement instead of abort-call with assert ?
+        assert(new_cap > m_capacity && "Invalid new capacity");
+        m_capacity = new_cap;
+        //  allocate() DOES NOT ADD storage. it OVERWRITES it.
+        get_allocator().allocate(capacity());
+    }
+    //  returns number of elements that the container has 
+    //  currently allocated storage for
+    constexpr sz capacity() const {
         return m_capacity;
+    }
+    //  resizes the container.
+    void resize(const sz& new_size) {
+        assert(new_size > size() && !(new_size < size())
+            && "new_size is invalid.");
+        m_size = new_size;
+        if (size() > capacity()) {
+            reserve(capacity() + size());
+        }
     }
 
     /*-----------------*/
     /*----MODIFIERS----*/
     /*-----------------*/
-    // clear()
+
+    //  erases all elements from the container. 
+    //  capacity remains unchanged.
+    void clear() {
+        //  could use "delete[] m_data" here ?
+        for (sz i = 0; i < size(); i++)
+            get_allocator().destroy(data() + i);
+        m_size = 0;
+    }
     // insert()
     // emplace()
     // emplace_back()
     // push_back()
     // pop_back()
-    // resize()
 };
 
 
