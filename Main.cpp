@@ -66,12 +66,18 @@ int main() {
 	show(vec2);								// Size / Capacity = 5
 	vec2.reserve(10);						// Allocated storage is now 10
 	show(vec2);								// Size = 5, Capacity = 10
-	vec2[4] = 10;
+	vec2[3] = 18;
+	vec2[4] = 20;
+	//std::cout << "vec2.at(0):" << vec2.at(0) << std::endl;	//5
+	//std::cout << "vec2.at(1):" << vec2.at(1) << std::endl;	//5
+	//std::cout << "vec2.at(2):" << vec2.at(2) << std::endl;	//5
+	//std::cout << "vec2.at(3):" << vec2.at(3) << std::endl;	//18
+	//std::cout << "vec2.at(4):" << vec2.at(4) << std::endl;	//5
+	//std::cout << "front:" << vec2.front() << std::endl;		//5
+	//std::cout << "back: " << vec2.back() << "\n" << std::endl;//20
+	vec2.shrink_to_fit();					// Size = 5, Capacity = 5
 	show(vec2);
-	vec2.clear();
+	vec2.assign(30, 40);					// Size = 30, Capacity = 30
 	show(vec2);
-	//vec2.clear();
-	//show(vec2);								// Size = 0, Capacity = 10
-	//vec2[1] = 10;
-	//show(vec2);
+	vec2[29] = 100;
 }

@@ -65,26 +65,27 @@ public:
     /*----Constructors, Destructors----*/
     /*---------------------------------*/
 
-    // constructs empty container
+    //  constructs empty container
     Vector() : m_size(0), m_capacity(0) {
-        m_data = m_alloc.allocate(m_capacity);
+        m_data = m_alloc.allocate(capacity());
     }
-    // constructs container with -count- elements of -value- value
+    //  constructs container with -count- elements of -value- value
     Vector(sz count, const _Ty& value) {
         m_size = count;
         m_capacity = m_size;
-        m_data = m_alloc.allocate(m_capacity);      //  allocate() = "custom new"
+        m_data = m_alloc.allocate(capacity()); // reserve
         std::fill_n(m_data, count, value); 
     }
 
     //  replaces the content with count copies of value
     //  ( 2 more overloads )
     void assign(sz count, const _Ty& value) {
-        clear();
-        if (count > m_capacity) { // m_capacity = 10
-            m_capacity += count;
-            reserve(m_capacity);
+        //clear();
+        if (count > capacity()) {
+            reserve(count);    
         }
+        
+        m_size = count;
         std::fill_n(m_data, count, value);
     }
     //  returns the container's allocator
@@ -100,22 +101,51 @@ public:
     _Ty* data() noexcept {
         return m_data;
     }
-
-    // at()
-
+    //  returns element at specified position with bounds-checking
+    _Ty& at(sz pos) {
+        return m_data[pos];
+    }
     //  []operator overload
     constexpr _Ty& operator[](sz index) const {
         assert(size() > 0 && "vector's size is zero. resize it first.");
         assert(index >= 0 && index < size() && "index out of bounds");
         return m_data[index];
     }
-
-    // front()
-    // back()
+    //  returns first element
+    _Ty& front() {
+        assert(size() > 0 && "container is empty");
+        return m_data[0];
+    }
+    //  returns last element
+    _Ty& back() {
+        assert(size() > 0 && "container is empty");
+        return m_data[size() - 1];
+    }
 
     /*-----------------*/
     /*----ITERATORS----*/
     /*-----------------*/
+
+    //  returns iterator pointing to first element
+    constexpr iterator begin() const {
+        return &(m_data[0]);
+    }
+    //  returns iterator pointing to past-the-last element
+    constexpr iterator end() const {
+        return &(m_data[size()]);
+    }
+    // reverse_iterator pointing at the first element adress of the 
+    // reversed sequence (last elemet of normal sequence)
+    constexpr reverse_iterator rbegin() const {
+        return reverse_iterator(end);
+    }
+    // reverse_iterator pointing at the past-the-last element adress of 
+    // the reversed sequence  (first element of normal sequence)
+    constexpr reverse_iterator rend() const {
+        return reverse_iterator(begin());
+    }
+
+    // const versions ...
 
     /*----------------*/
     /*----CAPACITY----*/
@@ -134,7 +164,9 @@ public:
     constexpr sz max_size() const {
         return get_allocator().max_size();
     }
-    //  reserves storage with associated allocator
+    //  reserves storage (capacity) with associated allocator
+    //  size is not affected here. make sure to modify it before/after
+    //  function call.
     void reserve(sz new_cap) {
         //  static_assert only works with constexpr and const types. 
         //  (compile-time resolving)
@@ -142,7 +174,7 @@ public:
         assert(new_cap > m_capacity && "Invalid new capacity");
         m_capacity = new_cap;
         //  allocate() DOES NOT ADD storage. it OVERWRITES it.
-        get_allocator().allocate(capacity());
+        m_data = get_allocator().allocate(capacity());
     }
     //  returns number of elements that the container has 
     //  currently allocated storage for
@@ -158,6 +190,14 @@ public:
             reserve(capacity() + size());
         }
     }
+    //  removes unused allocated memory/storage (capacity)
+    void shrink_to_fit() {
+        assert(capacity() > size() && "some allocated memory (capacity) has to be unused");
+        for (sz i = size(); i < capacity(); i++) {
+            get_allocator().destroy(data() + i);
+        }
+        m_capacity = size();
+    }
 
     /*-----------------*/
     /*----MODIFIERS----*/
@@ -171,7 +211,10 @@ public:
             get_allocator().destroy(data() + i);
         m_size = 0;
     }
-    // insert()
+    //  inserts value before pos, returns iterator pointed to inserted value
+    iterator insert(iterator pos, _Ty const& value) {
+        
+    }
     // emplace()
     // emplace_back()
     // push_back()

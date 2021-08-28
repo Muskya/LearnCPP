@@ -1,23 +1,20 @@
-Other Backlog :
-- Unicode, UTF Encoding, String/Char Literals Types
-
 Concepts and Features :
-- In-depth Enums
-- ctor/dtor lvalue/rvalue (feels like they are connected)
+- lvalue/rvalue/xvalue
+- move concept (move constructor for ex?)
 - for each usage (seems different and deeper in c++?)
 
 Short-term objectives :
-- (Working on it) Practice with STL Containers and Iterators for good so 
-I can try to make my own implementations of them.
-- Experiment stuff read on the internet in LearnCPP
-- Make a use of this stuff in ThisWeirdConsoleGame 
+- Practice with STL Containers and Iterators for good so I can try to make
+my own implementations
+- Experiment stuff read/learnt
+- Make a use of this stuff in ThisWeirdConsoleGame / test projects to practice
 
 Medium-term objectives :
 - Make ThisWeirdConsoleGame playable and achievable.
 
 Long-term objectives :
 - Refactor ThisWeirdConsoleGame with as many features from C++ as possible
-and optimizations (and maybe console-specific lib/header helpers ?)
+and optimizations
 - Get better at maths / physics (might take online courses)
 
 Long-long-term objectives : 
