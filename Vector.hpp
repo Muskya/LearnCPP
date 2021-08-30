@@ -1,6 +1,8 @@
 // std::vector Implementation by Théo R.
 // 24th August 2021 
 // Vector.hpp
+// Won't be implementing all const / other overloads except for
+// "crucial" ones
 
 /* REFERENCES:
 * https://devdocs.io/cpp/container/vector
@@ -27,20 +29,26 @@
 *   ptrdiff_t:      it is the type returned by the substraction of two pointers. it's 
 *                   generally used for loop counters, array indexing, size storage, 
 *                   and of course adressing/pointer arithmetic. (long long __int64)
+*                   used instead of common integer types to keep various implementations
+*                   safe.
 *   explicit:       C++ keyword that specifies that a constructor with a single parameter
 *                   (called a converting constructor), cannot be used for implicit conversion
 *                   and copy-initialization. 
 *                   https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean
+*   variadic temp:  A variadic template is a template with at least one parameter pack.
+*   parameter pack: A parameter pack takes the form "typename|class... Args". It's a parameter
+*                   that accepts zero or more template arguments (non-types, types, templates)
+*                   The parameter pack name doesn't have to be "Args" exclusively.
 *   
 */
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include <cassert>          // assert()
-#include <algorithm>        // lexicographical_compare() 
+#include <algorithm>
 #include <iostream> 
 #include <memory>			// Allocators
+#include <cassert>          // assert()
 
 template <class _Ty, class Allocator = std::allocator<_Ty>>
 class Vector {
@@ -50,16 +58,16 @@ public:
     using reference                 = _Ty&;
     using alty                      = std::allocator<_Ty>;
     using sz                        = std::size_t;
-    using difference_type           = std::ptrdiff_t;   // Pointer arithmetic
+    using difference_type           = std::ptrdiff_t;   // Pointer arithmetic (long long)
     using iterator                  = pointer;
     using const_iterator            = const iterator;
     using reverse_iterator          = std::reverse_iterator<iterator>;
 
     // FIELDS
-    sz m_size;                      //  Current size of the vector (nb of elements)
-    sz m_capacity;                  //  Maximum capacity of the vector (bytes)
+    sz m_size;                      //  Nb of elements (can't be more than capacity)
+    sz m_capacity;                  //  Current allocated storage
     pointer m_data;                 //  Underlying C-Array
-    alty m_alloc;                   //  The vector's allocator
+    alty m_alloc;                   //  Associated allocator
 
     /*---------------------------------*/
     /*----Constructors, Destructors----*/
@@ -213,12 +221,57 @@ public:
     }
     //  inserts value before pos, returns iterator pointed to inserted value
     iterator insert(iterator pos, _Ty const& value) {
-        
+        if (size() == capacity()) {
+            m_capacity++;
+            get_allocator().allocate(m_capacity + 1);
+        }
+        difference_type index = pos - begin();
+        iterator it = &m_data[index];
+
+        std::move(it, end(), it + 1);
+        *it = value; // *it = std::move(value) ?
+
+        ++m_size;
+        return it;
     }
-    // emplace()
-    // emplace_back()
-    // push_back()
-    // pop_back()
+    //  adds element at the end of container
+    void push_back(const _Ty& value) {
+        if (size() == capacity()) {
+            m_capacity++;
+            get_allocator().allocate(m_capacity + 1);
+        }
+
+        get_allocator().construct(end()-1, value);
+        ++m_size;
+    }
+    //  removes last element
+    void pop_back() {
+        get_allocator().destroy(end()-1);
+        --m_size;
+    }
+    //  constructs element in-place (std::allocator_traits::construct) at pos
+    template <class... Args>
+    iterator emplace(const_iterator pos, Args&&... args) {
+        if (size() == capacity()) {
+            m_capacity++;
+            get_allocator().allocate(m_capacity + 1);
+        }
+        difference_type index = pos - begin();
+        iterator it = &m_data[index];
+
+        std::move(it, end(), it + 1);
+        get_allocator().construct(it, args...); // *it = std::move(value) ?
+
+        ++m_size;
+        return it;
+    }
+    //  constructs element in-place (std::allocator_traits::construct) at the end
+    template< class... Args >
+    void emplace_back(Args&&... args) {
+        emplace(end(), std::forward<Args>(args)...);
+    }
+    // swap()
+    // erase()
 };
 
 

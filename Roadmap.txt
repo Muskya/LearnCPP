@@ -1,7 +1,8 @@
 Concepts and Features :
 - lvalue/rvalue/xvalue
-- move concept (move constructor for ex?)
-- for each usage (seems different and deeper in c++?)
+- move concepts (move constructor for ex? T&& related?)
+- "for_each" usage (seems different in c++?)
+- Parameter pack practice
 
 Short-term objectives :
 - Practice with STL Containers and Iterators for good so I can try to make
