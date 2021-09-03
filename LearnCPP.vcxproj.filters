@@ -44,6 +44,9 @@
     <ClInclude Include="Vector.hpp">
       <Filter>Header Files\Templates</Filter>
     </ClInclude>
+    <ClInclude Include="List.hpp">
+      <Filter>Header Files\Templates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DSA_Exercices.txt">

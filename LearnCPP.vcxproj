@@ -148,6 +148,7 @@
     <ClInclude Include="AlgoPartition.h" />
     <ClInclude Include="GlobalFunctions.h" />
     <ClInclude Include="Array.hpp" />
+    <ClInclude Include="List.hpp" />
     <ClInclude Include="Timespan.h" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>

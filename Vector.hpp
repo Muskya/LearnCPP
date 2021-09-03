@@ -39,6 +39,9 @@
 *   parameter pack: A parameter pack takes the form "typename|class... Args". It's a parameter
 *                   that accepts zero or more template arguments (non-types, types, templates)
 *                   The parameter pack name doesn't have to be "Args" exclusively.
+*   LValueRValue:   To make it simple, LValue have adresses, RValue don't. 6, 'v', true are r-values.
+*                   int a is a l-value. "T&&" in function/template paremeters mean it only acceps
+*                   r-values references, that are about to be destroyed.
 *   
 */
 
@@ -223,7 +226,7 @@ public:
     iterator insert(iterator pos, _Ty const& value) {
         if (size() == capacity()) {
             m_capacity++;
-            get_allocator().allocate(m_capacity + 1);
+            m_data = get_allocator().allocate(m_capacity + 1);
         }
         difference_type index = pos - begin();
         iterator it = &m_data[index];
@@ -238,7 +241,7 @@ public:
     void push_back(const _Ty& value) {
         if (size() == capacity()) {
             m_capacity++;
-            get_allocator().allocate(m_capacity + 1);
+            m_data = get_allocator().allocate(m_capacity + 1);
         }
 
         get_allocator().construct(end()-1, value);
@@ -254,7 +257,7 @@ public:
     iterator emplace(const_iterator pos, Args&&... args) {
         if (size() == capacity()) {
             m_capacity++;
-            get_allocator().allocate(m_capacity + 1);
+            m_data = get_allocator().allocate(m_capacity + 1);
         }
         difference_type index = pos - begin();
         iterator it = &m_data[index];

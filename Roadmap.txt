@@ -1,12 +1,9 @@
 Concepts and Features :
-- lvalue/rvalue/xvalue
-- move concepts (move constructor for ex? T&& related?)
+- move semantics (move constructor for ex?)
 - "for_each" usage (seems different in c++?)
 - Parameter pack practice
 
 Short-term objectives :
-- Practice with STL Containers and Iterators for good so I can try to make
-my own implementations
 - Experiment stuff read/learnt
 - Make a use of this stuff in ThisWeirdConsoleGame / test projects to practice
 
@@ -14,7 +11,7 @@ Medium-term objectives :
 - Make ThisWeirdConsoleGame playable and achievable.
 
 Long-term objectives :
-- Refactor ThisWeirdConsoleGame with as many features from C++ as possible
+- Refactor ThisWeirdConsoleGame with as many features from C++ as possible 
 and optimizations
 - Get better at maths / physics (might take online courses)
 
@@ -29,5 +26,7 @@ Constant-term objectives :
 - Exercise DSA / new features frequently, read others' code, contribute to projects
 - Don't precipitate when reading content
 - Just write more code. Don't always strive to know every little detail 
-and master everything perfectly, it is a form of procrastination. 
+and master everything perfectly, it is a form of procrastination.
+- Take breaks. Sometimes you really don't want to code. That's normal, but it
+can be a mindset issue or an external factor that you have to fix.
 - Don't explain the "what" in comments. Explain the "why".
