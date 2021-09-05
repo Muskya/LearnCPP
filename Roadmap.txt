@@ -1,7 +1,5 @@
 Concepts and Features :
 - move semantics (move constructor for ex?)
-- "for_each" usage (seems different in c++?)
-- Parameter pack practice
 
 Short-term objectives :
 - Experiment stuff read/learnt
@@ -24,7 +22,7 @@ Long-long-term objectives :
 Constant-term objectives :
 - Have fun while programming.
 - Exercise DSA / new features frequently, read others' code, contribute to projects
-- Don't precipitate when reading content
+- Don't precipitate when reading content, even if there is boiler plate.
 - Just write more code. Don't always strive to know every little detail 
 and master everything perfectly, it is a form of procrastination.
 - Take breaks. Sometimes you really don't want to code. That's normal, but it
