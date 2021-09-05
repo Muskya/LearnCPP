@@ -1,9 +1,11 @@
 Concepts and Features :
-- move semantics (move constructor for ex?)
+- 
 
 Short-term objectives :
-- Experiment stuff read/learnt
-- Make a use of this stuff in ThisWeirdConsoleGame / test projects to practice
+- Implement more containers from STL (list, tree, stack...)
+- Complete chapter M (Move Semantics and Smart Pointers) from Learncpp.com 
+- Read code everyday / answer questions if you don't code
+- Experiment stuff that you have interest for in the first place
 
 Medium-term objectives :
 - Make ThisWeirdConsoleGame playable and achievable.
@@ -18,13 +20,14 @@ Long-long-term objectives :
 - Complete projects using Vulkan/D3D/OpenGL
 - Complete projects using media frameworks/libraries (Qt/SFML/SDL,Ogre3D...)
 - Take a shot with game engines (Unreal, Unity, Godot...)
+- Be at ease with web development
+- Be at ease with networking
 
 Constant-term objectives :
-- Have fun while programming.
-- Exercise DSA / new features frequently, read others' code, contribute to projects
+- Exercise DSA / new features frequently, read code, contribute to projects, answer
+questions
 - Don't precipitate when reading content, even if there is boiler plate.
 - Just write more code. Don't always strive to know every little detail 
 and master everything perfectly, it is a form of procrastination.
-- Take breaks. Sometimes you really don't want to code. That's normal, but it
-can be a mindset issue or an external factor that you have to fix.
-- Don't explain the "what" in comments. Explain the "why".
+- Take breaks, you can't always want to code. But it could be a mindset issue or
+an external factor that you should fix.
