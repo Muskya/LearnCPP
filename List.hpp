@@ -6,7 +6,6 @@
 
 /* REFERENCES:
 * 
-* 
 * MSVC's list source file (C:\Program Files (x86)\Microsoft Visual Studio\2019\
   Community\VC\Tools\MSVC\14.28.29910\include\list)
 */

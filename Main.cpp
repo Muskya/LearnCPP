@@ -13,43 +13,77 @@
 #include "Vector.hpp"
 #include "List.hpp"
 
-// int node test (single-linked list)
-struct Node {
-	int data;
-	Node* next;
+
+/* !----MOVE SEMANTICS PRACTICE----! */
+
+
+// class that will hold a pointer. makes it a "smart pointer"
+// because when the local objects of type Box will go out of scope, 
+// constructor will be called and the pointer it contains will be deleted.
+// we don't have to manually delete it and avoids forgetting to do it and other issues.
+template <class T>
+class Box {
+private:
+    T* objInBox;
+public:
+    Box(T* obj = nullptr) : objInBox(obj) {}
+    ~Box() { delete objInBox; }
+
+    //  Copy constructor that implements move semantics
+    Box(Box& b) {               // must not be const
+        objInBox = b.objInBox;  // transfer other object into this box
+        b.objInBox = nullptr;   // make sure other object is not owned anymore
+    }
+
+    //  Assignment operator overload that implements move semantics
+    Box& operator=(Box& b) {
+        // Returns this object if passed Box ref is this
+        if (&b == this)
+            return *this;
+
+        delete objInBox;
+        objInBox = b.objInBox;
+        b.objInBox = nullptr;
+
+        return *this;
+    }
+
+    T& operator*() const { return *objInBox; }
+    T* operator->() const { return objInBox; }
+
+    // Simple function to check pointer's ownership 
+    // during operations with move semantics
+    void isNull() const { 
+        if (objInBox == nullptr)
+            std::cout << "The object in this box is null" << std::endl;
+        else
+            std::cout << "The object in this box is not null" << std::endl;
+    }
 };
 
-// n = starting node
-void printList(Node* n)
-{
-    while (n != NULL) {
-        std::cout << n->data << " ";
-        n = n->next;
+class Object {
+public:
+    Object() {
+        std::cout << "Object put in box." << std::endl;
     }
-}
+    ~Object() {
+        std::cout << "Object in box deleted. (out of scope)" << std::endl;
+    }
+};
 
-// Driver code
 int main()
 {
-    Node* head = NULL;
-    Node* second = NULL;
-    Node* third = NULL;
+    Box<Object> box1(new Object()); // We create one box that holds an Object (a pointer..)
+    Box<Object> box2;               /* held pointer (of type Object) will be nullptr by default
+                                       as specified in the Box constructor */
+    box1.isNull(); // Outputs null 
+    box2.isNull(); // Outputs"not null"
 
-    // allocate 3 nodes in the heap
-    head = new Node();
-    second = new Node();
-    third = new Node();
+    box2 = box1;   /* Our copy/assigment implement move semantics, so it won't just make a 
+                      copy box1 into box2. Box2 will assume ownership of the object from Box1
+                      and thus the object in box1 will be deleted (pointer set to nullptr) */
 
-    head->data = 1; // assign data in first node
-    head->next = second; // Link first node with second
-
-    second->data = 2; // assign data to second node
-    second->next = third;
-
-    third->data = 3; // assign data to third node
-    third->next = NULL;
-
-    printList(head);
-
-    return 0;
-}
+    std::cout << "\n";
+    box1.isNull(); // Outputs null 
+    box2.isNull(); // Outputs"not null"
+}             
