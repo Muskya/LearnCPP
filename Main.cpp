@@ -16,6 +16,9 @@
 
 /* !----MOVE SEMANTICS PRACTICE----! */
 
+/* --LEARNT-- */
+// perfect forwarding: 
+
 
 // class that will hold a pointer. makes it a "smart pointer"
 // because when the local objects of type Box will go out of scope, 
@@ -73,17 +76,21 @@ public:
 
 int main()
 {
-    Box<Object> box1(new Object()); // We create one box that holds an Object (a pointer..)
-    Box<Object> box2;               /* held pointer (of type Object) will be nullptr by default
-                                       as specified in the Box constructor */
-    box1.isNull(); // Outputs null 
-    box2.isNull(); // Outputs"not null"
+    //Box<Object> box1(new Object()); // We create one box that holds an Object (a pointer..)
+    //Box<Object> box2;               /* held pointer (of type Object) will be nullptr by default
+    //                                   as specified in the Box constructor */
+    //box1.isNull(); // Outputs null 
+    //box2.isNull(); // Outputs"not null"
 
-    box2 = box1;   /* Our copy/assigment implement move semantics, so it won't just make a 
-                      copy box1 into box2. Box2 will assume ownership of the object from Box1
-                      and thus the object in box1 will be deleted (pointer set to nullptr) */
+    //box2 = box1;   /* Our copy/assigment implement move semantics, so it won't just make a 
+    //                  copy box1 into box2. Box2 will assume ownership of the object from Box1
+    //                  and thus the object in box1 will be deleted (pointer set to nullptr) */
 
-    std::cout << "\n";
-    box1.isNull(); // Outputs null 
-    box2.isNull(); // Outputs"not null"
+    //std::cout << "\n";
+    //box1.isNull(); // Outputs null 
+    //box2.isNull(); // Outputs"not null"
+
+    /* ---- LIST.HPP TESTS ---- */
+    std::list<int> l1{ 1,2 };
+    std::cout << l1.size() << std::endl;
 }             

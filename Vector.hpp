@@ -78,7 +78,7 @@ public:
 
     //  constructs empty container
     Vector() : m_size(0), m_capacity(0) {
-        m_data = m_alloc.allocate(capacity());
+        m_data = m_alloc.allocate(capacity()); // useless ?
     }
     //  constructs container with -count- elements of -value- value
     Vector(sz count, const _Ty& value) {
@@ -91,7 +91,7 @@ public:
     //  replaces the content with count copies of value
     //  ( 2 more overloads )
     void assign(sz count, const _Ty& value) {
-        //clear();
+        clear();
         if (count > capacity()) {
             reserve(count);    
         }
@@ -205,7 +205,7 @@ public:
     void shrink_to_fit() {
         assert(capacity() > size() && "some allocated memory (capacity) has to be unused");
         for (sz i = size(); i < capacity(); i++) {
-            get_allocator().destroy(data() + i);
+            get_allocator().destroy(m_data() + i);
         }
         m_capacity = size();
     }
@@ -219,7 +219,7 @@ public:
     void clear() {
         //  could use "delete[] m_data" here ?
         for (sz i = 0; i < size(); i++)
-            get_allocator().destroy(data() + i);
+            get_allocator().destroy(m_data() + i);
         m_size = 0;
     }
     //  inserts value before pos, returns iterator pointed to inserted value

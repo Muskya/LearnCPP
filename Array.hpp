@@ -239,9 +239,9 @@ template <class _Ty, _STD size_t _Size>
 std::ostream& operator<<(std::ostream& out, const Array<_Ty, _Size>& arr) {
     for (int i = 0; i < _Size; i++) {
         if (i == _Size - 1)
-            out << arr.data()[i];
+            out << arr.m_data()[i];
         else
-            out << arr.data()[i] << ", ";
+            out << arr.m_data()[i] << ", ";
     }
     return out;
 }
