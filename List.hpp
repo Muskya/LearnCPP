@@ -27,15 +27,16 @@
 #include <cassert>
 #include <algorithm>
 #include <iostream>
+#include <limits> // for numeric_limits 
 
 //	NODE CLASS
 template <class Type>
 class Node {
-private:
+public:
 	Type m_data;
 	Node<Type>* m_previous;
 	Node<Type>* m_next;
-public:
+
 	Node() : m_previous(nullptr), m_next(nullptr) {}
 	Node(const Type data) : m_data(data), m_previous(nullptr),
 		m_next(nullptr) {}
@@ -70,8 +71,12 @@ class List {
 private:
 	//	We need at least the first and last nodes to operate
 	//	on the container.
-	Node<Type>* m_first;
-	Node<Type>* m_last;
+	Node<Type>* m_first = nullptr;
+	Node<Type>* m_last = nullptr;
+
+	std::size_t _size;
+	std::size_t _maxsize;
+	std::allocator<Type> _alloc;
 
 public:
 	using reference				= Type&;
@@ -80,22 +85,16 @@ public:
 	using const_pointer			= const Type*;
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
+	using difference_type		= std::ptrdiff_t;
 	using it					= pointer;							// ?
 	using const_it				= const pointer;					// ?
 	using rev_it				= std::reverse_iterator<it>;		// ?
 	using const_rev_it			= std::reverse_iterator<const_it>;	// ?
 
-	sz _size;
-	sz _maxsize;
-	alty _alloc;
-
 	/* ---CTOR, DTOR, MCTOR, ALLOCATOR...--- */
 	//	CTOR - Default, empty container
 	explicit List() : _size(0), _maxsize(0) {
-		m_first->m_previous = nullptr;
-		m_last->m_next = nullptr;
-		m_first->m_next = m_last;
-		m_last->m_previous = m_first;
+		
 	}
 
 	//	CTOR - Creates a list with count elements of value
@@ -112,7 +111,10 @@ public:
 
 	/* ---CAPACITY--- */
 	//size()
-	//maxsize()
+	constexpr sz max_size() const noexcept {
+		// not sure about this one
+		return std::numeric_limits<difference_type>::max();
+	}
 	//empty()
 	
 };

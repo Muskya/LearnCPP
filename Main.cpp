@@ -92,5 +92,9 @@ int main()
 
     /* ---- LIST.HPP TESTS ---- */
     std::list<int> l1{ 1,2 };
-    std::cout << l1.size() << std::endl;
+    std::cout << l1.max_size() << std::endl;
+    std::cout << l1.get_allocator().max_size() << std::endl;
+
+    List<int> lm;
+    //std::cout << lm.max_size() << std::endl;
 }             
