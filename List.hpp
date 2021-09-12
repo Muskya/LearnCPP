@@ -7,6 +7,7 @@
 * https://devdocs.io/cpp/container/list
 * https://medium.com/@vgasparyan1995/how-to-write-an-stl-compatible-container-fc5b994462c6
 * https://github.com/abulyaev/std-list-implementation
+* https://arne-mertz.de/2018/03/forward-declaring-templates-and-enums/
 * MSVC's list source file (C:\Program Files (x86)\Microsoft Visual Studio\2019\
   Community\VC\Tools\MSVC\14.28.29910\include\list)
 */
@@ -28,6 +29,10 @@
 #include <algorithm>
 #include <iostream>
 #include <limits> // for numeric_limits 
+
+// LIST_ITERATOR FORWARD DECLARATION
+template <class Type>
+class List_Iterator;
 
 //	NODE CLASS
 template <class Type>
@@ -58,27 +63,10 @@ public:
 	}
 };
 
-// LIST_ITERATOR CLASS
-template <class Type>
-class List_Iterator {
-private:
-public:
-};
-
 // LIST CLASS
 template <class Type, class Allocator = std::allocator<Type>>
 class List {
-private:
-	//	We need at least the first and last nodes to operate
-	//	on the container.
-	Node<Type>* m_first = nullptr;
-	Node<Type>* m_last = nullptr;
-
-	std::size_t _size;
-	std::size_t _maxsize;
-	std::allocator<Type> _alloc;
-
-public:
+public: // Everything in public for aggregate-type ? 
 	using reference				= Type&;
 	using const_reference		= const Type&;
 	using pointer				= Type*;
@@ -86,15 +74,30 @@ public:
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
-	using it					= pointer;							// ?
-	using const_it				= const pointer;					// ?
-	using rev_it				= std::reverse_iterator<it>;		// ?
-	using const_rev_it			= std::reverse_iterator<const_it>;	// ?
+	using it					= List_Iterator<Type>;		
+	using const_it				= const List_Iterator<Type>;	
+	using rev_it				= std::reverse_iterator<it>;	
+	using const_rev_it			= std::reverse_iterator<const_it>;	
+
+	//	We need at least the first and last nodes to operate
+	//	on the container.
+	Node<Type>* m_first;
+	Node<Type>* m_last;
+
+	std::size_t _size;
+	std::size_t _maxsize;
+	std::allocator<Type> _alloc;
 
 	/* ---CTOR, DTOR, MCTOR, ALLOCATOR...--- */
+	~List() {
+		delete m_first; // Done in Node class ? ? ?
+		delete m_last;
+	}
+
 	//	CTOR - Default, empty container
 	explicit List() : _size(0), _maxsize(0) {
-		
+		m_first = new Node<Type>;
+		m_last = new Node<Type>;
 	}
 
 	//	CTOR - Creates a list with count elements of value
@@ -106,8 +109,8 @@ public:
 	}
 
 	/* ---ITERATORS--- */
-	constexpr it begin() const {}
-	constexpr it end() const {}
+	constexpr List_Iterator<Type> begin() const {}
+	constexpr List_Iterator<Type> end() const {}
 
 	/* ---CAPACITY--- */
 	//size()
@@ -116,7 +119,23 @@ public:
 		return std::numeric_limits<difference_type>::max();
 	}
 	//empty()
-	
+
+	/* ---ELEMENT ACCESS--- */
+	void push_back(Type value) noexcept {
+		
+	}
+
+	Type front() {
+		return m_first->getData();
+	}
+	Type back() {
+		return m_last->getData();
+	}
+};
+
+template <class Type>
+class List_Iterator : public List<Type> {
+
 };
 
 #endif //LIST_HPP
