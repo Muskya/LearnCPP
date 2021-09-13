@@ -3,6 +3,7 @@ Concepts and Features :
 - Lambdas
 - "Bitwise" operations and stuff
 - Variadic Templates (class/function)
+- Perfect Forwarding
 
 Short-term objectives :
 - Implement more containers from STL (list, tree, stack...)

@@ -38,26 +38,26 @@ class List_Iterator;
 template <class Type>
 class Node {
 public:
-	Type m_data;
-	Node<Type>* m_previous;
-	Node<Type>* m_next;
+	Type data;
+	Node<Type>* next;
+	Node<Type>* previous;
 
-	Node() : m_previous(nullptr), m_next(nullptr) {}
-	Node(const Type data) : m_data(data), m_previous(nullptr),
-		m_next(nullptr) {}
+	Node() : previous(nullptr), next(nullptr) {}
+	Node(const Type data) : data(data), previous(nullptr),
+		next(nullptr) {}
 
 	constexpr Type getData() const {
-		return m_data;
+		return data;
 	}
 	constexpr Node<Type>* getPrevious() const {
-		if (m_previous != nullptr)
-			return m_previous;
+		if (previous != nullptr)
+			return previous;
 		else
 			return nullptr;
 	}
 	constexpr Node<Type>* getNext() const {
-		if (m_next != nullptr)
-			return m_next;
+		if (next != nullptr)
+			return next;
 		else
 			return nullptr;
 	}
@@ -81,24 +81,21 @@ public: // Everything in public for aggregate-type ?
 
 	//	We need at least the first and last nodes to operate
 	//	on the container.
-	Node<Type>* m_first;
-	Node<Type>* m_last;
+	Node<Type>* head = nullptr;
+	Node<Type>* tail = nullptr;
 
 	std::size_t _size;
-	std::size_t _maxsize;
+	std::size_t _maxsize = std::numeric_limits<difference_type>::max();
 	std::allocator<Type> _alloc;
 
 	/* ---CTOR, DTOR, MCTOR, ALLOCATOR...--- */
 	~List() {
-		delete m_first; // Done in Node class ? ? ?
-		delete m_last;
+		delete head;
+		delete tail;
 	}
 
 	//	CTOR - Default, empty container
-	explicit List() : _size(0), _maxsize(0) {
-		m_first = new Node<Type>;
-		m_last = new Node<Type>;
-	}
+	List() : _size(0), _maxsize(0) {}
 
 	//	CTOR - Creates a list with count elements of value
 	List(sz count, const Type& value) {}
@@ -113,29 +110,50 @@ public: // Everything in public for aggregate-type ?
 	constexpr List_Iterator<Type> end() const {}
 
 	/* ---CAPACITY--- */
-	//size()
+	constexpr sz size() const noexcept {
+		return _size;
+	}
 	constexpr sz max_size() const noexcept {
 		// not sure about this one
-		return std::numeric_limits<difference_type>::max();
+		return _maxsize;
 	}
 	//empty()
 
 	/* ---ELEMENT ACCESS--- */
-	void push_back(Type value) noexcept {
+	void push_front(Type value) noexcept {
+		Node<Type>* node = new Node<Type>(value); 
 		
+		if (head == nullptr) {
+			head = node;
+			tail = new Node<Type>;
+			head->next = tail;
+			// head->previous remains == nullptr;
+			++_size;
+		}
+		else {
+			node->next = head;
+			head = node;
+			// node(new head)->previous remains == nullptr;
+			++_size;
+		}
+	}
+
+	void push_back(Type value) noexcept {
+
 	}
 
 	Type front() {
-		return m_first->getData();
+		return head->getData();
 	}
 	Type back() {
-		return m_last->getData();
+		return tail->getData();
+	}
+
+	/* ---MISCELLANEOUS--- */
+	void displayList() {
+		
 	}
 };
 
-template <class Type>
-class List_Iterator : public List<Type> {
-
-};
 
 #endif //LIST_HPP
