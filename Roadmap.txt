@@ -14,6 +14,7 @@ Short-term objectives :
 
 Medium-term objectives :
 - Make ThisWeirdConsoleGame playable and achievable.
+- Make previous projects buildable with g++/cmake and stuff
 
 Long-term objectives :
 - Refactor ThisWeirdConsoleGame with as many features from C++ as possible 
