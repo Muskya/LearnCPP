@@ -1,5 +1,5 @@
 // std::list Implementation by Théo R.
-// 3rd September 2021 
+// 3rd September 2021 (procrasti-man)
 // List.hpp
 // Implemented as a Doubly-Linked List
 
@@ -8,8 +8,7 @@
 * https://medium.com/@vgasparyan1995/how-to-write-an-stl-compatible-container-fc5b994462c6
 * https://github.com/abulyaev/std-list-implementation
 * https://arne-mertz.de/2018/03/forward-declaring-templates-and-enums/
-* MSVC's list source file (C:\Program Files (x86)\Microsoft Visual Studio\2019\
-  Community\VC\Tools\MSVC\14.28.29910\include\list)
+* https://www.geeksforgeeks.org/doubly-linked-list/
 */
 
 /* Concepts learnt while writing this :
@@ -19,7 +18,6 @@
 *				best argument is that they are templatized, we can make 
 *				generic aliases.
 *	
-* 
 */
 
 #ifndef LIST_HPP
@@ -122,24 +120,62 @@ public: // Everything in public for aggregate-type ?
 	/* ---ELEMENT ACCESS--- */
 	void push_front(Type value) noexcept {
 		Node<Type>* node = new Node<Type>(value); 
+		//std::cout << "in push_front()" << std::endl;
+		//std::cout << "&node: " << &node << std::endl;
+		//std::cout << "&head: " << &head << std::endl;
+		//std::cout << "&tail: " << &tail << std::endl;
+		//std::cout << "\n";
 		
+		// if push_front is the first insertion operation used,
+		// head == tail;
 		if (head == nullptr) {
 			head = node;
-			tail = new Node<Type>;
+			tail = head;
+			// ALWAYS MENTION PREVIOUS/NEXT = NULLPTR FOR
+			//					  HEAD/TAIL
+			// COSTS NOTHING, ITS SAFER
 			head->next = tail;
-			// head->previous remains == nullptr;
+			head->previous = nullptr;
+			tail->next = nullptr;
+			tail->previous = head;
 			++_size;
 		}
-		else {
+		else { // after list is initialized
 			node->next = head;
 			head = node;
-			// node(new head)->previous remains == nullptr;
+			head->previous = nullptr;
 			++_size;
 		}
 	}
 
 	void push_back(Type value) noexcept {
+		Node<Type>* node = new Node<Type>(value);
+		Node<Type>* last = head; // used to traverse later
 
+		// if push_back is the first insertion operation used,
+		// head == tail;
+		if (head == nullptr) {
+			head = node;
+			tail = head;
+			head->next = tail;
+			head->previous = nullptr;
+			tail->next = nullptr;
+			tail->previous = head;
+			++_size;
+		}
+		else { // after list is initialized
+			// traverse to the end of the list to get the last node
+			// used for operations
+			while (last->next != nullptr) { // last == head on first iteration
+				last->next = last;
+			}
+
+			// make sure the added node's previous node is
+			// the old last one to make the new one the actual old one
+			// OK ? my english is terrible
+			node->previous = last;
+			last = node;
+		}
 	}
 
 	Type front() {
@@ -150,7 +186,19 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---MISCELLANEOUS--- */
-	void displayList() {
+	//debug purposes, not the final implementation
+	//its absolute garbage lol i can feel it
+	void display() {
+		Node<Type>* traverse = head;
+		if (head->next == tail) {
+			std::cout << head->data << std::endl;
+		}
+		else {
+			while (traverse->next != tail) {
+				std::cout << traverse->data << std::endl;
+				traverse = traverse->next;
+			}
+		}
 		
 	}
 };
