@@ -2,6 +2,9 @@
 // 3rd September 2021 (procrasti-man)
 // List.hpp
 // Implemented as a Doubly-Linked List
+// ------------------------------------------------------------
+// In this implementation, when adding the first element to the
+// list, head is independant from tail and vice-versa.
 
 /* REFERENCES:
 * https://devdocs.io/cpp/container/list
@@ -29,8 +32,7 @@
 #include <limits> // for numeric_limits 
 
 // LIST_ITERATOR FORWARD DECLARATION
-template <class Type>
-class List_Iterator;
+// template <class Type> class List_Iterator;
 
 //	NODE CLASS
 template <class Type>
@@ -45,6 +47,7 @@ public:
 		next(nullptr) {}
 
 	constexpr Type getData() const {
+		assert(this != nullptr && "trying to get data from null node");
 		return data;
 	}
 	constexpr Node<Type>* getPrevious() const {
@@ -72,10 +75,10 @@ public: // Everything in public for aggregate-type ?
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
-	using it					= List_Iterator<Type>;		
-	using const_it				= const List_Iterator<Type>;	
-	using rev_it				= std::reverse_iterator<it>;	
-	using const_rev_it			= std::reverse_iterator<const_it>;	
+	//using it					= List_Iterator<Type>;		
+	//using const_it				= const List_Iterator<Type>;	
+	//using rev_it				= std::reverse_iterator<it>;	
+	//using const_rev_it			= std::reverse_iterator<const_it>;	
 
 	//	We need at least the first and last nodes to operate
 	//	on the container.
@@ -83,7 +86,7 @@ public: // Everything in public for aggregate-type ?
 	Node<Type>* tail = nullptr;
 
 	std::size_t _size;
-	std::size_t _maxsize = std::numeric_limits<difference_type>::max();
+	std::size_t _maxsize;
 	std::allocator<Type> _alloc;
 
 	/* ---CTOR, DTOR, MCTOR, ALLOCATOR...--- */
@@ -104,15 +107,15 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---ITERATORS--- */
-	constexpr List_Iterator<Type> begin() const {}
-	constexpr List_Iterator<Type> end() const {}
+	/*constexpr List_Iterator<Type> begin() const {}
+	constexpr List_Iterator<Type> end() const {}*/
 
 	/* ---CAPACITY--- */
 	constexpr sz size() const noexcept {
 		return _size;
 	}
 	constexpr sz max_size() const noexcept {
-		// not sure about this one
+		// _maxsize = ...
 		return _maxsize;
 	}
 	//empty()
@@ -120,11 +123,6 @@ public: // Everything in public for aggregate-type ?
 	/* ---ELEMENT ACCESS--- */
 	void push_front(Type value) noexcept {
 		Node<Type>* node = new Node<Type>(value); 
-		//std::cout << "in push_front()" << std::endl;
-		//std::cout << "&node: " << &node << std::endl;
-		//std::cout << "&head: " << &head << std::endl;
-		//std::cout << "&tail: " << &tail << std::endl;
-		//std::cout << "\n";
 		
 		// if push_front is the first insertion operation used,
 		// head == tail;
@@ -133,48 +131,41 @@ public: // Everything in public for aggregate-type ?
 			tail = head;
 			// ALWAYS MENTION PREVIOUS/NEXT = NULLPTR FOR
 			//					  HEAD/TAIL
-			// COSTS NOTHING, ITS SAFER
+			// COSTS NOTHING AND ITS SAFER
 			head->next = tail;
 			head->previous = nullptr;
 			tail->next = nullptr;
 			tail->previous = head;
+
 			++_size;
 		}
 		else { // after list is initialized
 			node->next = head;
 			head = node;
 			head->previous = nullptr;
+
 			++_size;
 		}
 	}
 
 	void push_back(Type value) noexcept {
 		Node<Type>* node = new Node<Type>(value);
-		Node<Type>* last = head; // used to traverse later
 
-		// if push_back is the first insertion operation used,
-		// head == tail;
 		if (head == nullptr) {
 			head = node;
-			tail = head;
-			head->next = tail;
-			head->previous = nullptr;
-			tail->next = nullptr;
-			tail->previous = head;
+			node->previous = nullptr;
+			node->next = nullptr;
+			tail = node;
+
 			++_size;
 		}
 		else { // after list is initialized
-			// traverse to the end of the list to get the last node
-			// used for operations
-			while (last->next != nullptr) { // last == head on first iteration
-				last->next = last;
-			}
+			node->previous = tail;
+			tail->next = node;
+			node->next = nullptr;
+			tail = node;
 
-			// make sure the added node's previous node is
-			// the old last one to make the new one the actual old one
-			// OK ? my english is terrible
-			node->previous = last;
-			last = node;
+			++_size;
 		}
 	}
 
@@ -186,19 +177,7 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---MISCELLANEOUS--- */
-	//debug purposes, not the final implementation
-	//its absolute garbage lol i can feel it
 	void display() {
-		Node<Type>* traverse = head;
-		if (head->next == tail) {
-			std::cout << head->data << std::endl;
-		}
-		else {
-			while (traverse->next != tail) {
-				std::cout << traverse->data << std::endl;
-				traverse = traverse->next;
-			}
-		}
 		
 	}
 };
