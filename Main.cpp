@@ -15,13 +15,15 @@
 
 int main()
 {
-	List<unsigned __int64> l1(10, 10);
-	l1.print();
+	List<int>* l1 = new List<int>();
+	l1->push_front(10); // head
+	l1->push_back(20); // tail
+	l1->push_back(30);
+	l1->push_back(40);
+	l1->push_back(50);
+	l1->print();
 
-	// check if list's nodes linking is correct
-	std::cout << l1.head << std::endl;
-	std::cout << l1.head->next << std::endl;
-	std::cout << l1.head->next->previous << std::endl; //returns head address
-	std::cout << l1.head->next->next << std::endl;
-	std::cout << l1.head->next->next->next << std::endl;
+	for (List<int>::iterator it = l1->begin(); it != l1->end(); it++) {
+		//std::cout << it.current->getData() << std::endl;
+	}
 }             

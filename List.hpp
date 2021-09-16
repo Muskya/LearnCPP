@@ -2,9 +2,6 @@
 // 3rd September 2021 (procrasti-man)
 // List.hpp
 // Implemented as a Doubly-Linked List
-// ------------------------------------------------------------
-// In this implementation, when adding the first element to the
-// list, head is independant from tail and vice-versa.
 
 /* REFERENCES:
 * https://devdocs.io/cpp/container/list
@@ -20,7 +17,6 @@
 *				detail why here, but always prioritize using over typedef. the 
 *				best argument is that they are templatized, we can make 
 *				generic aliases.
-*	
 */
 
 #ifndef LIST_HPP
@@ -61,7 +57,46 @@ public:
 	}
 };
 
-// MUST IMPLEMENTET A CUSTOM BI-DIRECTIONAL ITERATOR
+// LIST BIDIRECTIONAL CUSTOM ITERATOR
+template <class Type>
+class List_Iterator {
+public:
+	using it = List_Iterator<Type>;
+
+	// The current node pointed by the iterator
+	Node<Type>* current;
+
+	List_Iterator() = default;
+	List_Iterator(Node<Type>* start) {
+		current = start;
+	}
+
+	friend std::ostream& operator<<(std::ostream& out,
+		const List_Iterator<Type>& it) {}
+
+	// i will limit myself to increment and decrement operator
+	// overloads
+	inline List_Iterator& operator++(int) {
+		assert(current != nullptr && "cant operate on nullptr node");
+		current = current->next;
+		return *this;
+	}
+	inline List_Iterator& operator--(int) {
+		assert(current != nullptr && "cant operate on nullptr node");
+		assert(current->previous != nullptr &&
+			"cant decrement iterator if previous node is null");
+		current = current->previous;
+	}
+	inline bool operator!=(Node<Type>* node) {
+		//Dont need an assert here because in for statements, when we use
+		//"it != list->end()", it returns the next node pointed by the tail, which
+		//is a null pointer. keeping the assert would raise an abort() call.
+		//so for this operator we just return with no checks.
+
+		//assert(current != nullptr && "cant operate on nullptr node");
+		return current != node;
+	}
+};
 
 // LIST CLASS
 template <class Type, class Allocator = std::allocator<Type>>
@@ -74,11 +109,14 @@ public: // Everything in public for aggregate-type ?
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
+	using iterator				= List_Iterator<Type>;
+	using const_iterator		= const iterator;
+	//using reverse_iterator		= std::reverse_iterator<iterator>;
 		
 	//	We need at least the first and last nodes to operate
 	//	on the container.
-	Node<Type>* head = nullptr;
-	Node<Type>* tail = nullptr;
+	Node<Type>* head;
+	Node<Type>* tail;
 
 	std::size_t _size;
 	std::size_t _maxsize;
@@ -122,9 +160,6 @@ public: // Everything in public for aggregate-type ?
 					nodeVec[i] = new Node<Type>(value);
 			}
 
-			for (Node<Type>*& a : nodeVec)
-				std::cout << a->getData() << std::endl;
-
 			// now link all the nodes (prev/next)
 			// have C26451 arithmetic overflow warning on indexes:
 			// "Using operator '+' on a 4 byte value and then
@@ -138,9 +173,7 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	// CTOR - Creates a list from a braced{} value list
-	List(std::initializer_list<Type> i_list) {
-
-	}
+	List(std::initializer_list<Type> i_list) {}
 
 	//	Returns associated allocator
 	constexpr alty getAllocator() const {
@@ -148,7 +181,14 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---ITERATORS--- */
-	
+	// just return head and tail. logic is done within
+	// the List_Iterator class template.
+	constexpr Node<Type>* begin() {
+		return head;
+	}
+	constexpr Node<Type>* end() {
+		return tail->next;
+	}
 
 	/* ---CAPACITY--- */
 	constexpr sz size() const noexcept {
