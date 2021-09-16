@@ -97,8 +97,7 @@ public: // Everything in public for aggregate-type ?
 	List(sz count, const Type& value) 
 		: _size(count), _maxsize(0) // _maxsize needs to change
 	{
-		Node<Type>* node;
-		std::vector<Node<Type>*> nodeVec;
+		std::vector<Node<Type>*> nodeVec(count);
 
 		if (count == 1) {
 			this->push_front(value);
@@ -108,9 +107,12 @@ public: // Everything in public for aggregate-type ?
 			this->push_back(value);
 		}
 		else {
+			//Initialize head and tail
+			head = new Node<Type>(value);
+			tail = new Node<Type>(value);
+
 			// fill a vector with count nodes to make
 			// operations easier
-			nodeVec = new std::vector<Node<Type>*>();
 			for (int i = 0; i < count; i++) {
 				if (i == 0) 
 					nodeVec[i] = head;
@@ -120,13 +122,22 @@ public: // Everything in public for aggregate-type ?
 					nodeVec[i] = new Node<Type>(value);
 			}
 
-			// now chain all the nodes (prev/next)
-			for (int i = 0; i < count; i++) {
-				
+			for (Node<Type>*& a : nodeVec)
+				std::cout << a->getData() << std::endl;
+
+			// now link all the nodes (prev/next)
+			// have C26451 arithmetic overflow warning on indexes:
+			// "Using operator '+' on a 4 byte value and then
+			// casting the result to a 8 byte value."
+			// its apparently a bug. im only operating on indexes here.
+			for (int i = 0; i < count - 1; i++) {
+				nodeVec[i]->next = nodeVec[i + 1];
+				nodeVec[i + 1]->previous = nodeVec[i];
 			}
 		}
 	}
 
+	// CTOR - Creates a list from a braced{} value list
 	List(std::initializer_list<Type> i_list) {
 
 	}

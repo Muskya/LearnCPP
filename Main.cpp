@@ -15,6 +15,13 @@
 
 int main()
 {
-	List<float>* li = new List<float>(0, 5.5f);
-	li->print();
+	List<unsigned __int64> l1(10, 10);
+	l1.print();
+
+	// check if list's nodes linking is correct
+	std::cout << l1.head << std::endl;
+	std::cout << l1.head->next << std::endl;
+	std::cout << l1.head->next->previous << std::endl; //returns head address
+	std::cout << l1.head->next->next << std::endl;
+	std::cout << l1.head->next->next->next << std::endl;
 }             
