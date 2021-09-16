@@ -3,12 +3,12 @@ Concepts and Features :
 - Lambdas
 - "Bitwise" operations and stuff
 - Variadic Templates (class/function)
-- Perfect Forwarding
+- "Perfect Forwarding"
+- Filestreams practice
 
 Short-term objectives :
 - Implement more containers from STL (list, tree, stack...)
 - Complete chapter M (Move Semantics and Smart Pointers) from Learncpp.com 
-- Practice Win32 API (XInput because ITS FUUUUUUN)
 - Read code everyday / answer questions if you don't code
 - Experiment stuff that you have interest for in the first place
 

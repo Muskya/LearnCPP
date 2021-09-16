@@ -75,10 +75,7 @@ public: // Everything in public for aggregate-type ?
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
-	//using it					= List_Iterator<Type>;		
-	//using const_it				= const List_Iterator<Type>;	
-	//using rev_it				= std::reverse_iterator<it>;	
-	//using const_rev_it			= std::reverse_iterator<const_it>;	
+		
 
 	//	We need at least the first and last nodes to operate
 	//	on the container.
@@ -177,8 +174,15 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---MISCELLANEOUS--- */
-	void display() {
-		
+	void print()
+	{
+		Node<Type>* temp = head;
+		while (temp != nullptr)
+		{
+			std::cout << temp->getData() << " ";
+			temp = temp->next;
+		}
+		std::cout << "\n";
 	}
 };
 
