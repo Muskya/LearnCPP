@@ -15,15 +15,6 @@
 
 int main()
 {
-	List<std::string> l;
-	l.push_back("je");
-	l.push_back("suis");
-	l.push_back("Theo");
-	l.print();
-
-	l.push_front("Bonjour");	
-	l.print();
-
-	l.push_back(", ca vous surprend n'est-ce pas ?");
-	l.print();
+	List<float>* li = new List<float>(0, 5.5f);
+	li->print();
 }             

@@ -31,9 +31,6 @@
 #include <iostream>
 #include <limits> // for numeric_limits 
 
-// LIST_ITERATOR FORWARD DECLARATION
-// template <class Type> class List_Iterator;
-
 //	NODE CLASS
 template <class Type>
 class Node {
@@ -64,6 +61,8 @@ public:
 	}
 };
 
+// MUST IMPLEMENTET A CUSTOM BI-DIRECTIONAL ITERATOR
+
 // LIST CLASS
 template <class Type, class Allocator = std::allocator<Type>>
 class List {
@@ -76,7 +75,6 @@ public: // Everything in public for aggregate-type ?
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
 		
-
 	//	We need at least the first and last nodes to operate
 	//	on the container.
 	Node<Type>* head = nullptr;
@@ -96,7 +94,42 @@ public: // Everything in public for aggregate-type ?
 	List() : _size(0), _maxsize(0) {}
 
 	//	CTOR - Creates a list with count elements of value
-	List(sz count, const Type& value) {}
+	List(sz count, const Type& value) 
+		: _size(count), _maxsize(0) // _maxsize needs to change
+	{
+		Node<Type>* node;
+		std::vector<Node<Type>*> nodeVec;
+
+		if (count == 1) {
+			this->push_front(value);
+		}
+		else if (count == 2) {
+			this->push_front(value);
+			this->push_back(value);
+		}
+		else {
+			// fill a vector with count nodes to make
+			// operations easier
+			nodeVec = new std::vector<Node<Type>*>();
+			for (int i = 0; i < count; i++) {
+				if (i == 0) 
+					nodeVec[i] = head;
+				else if (i == count - 1) 
+					nodeVec[i] = tail;
+				else 
+					nodeVec[i] = new Node<Type>(value);
+			}
+
+			// now chain all the nodes (prev/next)
+			for (int i = 0; i < count; i++) {
+				
+			}
+		}
+	}
+
+	List(std::initializer_list<Type> i_list) {
+
+	}
 
 	//	Returns associated allocator
 	constexpr alty getAllocator() const {
@@ -104,8 +137,7 @@ public: // Everything in public for aggregate-type ?
 	}
 
 	/* ---ITERATORS--- */
-	/*constexpr List_Iterator<Type> begin() const {}
-	constexpr List_Iterator<Type> end() const {}*/
+	
 
 	/* ---CAPACITY--- */
 	constexpr sz size() const noexcept {
@@ -144,7 +176,6 @@ public: // Everything in public for aggregate-type ?
 			++_size;
 		}
 	}
-
 	void push_back(Type value) noexcept {
 		Node<Type>* node = new Node<Type>(value);
 
