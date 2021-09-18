@@ -25,7 +25,7 @@
 #include <cassert>
 #include <algorithm>
 #include <iostream>
-#include <limits> // for numeric_limits 
+#include <limits>
 
 //	NODE CLASS
 template <class Type>
@@ -57,7 +57,7 @@ public:
 	}
 };
 
-// LIST BIDIRECTIONAL CUSTOM ITERATOR
+// LIST CUSTOM ITERATOR
 template <class Type>
 class List_Iterator {
 public:
@@ -84,7 +84,6 @@ public:
 		current = current->previous;
 		return *this;
 	}
-	// Compare iterators (if they are poiting to same node)
 	inline bool operator!=(const List_Iterator<Type>& rhs) {
 		//Dont need an assert here because in for{} statements, when we use
 		//"it != list->end()", it returns the next node pointed by the tail, which
@@ -206,7 +205,9 @@ public: // Everything in public for aggregate-type ?
 		// _maxsize = ...
 		return _maxsize;
 	}
-	//empty()
+	constexpr bool empty() const noexcept {
+		return (_size == 0);
+	}
 
 	/* ---ELEMENT ACCESS--- */
 	void push_front(Type value) noexcept {
@@ -254,6 +255,20 @@ public: // Everything in public for aggregate-type ?
 
 			++_size;
 		}
+	}
+	void clear() {
+		assert(!empty());
+		Node<Type>* current = head;
+		Node<Type>* next = nullptr; //temp
+
+		while (current != nullptr) {
+			next = current->next;
+			delete current;
+			current = next;
+		}
+
+		head = nullptr;
+		_size = 0;
 	}
 
 	Type front() {

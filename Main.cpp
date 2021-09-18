@@ -24,6 +24,15 @@ int main()
 	l1->print();
 
 	for (List<int>::iterator it = l1->begin(); it != l1->end(); it++) {
-		std::cout << it << std::endl;
+		std::cout << *it << std::endl;
 	}
+	std::cout << "\n\n";
+
+	List<int>* l2 = new List<int>(8, 20);
+	l2->print();
+	l2->clear();
+	std::cout << "CLEARED ! \n" << std::endl;
+
+	l2->print(); // outputs nothing. 
+	std::cout << "Size: " << l2->size() << std::endl;
 }             
