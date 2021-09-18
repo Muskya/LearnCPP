@@ -1,7 +1,6 @@
-// std::list Implementation by Théo R.
-// 3rd September 2021 (procrasti-man)
+// std::list (Doubly-Linked) Implementation by Théo R.
+// 3rd September 2021 (procrasti-man) (back at it again)
 // List.hpp
-// Implemented as a Doubly-Linked List
 
 /* REFERENCES:
 * https://devdocs.io/cpp/container/list
@@ -9,6 +8,7 @@
 * https://github.com/abulyaev/std-list-implementation
 * https://arne-mertz.de/2018/03/forward-declaring-templates-and-enums/
 * https://www.geeksforgeeks.org/doubly-linked-list/
+* https://www.geeksforgeeks.org/implementing-iterator-pattern-of-a-single-linked-list/
 */
 
 /* Concepts learnt while writing this :
@@ -61,8 +61,6 @@ public:
 template <class Type>
 class List_Iterator {
 public:
-	using it = List_Iterator<Type>;
-
 	// The current node pointed by the iterator
 	Node<Type>* current;
 
@@ -71,11 +69,9 @@ public:
 		current = start;
 	}
 
-	friend std::ostream& operator<<(std::ostream& out,
-		const List_Iterator<Type>& it) {}
-
-	// i will limit myself to increment and decrement operator
-	// overloads
+	inline const Type& operator*() {
+		return current->getData();
+	}
 	inline List_Iterator& operator++(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		current = current->next;
@@ -86,17 +82,28 @@ public:
 		assert(current->previous != nullptr &&
 			"cant decrement iterator if previous node is null");
 		current = current->previous;
+		return *this;
 	}
-	inline bool operator!=(Node<Type>* node) {
-		//Dont need an assert here because in for statements, when we use
+	// Compare iterators (if they are poiting to same node)
+	inline bool operator!=(const List_Iterator<Type>& rhs) {
+		//Dont need an assert here because in for{} statements, when we use
 		//"it != list->end()", it returns the next node pointed by the tail, which
 		//is a null pointer. keeping the assert would raise an abort() call.
 		//so for this operator we just return with no checks.
 
 		//assert(current != nullptr && "cant operate on nullptr node");
-		return current != node;
+		return current != rhs.current;
+	}
+	inline bool operator==(const List_Iterator<Type>& rhs) {
+		return current == rhs.current;
 	}
 };
+
+template <class Type>
+std::ostream& operator<<(std::ostream& out, const List_Iterator<Type>& rhs) {
+	out << rhs.current;
+	return out;
+}
 
 // LIST CLASS
 template <class Type, class Allocator = std::allocator<Type>>
@@ -183,11 +190,12 @@ public: // Everything in public for aggregate-type ?
 	/* ---ITERATORS--- */
 	// just return head and tail. logic is done within
 	// the List_Iterator class template.
-	constexpr Node<Type>* begin() {
-		return head;
+	constexpr List_Iterator<Type> begin() {
+		return List_Iterator<Type>(head);
 	}
-	constexpr Node<Type>* end() {
-		return tail->next;
+	constexpr List_Iterator<Type> end() {
+		// end() functions always return past-the-last "element"
+		return List_Iterator<Type>(tail->next);
 	}
 
 	/* ---CAPACITY--- */

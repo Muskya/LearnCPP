@@ -24,6 +24,6 @@ int main()
 	l1->print();
 
 	for (List<int>::iterator it = l1->begin(); it != l1->end(); it++) {
-		//std::cout << it.current->getData() << std::endl;
+		std::cout << it << std::endl;
 	}
 }             
