@@ -19,6 +19,13 @@
 *				generic aliases.
 */
 
+/* TO-DO LIST LIST
+* Reverse iterators 
+* Const versions of iterators
+* all remaining operation/modifier functions listed at : 
+* https://devdocs.io/cpp/container/list
+*/
+
 #ifndef LIST_HPP
 #define LIST_HPP
 
@@ -257,7 +264,7 @@ public: // Everything in public for aggregate-type ?
 		}
 	}
 	void clear() {
-		assert(!empty());
+		assert(!empty() && "cannot clear an empty list");
 		Node<Type>* current = head;
 		Node<Type>* next = nullptr; //temp
 
@@ -290,6 +297,5 @@ public: // Everything in public for aggregate-type ?
 		std::cout << "\n";
 	}
 };
-
 
 #endif //LIST_HPP
