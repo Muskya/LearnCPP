@@ -15,24 +15,27 @@
 
 int main()
 {
-	List<int>* l1 = new List<int>();
-	l1->push_front(10); // head
-	l1->push_back(20); // tail
-	l1->push_back(30);
-	l1->push_back(40);
-	l1->push_back(50);
-	l1->print();
+	List<int>* l = new List<int>;
 
-	for (List<int>::iterator it = l1->begin(); it != l1->end(); it++) {
-		std::cout << *it << std::endl;
-	}
-	std::cout << "\n\n";
+	l->push_back(10);
+	l->push_back(20);
+	l->push_back(30);
 
-	List<int>* l2 = new List<int>(8, 20);
-	l2->print();
-	l2->clear();
-	std::cout << "CLEARED ! \n" << std::endl;
+	l->print(); // outputs 10 20 30
+	std::cout << "\n";
 
-	l2->print(); // outputs nothing. 
-	std::cout << "Size: " << l2->size() << std::endl;
+	List<int>::iterator it = l->begin();
+
+	for (List<int>::iterator it = l->begin(); it != l->end(); it++) {
+		std::cout << "it: " << it << std::endl;
+		std::cout << "*it: " << *it << std::endl;
+	}	// outputs :
+		// 000000123456789
+		// 	   10
+		// 000000123456789
+		// 	   20
+		// 000000123456789
+		//	   30
+
+	
 }             

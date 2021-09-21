@@ -76,7 +76,7 @@ public:
 		current = start;
 	}
 
-	inline const Type& operator*() {
+	inline const Type operator*() {
 		return current->getData();
 	}
 	inline List_Iterator& operator++(int) {
@@ -111,23 +111,41 @@ std::ostream& operator<<(std::ostream& out, const List_Iterator<Type>& rhs) {
 	return out;
 }
 
+template <class Type>
+class List_R_Iterator : public List_Iterator<Type> {
+public:
+	List_R_Iterator(Node<Type>* start) {
+		this->current = start; // tail (nullptr)
+	}
+
+	inline List_R_Iterator& operator++(int) {
+		assert(this->current != nullptr && "cant operate on nullptr node");
+		this->current = this->current->previous;
+		return *this;
+	}
+	inline List_R_Iterator& operator--(int) {
+		assert(this->current != nullptr && "cant operate on nullptr node");
+		assert(this->current->next != nullptr &&
+			"cant decrement iterator if next node is null");
+		this->current = this->current->next;
+		return *this;
+	}
+};
+
 // LIST CLASS
 template <class Type, class Allocator = std::allocator<Type>>
 class List {
 public: // Everything in public for aggregate-type ? 
 	using reference				= Type&;
-	using const_reference		= const Type&;
 	using pointer				= Type*;
-	using const_pointer			= const Type*;
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using difference_type		= std::ptrdiff_t;
 	using iterator				= List_Iterator<Type>;
-	using const_iterator		= const iterator;
-	//using reverse_iterator		= std::reverse_iterator<iterator>;
+	using reverse_iterator		= List_R_Iterator<Type>;
 		
 	//	We need at least the first and last nodes to operate
-	//	on the container.
+	//	on the list.
 	Node<Type>* head;
 	Node<Type>* tail;
 
@@ -202,6 +220,16 @@ public: // Everything in public for aggregate-type ?
 	constexpr List_Iterator<Type> end() {
 		// end() functions always return past-the-last "element"
 		return List_Iterator<Type>(tail->next);
+	}
+
+	constexpr List_R_Iterator<Type> rbegin() {
+		return List_R_Iterator<Type>(tail);
+	}
+
+	constexpr List_R_Iterator<Type> rend() {
+		// rend returns end of REVERSE (mirrored) list sequence
+		// thus it is past the last element which is head's previous node (nullptr)
+		return List_R_Iterator<Type>(head->previous);
 	}
 
 	/* ---CAPACITY--- */
