@@ -79,17 +79,17 @@ public:
 	inline const Type operator*() {
 		return current->getData();
 	}
-	inline List_Iterator& operator++(int) {
+	inline List_Iterator* operator++(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		current = current->next;
-		return *this;
+		return this;
 	}
-	inline List_Iterator& operator--(int) {
+	inline List_Iterator* operator--(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		assert(current->previous != nullptr &&
 			"cant decrement iterator if previous node is null");
 		current = current->previous;
-		return *this;
+		return this;
 	}
 	inline bool operator!=(const List_Iterator<Type>& rhs) {
 		//Dont need an assert here because in for{} statements, when we use
