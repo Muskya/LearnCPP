@@ -26,11 +26,11 @@ int main()
 	l2->print(); std::cout << "\n";
 
 	// normal iteration iterator
-	/*std::cout << "Normal iteration iterator: " << std::endl;
+	std::cout << "Normal iteration iterator: " << std::endl;
 	for (List<int>::iterator itF = l2->begin(); itF != l2->end(); itF++) {
 		std::cout << "itF: " << itF << std::endl;
 		std::cout << "*itF: " << *itF << std::endl;
-	} std::cout << "\n";*/
+	} std::cout << "\n";
 
 	// reversed iteration iterator
 	std::cout << "Reverse iteration iterator: " << std::endl;
