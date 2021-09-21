@@ -79,12 +79,12 @@ public:
 	inline const Type operator*() {
 		return current->getData();
 	}
-	inline List_Iterator* operator++(int) {
+	virtual inline List_Iterator* operator++(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		current = current->next;
 		return this;
 	}
-	inline List_Iterator* operator--(int) {
+	virtual inline List_Iterator* operator--(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		assert(current->previous != nullptr &&
 			"cant decrement iterator if previous node is null");
@@ -105,6 +105,7 @@ public:
 	}
 };
 
+// works on List_R_Iterator too since it inherits from List_Iterator
 template <class Type>
 std::ostream& operator<<(std::ostream& out, const List_Iterator<Type>& rhs) {
 	out << rhs.current;
@@ -118,17 +119,17 @@ public:
 		this->current = start; // tail (nullptr)
 	}
 
-	inline List_R_Iterator& operator++(int) {
+	virtual inline List_R_Iterator* operator++(int) {
 		assert(this->current != nullptr && "cant operate on nullptr node");
 		this->current = this->current->previous;
-		return *this;
+		return this;
 	}
-	inline List_R_Iterator& operator--(int) {
+	virtual inline List_R_Iterator* operator--(int) {
 		assert(this->current != nullptr && "cant operate on nullptr node");
 		assert(this->current->next != nullptr &&
 			"cant decrement iterator if next node is null");
 		this->current = this->current->next;
-		return *this;
+		return this;
 	}
 };
 
@@ -265,9 +266,10 @@ public: // Everything in public for aggregate-type ?
 		}
 		else { // after list is initialized
 			node->next = head;
+			node->previous = nullptr; // new head
+			head->previous = node;
 			head = node;
-			head->previous = nullptr;
-
+			
 			++_size;
 		}
 	}

@@ -15,27 +15,29 @@
 
 int main()
 {
-	List<int>* l = new List<int>;
+	List<int>* l2 = new List<int>();
+	l2->push_back(10);
+	l2->push_back(20);
+	l2->push_back(30);
+	l2->push_back(40);
+	l2->push_front(5);
 
-	l->push_back(10);
-	l->push_back(20);
-	l->push_back(30);
+	std::cout << "Print(): " << std::endl;
+	l2->print(); std::cout << "\n";
 
-	l->print(); // outputs 10 20 30
-	std::cout << "\n";
+	// normal iteration iterator
+	/*std::cout << "Normal iteration iterator: " << std::endl;
+	for (List<int>::iterator itF = l2->begin(); itF != l2->end(); itF++) {
+		std::cout << "itF: " << itF << std::endl;
+		std::cout << "*itF: " << *itF << std::endl;
+	} std::cout << "\n";*/
 
-	List<int>::iterator it = l->begin();
-
-	for (List<int>::iterator it = l->begin(); it != l->end(); it++) {
-		std::cout << "it: " << it << std::endl;
-		std::cout << "*it: " << *it << std::endl;
-	}	// outputs :
-		// 000000123456789
-		// 	   10
-		// 000000123456789
-		// 	   20
-		// 000000123456789
-		//	   30
-
-	
+	// reversed iteration iterator
+	std::cout << "Reverse iteration iterator: " << std::endl;
+	for (List<int>::reverse_iterator ritF = l2->rbegin();
+		ritF != l2->rend(); ritF++)
+	{
+		std::cout << "ritF: " << ritF << std::endl;
+		std::cout << "*ritF: " << *ritF << std::endl;
+	} std::cout << "\n";
 }             
