@@ -20,8 +20,6 @@
 */
 
 /* TO-DO LIST LIST
-* Reverse iterators 
-* Const versions of iterators
 * all remaining operation/modifier functions listed at : 
 * https://devdocs.io/cpp/container/list
 */
@@ -141,7 +139,6 @@ public: // Everything in public for aggregate-type ?
 	using pointer				= Type*;
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
-	using difference_type		= std::ptrdiff_t;
 	using iterator				= List_Iterator<Type>;
 	using reverse_iterator		= List_R_Iterator<Type>;
 		
@@ -237,9 +234,12 @@ public: // Everything in public for aggregate-type ?
 	constexpr sz size() const noexcept {
 		return _size;
 	}
-	constexpr sz max_size() const noexcept {
-		// _maxsize = ...
-		return _maxsize;
+	constexpr sz maxsize() const noexcept {
+		// really not sure this is the right way of returning the
+		// max size of a list container. here we just return the max size
+		// of a general allocator of type <Type>... can't find any help
+		// on the internet.
+		return _alloc.max_size();
 	}
 	constexpr bool empty() const noexcept {
 		return (_size == 0);
