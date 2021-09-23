@@ -17,6 +17,13 @@
 *				detail why here, but always prioritize using over typedef. the 
 *				best argument is that they are templatized, we can make 
 *				generic aliases.
+* 
+*	range-based
+*	for loops:	in order to be used, range-based loop require the container/
+*				sequence/range they operate on to have a begin() and end() 
+*				function definition. these usually return iterator, which 
+*				usually need to overload operators ++, --, !=, ==, and *.
+*				also range-based for loops dont work on pointer types.
 */
 
 /* TO-DO LIST LIST
@@ -77,9 +84,21 @@ public:
 	inline const Type operator*() {
 		return current->getData();
 	}
+	virtual inline List_Iterator* operator++() {
+		assert(current != nullptr && "cant operate on nullptr node");
+		current = current->next;
+		return this;
+	}
 	virtual inline List_Iterator* operator++(int) {
 		assert(current != nullptr && "cant operate on nullptr node");
 		current = current->next;
+		return this;
+	}
+	virtual inline List_Iterator* operator--() {
+		assert(current != nullptr && "cant operate on nullptr node");
+		assert(current->previous != nullptr &&
+			"cant decrement iterator if previous node is null");
+		current = current->previous;
 		return this;
 	}
 	virtual inline List_Iterator* operator--(int) {
@@ -117,9 +136,21 @@ public:
 		this->current = start; // tail (nullptr)
 	}
 
+	virtual inline List_R_Iterator* operator++() {
+		assert(this->current != nullptr && "cant operate on nullptr node");
+		this->current = this->current->previous;
+		return this;
+	}
 	virtual inline List_R_Iterator* operator++(int) {
 		assert(this->current != nullptr && "cant operate on nullptr node");
 		this->current = this->current->previous;
+		return this;
+	}
+	virtual inline List_R_Iterator* operator--() {
+		assert(this->current != nullptr && "cant operate on nullptr node");
+		assert(this->current->next != nullptr &&
+			"cant decrement iterator if next node is null");
+		this->current = this->current->next;
 		return this;
 	}
 	virtual inline List_R_Iterator* operator--(int) {
@@ -140,6 +171,7 @@ public: // Everything in public for aggregate-type ?
 	using alty					= std::allocator<Type>;
 	using sz					= std::size_t;
 	using iterator				= List_Iterator<Type>;
+	using const_iterator		= const List_Iterator<Type>;
 	using reverse_iterator		= List_R_Iterator<Type>;
 		
 	//	We need at least the first and last nodes to operate
@@ -212,19 +244,17 @@ public: // Everything in public for aggregate-type ?
 	/* ---ITERATORS--- */
 	// just return head and tail. logic is done within
 	// the List_Iterator class template.
-	constexpr List_Iterator<Type> begin() {
+	constexpr iterator begin() noexcept {
 		return List_Iterator<Type>(head);
 	}
-	constexpr List_Iterator<Type> end() {
+	constexpr iterator end() noexcept  {
 		// end() functions always return past-the-last "element"
 		return List_Iterator<Type>(tail->next);
 	}
-
-	constexpr List_R_Iterator<Type> rbegin() {
+	constexpr reverse_iterator rbegin() {
 		return List_R_Iterator<Type>(tail);
 	}
-
-	constexpr List_R_Iterator<Type> rend() {
+	constexpr reverse_iterator rend() {
 		// rend returns end of REVERSE (mirrored) list sequence
 		// thus it is past the last element which is head's previous node (nullptr)
 		return List_R_Iterator<Type>(head->previous);
@@ -245,7 +275,7 @@ public: // Everything in public for aggregate-type ?
 		return (_size == 0);
 	}
 
-	/* ---ELEMENT ACCESS--- */
+	/* ---ELEMENT_ACCESS--- */
 	void push_front(Type value) noexcept {
 		Node<Type>* node = new Node<Type>(value); 
 		
@@ -308,6 +338,15 @@ public: // Everything in public for aggregate-type ?
 		_size = 0;
 	}
 
+	/* different overloads for inserting an 
+	element somewhere in the list */
+
+	// inserts a new node before given iterator position
+	iterator insert(iterator pos, const Type& value) {
+		Node<Type> node = new Node<Type>(value);
+
+	}
+
 	Type front() {
 		return head->getData();
 	}
@@ -315,16 +354,24 @@ public: // Everything in public for aggregate-type ?
 		return tail->getData();
 	}
 
+	/* ---OPERATIONS--- */
+
 	/* ---MISCELLANEOUS--- */
 	void print()
 	{
-		Node<Type>* temp = head;
-		while (temp != nullptr)
-		{
-			std::cout << temp->getData() << " ";
-			temp = temp->next;
+		if (empty()) {
+			std::cout << "List is null." << std::endl;
 		}
-		std::cout << "\n";
+		else {
+			Node<Type>* temp = head;
+			while (temp != nullptr)
+			{
+				std::cout << temp->getData() << " ";
+				temp = temp->next;
+			}
+			std::cout << "\n";
+		}
+		
 	}
 };
 

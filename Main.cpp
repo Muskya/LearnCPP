@@ -15,9 +15,18 @@
 
 int main()
 {
-	List<int>* l1 = new List<int>(5, 10);
-	l1->print();
+	List<int> l1(10, 20);
+	for (int val : l1) {
+		std::cout << val << std::endl;
+		std::cout << &val << std::endl;
+	}
 
-	std::cout << l1->size() << std::endl;
-	std::cout << l1->maxsize() << std::endl;
+	//List<int>* l2 = new List<int>(10, 5); // dynamically allocated list
+	//for (int val2: l2) : doesn't work. l2 is a pointer.
+
+	List<const char*> l2(3, "bonjour");
+	for (const char* a : l2) {
+		std::cout << a << std::endl;
+		std::cout << &a << std::endl;
+	}
 }             
