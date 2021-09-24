@@ -338,13 +338,13 @@ public: // Everything in public for aggregate-type ?
 		_size = 0;
 	}
 
-	/* different overloads for inserting an 
-	element somewhere in the list */
-
-	// inserts a new node before given iterator position
-	iterator insert(iterator pos, const Type& value) {
-		Node<Type> node = new Node<Type>(value);
-
+	// inserts a new node before given node 
+	void insert(Node<Type>* pos, const Type& value) {
+		Node<Type>* node = new Node<Type>(value);
+		node->next = pos;
+		node->previous = pos->previous;
+		pos->previous->next = node;
+		pos->previous = node;
 	}
 
 	Type front() {

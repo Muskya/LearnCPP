@@ -15,18 +15,20 @@
 
 int main()
 {
-	List<int> l1(10, 20);
-	for (int val : l1) {
-		std::cout << val << std::endl;
-		std::cout << &val << std::endl;
-	}
+	List<int> l1;
+	l1.push_back(10);
+	l1.push_back(30);
+	l1.push_back(40);
 
-	//List<int>* l2 = new List<int>(10, 5); // dynamically allocated list
-	//for (int val2: l2) : doesn't work. l2 is a pointer.
+	//l1.print();
 
-	List<const char*> l2(3, "bonjour");
-	for (const char* a : l2) {
-		std::cout << a << std::endl;
-		std::cout << &a << std::endl;
-	}
+	l1.insert(l1.head->next, 20);
+
+	//l1.print();
+
+	std::cout << l1.head->getData() << std::endl;
+	std::cout << l1.head->next->getData() << std::endl;
+	std::cout << l1.head->next->previous->getData() << std::endl;
+	std::cout << l1.tail->previous->previous->getData() << std::endl;
+	std::cout << l1.tail->previous->previous->next->getData() << std::endl;
 }             
