@@ -7,7 +7,6 @@ Concepts and Features :
 - Filestreams practice
 
 Short-term objectives :
-- Implement more containers from STL (list, tree, stack...)
 - Complete chapter M (Move Semantics and Smart Pointers) from Learncpp.com 
 - Read code everyday / answer questions if you don't code
 - Experiment stuff that you have interest for in the first place
@@ -15,6 +14,7 @@ Short-term objectives :
 Medium-term objectives :
 - Make ThisWeirdConsoleGame playable and achievable.
 - Make previous projects buildable with g++/cmake and stuff
+- Implement all containers from STL, and with every member if possible
 
 Long-term objectives :
 - Refactor ThisWeirdConsoleGame with as many features from C++ as possible 

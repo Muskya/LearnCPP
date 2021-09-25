@@ -142,7 +142,6 @@
   <ItemGroup>
     <ClCompile Include="AlgoParti.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MoveSemantics.cpp" />
     <ClCompile Include="Timespan.cpp" />
   </ItemGroup>
   <ItemGroup>
