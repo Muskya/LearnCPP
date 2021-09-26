@@ -8,6 +8,7 @@ Concepts and Features :
 
 Short-term objectives :
 - Complete chapter M (Move Semantics and Smart Pointers) from Learncpp.com 
+- https://www.learncpp.com/cpp-tutorial/timing-your-code/
 - Read code everyday / answer questions if you don't code
 - Experiment stuff that you have interest for in the first place
 
