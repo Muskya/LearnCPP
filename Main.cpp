@@ -33,24 +33,12 @@ public:
 
     /* COPY SEMANTICS */
     // Copy constructor
-    Box(const Box& b) {
-        objInBox = new T;
-        *objInBox = *b.objInBox;
-    }
+    Box(const Box& b) = delete; // when a user-defined type implements move semantics,
+                                // the copy semantics operations (assigment and constructor)
+                                // are usually deleted.
 
     // Copy assignment operator
-    Box& operator=(const Box& b) {
-        if (&b == this)
-            return *this;
-
-        // Release any resource we're holding first
-        delete objInBox; // De-allocate memory
-        objInBox = new T; // Re-allocate memory
-
-        // Copy the resource
-        *objInBox = *b.objInBox;
-        return *this;
-    }
+    Box& operator=(const Box& b) = delete; // same explanation as above
 
     /* MOVE SEMANTICS */
     // Move constructor
