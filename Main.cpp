@@ -21,7 +21,7 @@ https://www.learncpp.com/cpp-tutorial/intro-to-smart-pointers-move-semantics/
 // because when the local objects of type Box will go out of scope, 
 // constructor will be called and the pointer it contains will be deleted.
 // we don't have to manually delete it and avoids forgetting to do it and other issues.
-template <class T>
+template <class T = Object> // Object class by default
 class Box {
 private:
     T* objInBox;
@@ -29,11 +29,53 @@ public:
     Box(T* obj = nullptr) : objInBox(obj) {}
     ~Box() { delete objInBox; }
 
-    //  Copy constructor that implements move semantics
-    Box(Box& b) {               // must not be const
+    /* COPY SEMANTICS */
+    // Copy constructor
+    Box(const Box& b) {
+        objInBox = new T;
+        *objInBox = *b.objInBox;
+    }
+
+    // Copy assignment operator
+    Box& operator=(const Box& b) {
+        if (&b == this)
+            return *this;
+
+        // Release any resource we're holding first
+        delete objInBox; // De-allocate memory
+        objInBox = new T; // Re-allocate memory
+
+        // Copy the resource
+        *objInBox = *b.objInBox;
+        return *this;
+    }
+
+    /* MOVE SEMANTICS */
+    // Move constructor
+    Box(Box& b) {               // non-const lvalue reference
         objInBox = b.objInBox;  // transfer other object into this box
         b.objInBox = nullptr;   // make sure other object is not owned anymore
     }
+
+    // Move assignment operator
+    Box& operator=(Box& b) {    // non-const lvalue reference
+        if (&b == this)
+            return *this;
+
+        // Release any resource we're holding first
+        delete objInBox;
+        
+        // Move the resource (transfer ownership)
+        objInBox = b.objInBox;
+        b.objInBox = nullptr;   // set object's source ownership to
+                                // null, but don't delete allocated space
+
+        return *this;
+    }
+
+    // Some operators overloading
+    T& operator*() const { return *objInBox; }
+    T* operator->() const { return objInBox; }
 
     // Simple function to check pointer's ownership 
     // during operations with move semantics
@@ -57,14 +99,5 @@ public:
 
 int main()
 {
-    int x = 5;
-    const int cx = 10;
-
-    int& lref = x; // l-value reference initialized with l-value x
-    const int& clref = cx; // const l-value ref allow any type of argument (l-value / r-value)
-
-    int&& rref = 5; // r-value reference initialized with r-value 5
-    int&& rref1 = lref; // r-value references can't be initialized with l-values
-    const int&& crref = 10;
-
+    
 }             
