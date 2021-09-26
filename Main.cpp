@@ -17,6 +17,8 @@
 https://www.learncpp.com/cpp-tutorial/intro-to-smart-pointers-move-semantics/
 */
 
+class Object; // Forward declaration for template parameter just below
+
 // class that will hold a pointer. makes it a "smart pointer"
 // because when the local objects of type Box will go out of scope, 
 // constructor will be called and the pointer it contains will be deleted.
@@ -27,7 +29,7 @@ private:
     T* objInBox;
 public:
     Box(T* obj = nullptr) : objInBox(obj) {}
-    ~Box() { delete objInBox; }
+    ~Box() { delete objInBox; } // Pointer's self-cleanup after going out of scope
 
     /* COPY SEMANTICS */
     // Copy constructor
@@ -52,13 +54,13 @@ public:
 
     /* MOVE SEMANTICS */
     // Move constructor
-    Box(Box& b) {               // non-const lvalue reference
+    Box(Box&& b) {               // non-const lvalue reference
         objInBox = b.objInBox;  // transfer other object into this box
         b.objInBox = nullptr;   // make sure other object is not owned anymore
     }
 
     // Move assignment operator
-    Box& operator=(Box& b) {    // non-const lvalue reference
+    Box& operator=(Box&& b) noexcept {    // non-const lvalue reference
         if (&b == this)
             return *this;
 
@@ -89,15 +91,20 @@ public:
 
 class Object {
 public:
-    Object() {
-        std::cout << "Object put in box." << std::endl;
-    }
-    ~Object() {
-        std::cout << "Object in box deleted. (out of scope)" << std::endl;
-    }
+    Object() { std::cout << "Object put in box." << std::endl; }
+    ~Object() { std::cout << "Object in box deleted. (out of scope)" << std::endl; }
 };
+
+Box<Object> getObject() {
+    Box<Object> obj(new Object());
+    // this will invoke move constructor. obj is a l-value, automatically
+    // returned by the function. it calls move constructor because of 
+    // the c++ specification.
+    return obj; 
+}
 
 int main()
 {
-    
+    Box<Object> mainObj;
+    mainObj = getObject(); // this will ivoke move assignment operator
 }             
