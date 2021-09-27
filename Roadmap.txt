@@ -5,6 +5,8 @@ Concepts and Features :
 - Variadic Templates (class/function)
 - "Perfect Forwarding"
 - Filestreams practice
+- Coroutines ? (i think its network related)
+https://itnext.io/c-20-coroutines-complete-guide-7c3fc08db89d
 
 Short-term objectives :
 - Complete chapter M (Move Semantics and Smart Pointers) from Learncpp.com 
