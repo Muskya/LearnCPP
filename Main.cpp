@@ -20,36 +20,45 @@
 * https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html
 */
 
-// some r-value functions
-int getTen() {
-    return 10;
-}
-int getTwenty() {
-    return 20;
-}
+// Integer Wrapper class 
+class IntPtr {
+private:
+    int* m_i;
+public:
+    ~IntPtr() { std::cout << "destroying integer" << std::endl; delete m_i; }
+    IntPtr() = default;
+    IntPtr(int i) : m_i(new int(i)) { std::cout << "creating integer" << std::endl; }
 
-// use std::move(x) to cast lvalue x into a r-value reference
-template <typename T>
-void swap(T& a, T& b) {
-    T temp = std::move(a);
-    a = std::move(b);
-    b = std::move(temp);
-}
+    // delete copy constructor/assignment
+    IntPtr(const IntPtr& other) = delete;
+    IntPtr& operator=(const IntPtr& other) = delete;
+
+    // move constructor
+    IntPtr(IntPtr&& other) noexcept
+        : m_i(other.m_i)
+    {
+        std::cout << "move semantics constructor" << std::endl;
+        other.m_i = nullptr;
+    }
+    // move assignment
+    IntPtr& operator=(IntPtr&& other) noexcept {
+        std::cout << "operator= move semantics" << std::endl;
+
+        if (&other == this)
+            return *this;
+
+        delete m_i;
+        m_i = other.m_i;
+        other.m_i = nullptr;
+
+        return *this;
+    }
+};
 
 int main()
 {
-    int a = 10;
-    int b = 20;
+    IntPtr i(10);
+    IntPtr a;
+    
 
-    std::cout << a << std::endl;
-    std::cout << b << std::endl;
-
-    std::cout << "swap" << std::endl;
-    swap(a, b);
-    // swap(getTen(), getTwenty()) doesn't work
-    // swap parameters are l-value references, nothing else
-    // parameters should be const T& a / const T& b to accept any parameter type
-
-    std::cout << a << std::endl;
-    std::cout << b << std::endl;
 }             
