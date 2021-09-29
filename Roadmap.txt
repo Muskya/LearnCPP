@@ -5,6 +5,7 @@ Concepts and Features :
 - Variadic Templates (class/function)
 - "Perfect Forwarding"
 - Filestreams practice
+- Multithreading, mutex, concurrency...
 - Coroutines ? (i think its network related)
 https://itnext.io/c-20-coroutines-complete-guide-7c3fc08db89d
 
