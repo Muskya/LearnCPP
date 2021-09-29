@@ -27,8 +27,25 @@ public:
 	~Resource() { std::cout << "Resource destroyed\n"; }
 };
 
+unsigned int countBits(unsigned long long n) {
+	std::string binary;
+	int nb = 0;
+	int remain = 0;
+
+	while (n % 2 == 0 || n % 2 == 1) {
+		remain = n % 2; 
+		if (remain == 0)
+			binary.insert(0, "0");
+		if (remain == 1)
+			binary.insert(0, "1");
+		n = n / 2;
+	}
+}
+
 int main()
 {
+	countBits(4);
+
 	// most common smart pointer
 	// don't allocate it on the heap (dynamic allocation), otherwise it might
 	// not be properly deallocated, thus not being deleted after going out of 
