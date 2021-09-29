@@ -36,16 +36,16 @@ int main()
 	std::unique_ptr<Resource> up1(new Resource);
 	std::unique_ptr<Resource> up2 = nullptr;
 
-	std::cout << "up1 is: " << (static_cast<bool>(up1) ? "not null\n" : "null\n");
-	std::cout << "up2 is: " << (static_cast<bool>(up2) ? "not null\n" : "null\n");
+	std::cout << "up1 is: " << (up1 != nullptr ? "not null\n" : "null\n");
+	std::cout << "up2 is: " << (up2 != nullptr ? "not null\n" : "null\n");
 
 	//up2 = up1; // Won't compile, copy assignment is disabled with std::unique_ptr 
-	//(copy constructor too). since up2 is not a r-value ref, we need to use std::move.
+	//(copy constructor too). since up2 is not a r-value, we need to use std::move.
 	up2 = std::move(up1);	//up2 takes ownership of up1's Resource. up2's Resource
 							//is destroyed, and up1 is sett to null. (must not be de-allocated)
 
 	std::cout << "Ownership transferred\n";
 
-	std::cout << "up1 is " << (static_cast<bool>(up1) ? "not null\n" : "null\n");
-	std::cout << "up2 is " << (static_cast<bool>(up2) ? "not null\n" : "null\n");		
+	std::cout << "up1 is " << (up1 != nullptr ? "not null\n" : "null\n");
+	std::cout << "up2 is " << (up2 != nullptr ? "not null\n" : "null\n");		
 } // up2's Resource destroyed because going out of scope here.
