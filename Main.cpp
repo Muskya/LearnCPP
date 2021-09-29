@@ -20,45 +20,32 @@
 * https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html
 */
 
-// Integer Wrapper class 
-class IntPtr {
-private:
-    int* m_i;
+class Resource
+{
 public:
-    ~IntPtr() { std::cout << "destroying integer" << std::endl; delete m_i; }
-    IntPtr() = default;
-    IntPtr(int i) : m_i(new int(i)) { std::cout << "creating integer" << std::endl; }
-
-    // delete copy constructor/assignment
-    IntPtr(const IntPtr& other) = delete;
-    IntPtr& operator=(const IntPtr& other) = delete;
-
-    // move constructor
-    IntPtr(IntPtr&& other) noexcept
-        : m_i(other.m_i)
-    {
-        std::cout << "move semantics constructor" << std::endl;
-        other.m_i = nullptr;
-    }
-    // move assignment
-    IntPtr& operator=(IntPtr&& other) noexcept {
-        std::cout << "operator= move semantics" << std::endl;
-
-        if (&other == this)
-            return *this;
-
-        delete m_i;
-        m_i = other.m_i;
-        other.m_i = nullptr;
-
-        return *this;
-    }
+	Resource() { std::cout << "Resource acquired\n"; }
+	~Resource() { std::cout << "Resource destroyed\n"; }
 };
 
 int main()
 {
-    IntPtr i(10);
-    IntPtr a;
-    
+	// most common smart pointer
+	// don't allocate it on the heap (dynamic allocation), otherwise it might
+	// not be properly deallocated, thus not being deleted after going out of 
+	// scope as initially expected.
+	std::unique_ptr<Resource> up1(new Resource);
+	std::unique_ptr<Resource> up2 = nullptr;
 
-}             
+	std::cout << "up1 is: " << (static_cast<bool>(up1) ? "not null\n" : "null\n");
+	std::cout << "up2 is: " << (static_cast<bool>(up2) ? "not null\n" : "null\n");
+
+	//up2 = up1; // Won't compile, copy assignment is disabled with std::unique_ptr 
+	//(copy constructor too). since up2 is not a r-value ref, we need to use std::move.
+	up2 = std::move(up1);	//up2 takes ownership of up1's Resource. up2's Resource
+							//is destroyed, and up1 is sett to null. (must not be de-allocated)
+
+	std::cout << "Ownership transferred\n";
+
+	std::cout << "up1 is " << (static_cast<bool>(up1) ? "not null\n" : "null\n");
+	std::cout << "up2 is " << (static_cast<bool>(up2) ? "not null\n" : "null\n");		
+} // up2's Resource destroyed because going out of scope here.
