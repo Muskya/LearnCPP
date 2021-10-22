@@ -1,7 +1,7 @@
 Concepts and Features :
 - Callback Functions
 - Lambdas
-- "Bitwise" operations and stuff
+- "Bitwise" operators and stuff
 - Variadic Templates (class/function)
 - "Perfect Forwarding"
 - Filestreams practice
