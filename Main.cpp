@@ -14,29 +14,18 @@
 #include "Vector.hpp"
 #include "List.hpp"
 
-// KATA : https://www.codewars.com/kata/526571aae218b8ee490006f4
-
-unsigned int countBits(unsigned long long n) {
-	if (n == 0)
-		return 0;
-	unsigned int count = 0;
-	std::cout << "start n: " << n << std::endl;
-	std::vector<unsigned int> T;
-	do {
-		T.push_back(n % 2);
-		n /= 2;
-	} while (n / 2 != 0);
-	T.push_back(1);
-	for (auto p = T.begin(); p != T.end(); ++p) {
-		if (*p == 1) {
-			count++;
-		}
-	}
-
-	return count;
+void digitize(unsigned long n)
+{
+	std::string str = std::to_string(n);
+	std::reverse(str.begin(), str.end());
+	std::vector<int> rvsd;
+	for (int i = 0; i < str.length(); ++i)
+		rvsd.push_back(str[i] - '0');
+	for (int i = 0; i < rvsd.size(); ++i)
+		std::cout << rvsd[i] << std::endl;
 }
 
 int main()
 {
-	std::cout << countBits(1555) << std::endl;
+	digitize(123456);
 }
