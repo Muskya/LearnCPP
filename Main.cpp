@@ -25,8 +25,44 @@ void copyVector(unsigned long n)
 
 int main()
 {
-	clock_t start = clock();
-	copyVector(12345);
-	clock_t end = clock();
-	std::cout << "Took " << (float)(end - start) / CLOCKS_PER_SEC << " seconds." << std::endl;
+	constexpr int dim = 3;
+	int l = 3, c = 3;
+	int calcul_indice;
+	int A[dim][dim] = { {2, 1, 5},
+						{0, 5, 4},
+						{6, 1, 7} };
+
+	int B[dim][dim] = { {10, 1, 1},
+						{1, 2, 3},
+						{4, 4, 0} };
+
+	int C[dim][dim] = { {0, 0, 0},
+						{0, 0, 0},
+						{0, 0, 0} };
+
+	for (int i = 0; i < dim; ++i) {
+		for (int j = 0; j < dim; ++j) {
+			for (int k = 0; k < dim; ++k) {
+				// Le calcul est :
+				// ( A[0][0] * B[0][0] ) +
+				// ( A[0][1] * B[1][0] ) +
+				// ( A[0][2] * B[2][0] )
+				C[i][j] += A[i][k] * B[k][j];
+			}
+		}
+	}
+
+	// Affichage
+	for (int i = 0; i < dim; ++i) {
+		for (int j = 0; j < dim; ++j) {
+			std::cout << C[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
+	// Devrait montrer :
+	/* 
+	*  41 24 5
+	*  21 26 15
+	*  89 36 9
+	*/
 }
