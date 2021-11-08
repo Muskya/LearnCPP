@@ -1,3 +1,5 @@
+// Windows API
+#include <Windows.h>
 // C/C++ Standard Library Headers
 #include <iostream>
 #include <string>
@@ -10,42 +12,26 @@
 #include <algorithm>
 #include <memory>
 #include <utility>
-
-void copyVector(unsigned long n)
-{
-	std::vector<int> myVector;
-	for (int i = 0; i < n; ++i) {
-		myVector.push_back(n / 10 + i);
-	}
-	std::vector<int> vec2;
-	for (int i = myVector.size()-1; i >= 0; --i) {
-		vec2.push_back(myVector[i]);
-	}
-}
-
-enum class Action { Sleeping, Working, Playing, Eating };
-std::ostream& operator<<(std::ostream& out, Action act) {
-	switch (act) {
-	case Action::Sleeping:
-		out << "Sleeping";
-		break;
-	case Action::Working:
-		out << "Working";
-		break;
-	case Action::Playing:
-		out << "Playing";
-		break;
-	case Action::Eating:
-		out << "Eating";
-		break;
-	default:
-		break;
-	}
-	return out;
-}
+// User-Defined .DLLs/.LIBs
+#include "Status.h"
 
 int main()
 {
-	Action act = Action::Working;
-	std::cout << act << std::endl;
+	// DLL STUFF
+	char inp;
+	DWORD a = 50, b = 100;
+	TheoDLL::Action _currentAction;
+
+	do {
+		std::cout << "Assign an action ? (y) hehe" << std::endl;
+		std::cin >> inp;
+	} while (inp != 'y');
+	_currentAction = TheoDLL::Action::Working;
+	// operator<< overloaded (in DLL) for Action type in 
+	std::cout << "Action: " << _currentAction << std::endl;
+
+	TheoDLL::sayHi("Bonjour hello hola");
+	TheoDLL::swap(a, b);
+	std::cout << "a=" << a << std::endl;
+	std::cout << "b=" << b << std::endl;
 }
