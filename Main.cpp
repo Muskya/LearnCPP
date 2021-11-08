@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <typeinfo> 
+#include <typeinfo>
 // STL Headers
 #include <array>
 #include <vector>
@@ -23,46 +23,29 @@ void copyVector(unsigned long n)
 	}
 }
 
+enum class Action { Sleeping, Working, Playing, Eating };
+std::ostream& operator<<(std::ostream& out, Action act) {
+	switch (act) {
+	case Action::Sleeping:
+		out << "Sleeping";
+		break;
+	case Action::Working:
+		out << "Working";
+		break;
+	case Action::Playing:
+		out << "Playing";
+		break;
+	case Action::Eating:
+		out << "Eating";
+		break;
+	default:
+		break;
+	}
+	return out;
+}
+
 int main()
 {
-	constexpr int dim = 3;
-	int l = 3, c = 3;
-	int calcul_indice;
-	int A[dim][dim] = { {2, 1, 5},
-						{0, 5, 4},
-						{6, 1, 7} };
-
-	int B[dim][dim] = { {10, 1, 1},
-						{1, 2, 3},
-						{4, 4, 0} };
-
-	int C[dim][dim] = { {0, 0, 0},
-						{0, 0, 0},
-						{0, 0, 0} };
-
-	for (int i = 0; i < dim; ++i) {
-		for (int j = 0; j < dim; ++j) {
-			for (int k = 0; k < dim; ++k) {
-				// Le calcul est :
-				// ( A[0][0] * B[0][0] ) +
-				// ( A[0][1] * B[1][0] ) +
-				// ( A[0][2] * B[2][0] )
-				C[i][j] += A[i][k] * B[k][j];
-			}
-		}
-	}
-
-	// Affichage
-	for (int i = 0; i < dim; ++i) {
-		for (int j = 0; j < dim; ++j) {
-			std::cout << C[i][j] << " ";
-		}
-		std::cout << "\n";
-	}
-	// Devrait montrer :
-	/* 
-	*  41 24 5
-	*  21 26 15
-	*  89 36 9
-	*/
+	Action act = Action::Working;
+	std::cout << act << std::endl;
 }
