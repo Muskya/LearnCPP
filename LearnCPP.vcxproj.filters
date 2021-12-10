@@ -47,6 +47,9 @@
     <ClInclude Include="List.hpp">
       <Filter>Header Files\Templates</Filter>
     </ClInclude>
+    <ClInclude Include="Kata.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DSA_Exercices.txt">
