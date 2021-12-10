@@ -12,11 +12,10 @@
 #include <algorithm>
 #include <memory>
 #include <utility>
+// User-Defined Headers
 // User-Defined .DLLs/.LIBs
 #include "Status.h"
-#include "Kata.hpp"
 
 int main() {
-	std::vector<int> list = { 1, 2, 3, 10, 20 };
-	std::cout << vectorMin(list) << std::endl;
+	
 }
