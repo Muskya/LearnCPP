@@ -2,6 +2,30 @@
 #include <vector>
 #include <algorithm>
 
+// https://www.codewars.com/kata/5663f5305102699bad000056/train/cpp 31 Dec 2021
+struct length {
+	bool operator() (const std::string& a, const std::string& b) {
+		return a.size() < b.size();
+	}
+};
+
+class MaxDiffLength {
+public:
+	static int mxdiflg(std::vector<std::string>& a1, std::vector<std::string>& a2);
+};
+
+int MaxDiffLength::mxdiflg(std::vector<std::string>& a1, std::vector<std::string>& a2) {
+	if ((a1.empty() || a2.empty()) || (a1.empty() && a2.empty())) return -1;
+	auto max = 0;
+	for (auto it = a1.begin(); it != a1.end(); ++it) {
+		for (auto it2 = a2.begin(); it2 != a2.end(); ++it2) {
+			auto diff = std::abs((int)(((*it).size()) - ((*it2).size())));
+			if (diff > max) max = diff;
+		}
+	}
+	return max;
+}
+
 // https://www.codewars.com/kata/57eae20f5500ad98e50002c5/train/cpp 10 Dec 2021
 /* C'est un erase-remove idiom. Si on utilise que std::remove, on ne va supprimer les
 espaces que LOGIQUEMENT. Cette fonction va shuffer les éléments à la suite à
