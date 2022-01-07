@@ -17,13 +17,22 @@
 #include "Status.h"
 #include "Kata.hpp"
 
+void fibonacciNumbers(ull iterations) {
+	ull f0 = 0, f1 = 1, fn, tmp;
+	for (int i = 0; i < iterations; i++) {
+		fn = f0 + f1;
+
+		if (i == 0)
+			std::cout << f0 << "\n" << f1 << std::endl;
+		std::cout << fn << std::endl;
+
+		tmp = f1;
+		f1 = fn;
+		f0 = tmp;
+	}
+}
+
 int main() {
-	std::vector<std::string> s1 = { "hoqq", "bbllkw", "oox", "ejjuyyy", "plmiis", "xxxzgpsssa",
-		"xxwwkktt", "znnnnfqknaz", "qqquuhii", "dvvvwz" }; // length: 10
-	std::vector<std::string> s2 = { "cccooommaaqqoxii", "gggqaffhhh", "tttoowwwmmww" }; // length: 3
-
-	s1 = { "ejjjjmmtthh", "zxxuueeg", "aanlljrrrxx", "dqqqaaabbb", "oocccffuucccjjjkkkjyyyeehh" };
-	s2 = { "bbbaaayddqbbrrrv" };
-
-	std::cout << MaxDiffLength::mxdiflg(s1, s2) << std::endl;
+	//fibonacciNumbers(100);
+	ProdFib::productFib(84049690);
 }

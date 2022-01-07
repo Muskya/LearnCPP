@@ -2,6 +2,49 @@
 #include <vector>
 #include <algorithm>
 
+// https://www.codewars.com/kata/5541f58a944b85ce6d00006a/train/cpp 07 January 2022
+typedef unsigned long long ull; 
+class ProdFib {
+public:
+	static std::vector<ull> productFib(ull prod) {
+		std::vector<ull> res;
+		ull f0 = 0, f1 = 1, fn, tmp;
+		bool done = false;
+
+		do {
+			res.clear();
+			fn = f0 + f1;
+
+			res.push_back(f1);
+			res.push_back(fn);
+
+			if (prod == (fn * f1)) {
+				res.push_back(1);
+				done = true;
+			}
+			else if ((fn * f1) > prod) {
+				res.push_back(0);
+				done = true;
+			}
+
+			tmp = f1;
+			f1 = fn;
+			f0 = tmp;
+		} while (!done);
+		return res;
+	}
+
+	// here is the best practice solution (mine was so bad omg)
+	static std::vector<ull> productFibGood(ull prod) {
+		ull a = 0, b = 1;
+		while (a * b < prod) {
+			std::swap(a, b);
+			b += a;
+		}
+		return {a, b, ((a * b == prod) ? true : false)};
+	}
+};
+
 // https://www.codewars.com/kata/5663f5305102699bad000056/train/cpp 31 Dec 2021
 struct length {
 	bool operator() (const std::string& a, const std::string& b) {
